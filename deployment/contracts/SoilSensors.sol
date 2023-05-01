@@ -1,23 +1,25 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.18.0;
+pragma solidity ^0.8.18;
 
 import "./ISoilSensors.sol";
+import "@openzeppelin/contracts/access/AccessControl.sol";
 
-contract SoilSensors is ISoilSensors {
+contract SoilSensors is ISoilSensors, AccessControl {
     uint256 private benzoApyrene;
     uint256 private arsenic;
     uint256 private pH;
     uint256 private power;
-    mapping(string => uint256) private sensors;
-    address private oracle;
+    mapping(string => uint256) public sensors;
     address private immutable owner;
+    bytes32 private constant SENSORS_UPDATER_ROLE = keccak256("SENSORS_UPDATER_ROLE");
 
     constructor(
         uint256 initialBenzoApyrene,
         uint256 initialArsenic,
         uint256 initialPH,
         uint256 initialPower,
-        address oracle_
+        address sensorsUpdater
+        address defaultAdmin
     ) {
         benzoApyrene = initialBenzoApyrene;
         arsenic = initialArsenic;
@@ -27,7 +29,8 @@ contract SoilSensors is ISoilSensors {
         sensors["arsenic"] = arsenic;
         sensors["pH"] = pH;
         sensors["power"] = power;
-        oracle = oracle_;
+        _setupRole(DEFAULT_ADMIN_ROLE, defaultAdmin);
+        _setupRole(SENSORS_UPDATER_ROLE, sensorsUpdater);
         owner = msg.sender;
     }
 
@@ -47,41 +50,32 @@ contract SoilSensors is ISoilSensors {
         return power;
     }
 
-    function readSensors()
-        external
-        view
-        override
-        returns (mapping(string => uint256))
-    {
-        return sensors;
-    }
-
     function setBenzoApyrene(uint256 benzoApyrene_) external {
-        require(msg.sender == oracle, "Only oracle can call this function");
+        require(hasRole(SENSORS_UPDATER_ROLE, msg.sender, "Caller does not have permission to update sensors!");
         benzoApyrene = benzoApyrene_;
         sensors["benzoApyrene"] = benzoApyrene;
     }
 
     function setArsenic(uint256 arsenic_) external {
-        require(msg.sender == oracle, "Only oracle can call this function");
+        require(hasRole(SENSORS_UPDATER_ROLE, msg.sender, "Caller does not have permission to update sensors!");
         arsenic = arsenic_;
         sensors["arsenic"] = arsenic;
     }
 
     function setPH(uint256 pH_) external {
-        require(msg.sender == oracle, "Only oracle can call this function");
+        require(hasRole(SENSORS_UPDATER_ROLE, msg.sender, "Caller does not have permission to update sensors!");
         pH = pH_;
         sensors["pH"] = pH;
     }
 
     function setPower(uint256 power_) external {
-        require(msg.sender == oracle, "Only oracle can call this function");
+        require(hasRole(SENSORS_UPDATER_ROLE, msg.sender, "Caller does not have permission to update sensors!");
         power = power_;
         sensors["power"] = power;
     }
 
-    function updateOracle(address oracle_) external {
-        require(msg.sender == owner, "Only owner can update oracle address");
-        oracle = oracle_;
-    }
+/*     function setSensors(mapping(string => uint256) _sensors) external {
+        sensors = _sensors;
+    } */
+
 }

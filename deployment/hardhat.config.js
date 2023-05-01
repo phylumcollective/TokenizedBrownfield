@@ -17,6 +17,7 @@ const PRIVATE_KEY = process.env.PRIVATE_KEY;
 const ETHERSCAN_API_KEY = process.env.ETHERSCAN_API_KEY || "";
 const COINMARKETCAP_API_KEY = process.env.COINMARKETCAP_API_KEY || "";
 const REPORT_GAS = process.env.REPORT_GAS.toLowerCase() === "true" || false;
+const LOCALHOST_RPC_URL = process.env.LOCALHOST_RPC_URL;
 
 module.exports = {
   defaultNetwork: "hardhat", // blank blockchain that gets destroyed after script/app is run
@@ -29,8 +30,9 @@ module.exports = {
       saveDeployments: true,
     },
     localhost: {
-      url: "http://localhost:8545",
+      url: LOCALHOST_RPC_URL, // local hardhat blockchain node
       chainId: 31337,
+      saveDeployments: true,
     },
   },
   solidity: {
@@ -52,9 +54,23 @@ module.exports = {
       1: 0, // similarly on mainnet it will take the first account as deployer. Note though that depending on how hardhat network are configured, the account 0 on one network can be different than on another
     },
   },
+  paths: {
+    deploy: "deploy",
+    deployments: "deployments",
+  },
+  roles: {
+    sensorsUpdater: {
+      name: "SENSORS_UPDATER_ROLE",
+      description: "Role for updating sensor levels",
+    },
+    defaultAdmin: {
+      name: "DEFAULT_ADMIN_ROLE",
+      description: "Role for default admin",
+    },
+  },
   contractSizer: {
     runOnCompile: false,
-    only: ["BrownfieldERC20Token"],
+    only: ["BrownfieldERC20Token", "SoilSensors"],
   },
   mocha: {
     timeout: 200000, // 200 seconds max for running tests

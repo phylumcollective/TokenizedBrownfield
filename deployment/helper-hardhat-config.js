@@ -2,14 +2,19 @@ const networkConfig = {
   31337: {
     name: "localhost",
   },
-  // Price Feed Address, values can be obtained at https://docs.chain.link/data-feeds/price-feeds/addresses
   11155111: {
     name: "sepolia",
-    ethUsdPriceFeed: "0x694AA1769357215DE4FAC081bf1f309aDC325306",
   },
 };
 
 const INITIAL_SUPPLY = "1000000000000000000000000";
+const INITIAL_BENZOAPYRENE = "100";
+const INITIAL_ARSENIC = "100";
+const INITIAL_PH = "7";
+const INITIAL_POWER = "0";
+const MIN_PH = "5";
+const MAX_PH = "8";
+const MINT_INTERVAL = "3600";
 
 const developmentChains = ["hardhat", "localhost"];
 
@@ -17,4 +22,11 @@ module.exports = {
   networkConfig,
   developmentChains,
   INITIAL_SUPPLY,
+  INITIAL_BENZOAPYRENE,
+  INITIAL_ARSENIC,
+  INITIAL_PH,
+  INITIAL_POWER,
+  MIN_PH,
+  MAX_PH,
+  MINT_INTERVAL,
 };
