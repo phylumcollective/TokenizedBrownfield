@@ -58,7 +58,8 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
       INITIAL_ARSENIC,
       INITIAL_PH,
       INITIAL_POWER,
-      oracle,
+      roles.sensorsUpdater.address,
+      roles.defaultAdmin.address,
     ]);
     await verify(brownfieldERC20Token.address, [
       SoilSensors.address,

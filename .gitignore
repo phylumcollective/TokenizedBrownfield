@@ -1,12 +1,16 @@
-node_modules
+.vscode
 .env
-coverage
-coverage.json
+.DS_Store
+*.log
 typechain
 typechain-types
-.DS_Store
+gas-report.txt
 
 # Hardhat files
 cache
 artifacts
-gas-report.txt
+deployments
+node_modules
+node_modules
+coverage
+coverage.json
