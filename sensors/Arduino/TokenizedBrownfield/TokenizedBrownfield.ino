@@ -6,9 +6,9 @@ int powerLevels = 0;
 int prevPowerLevels = 0;
 const int ANALOG_REFERENCE = 3300; // 3300 millivots
 const int CURRENT = 1; // 1 milliamp
-const int SECONDS_IN_HOUR = 3600;
+//const int SECONDS_IN_HOUR = 3600;
 unsigned long previousMillis = 0;  // will store last time power was updated
-const long interval = 60000;  // interval at which to check power levels
+const long INTERVAL = 60000;  // interval at which to check power levels
 RunningMedian runningMedian = RunningMedian(5);
 
 /*******************
@@ -29,7 +29,7 @@ void setup() {
 
 void loop() {
    unsigned long currentMillis = millis();
-   if (currentMillis - previousMillis >= interval) {
+   if (currentMillis - previousMillis >= INTERVAL) {
       // save the last time you checked the power levels
       previousMillis = currentMillis;
       runningMedian.add(analogRead(A0));

@@ -4,7 +4,7 @@ const { ethers } = require("hardhat");
 const express = require("express");
 
 // ======= BLOCKCHAIN STUFF ======= //
-// Set up connection to Ethereum network
+// Set up connection to EVM-based network
 const provider = new ethers.providers.JsonRpcProvider(
   process.env.LOCALHOST_RPC_URL
 );
@@ -116,7 +116,7 @@ app.post("/updateSensors", async (req, res) => {
   res.end();
 });
 
-const portNumber = 8001;
-app.listen(portNumber, () => {
-  console.log(`Server running on port ${portNumber}`);
+const PORT_NUM = 8001;
+app.listen(PORT_NUM, () => {
+  console.log(`Express HTTP server running on port ${PORT_NUM}`);
 });
