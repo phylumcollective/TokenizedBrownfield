@@ -13,13 +13,13 @@ long previousMillis = 0;
 int benzoApyrene = 0; //in ppm
 int arsenic = 0; //in  ppm
 int pH = 0;
-int power = 0; //in millwatt hours
+//int power = 0; //in millwatt hours
 
 // to send (HTTP "POST") new sensors data to the server
 String postBenzoApyrene = ""; //in ppm
 String postArsenic = ""; //in  ppm
 String postPH = "";
-String postPower = ""; //in millwatt hours
+//String postPower = ""; //in millwatt hours
 
 void setup() {
     size(720, 1280);
@@ -50,7 +50,7 @@ void draw {
     text("benzoApyrene: " + benzoApyrene, width/2, height/4);
     text("arsenic: " + arsenic, width/2, height/3);
     text("pH: " + pH, width/2, height/2);
-    text("powerH: " + power, width/2, height/2 + 100);
+    //text("powerH: " + power, width/2, height/2 + 100);
 }
 
 boolean getSensors() {
@@ -59,7 +59,7 @@ boolean getSensors() {
         benzoApyrene = sensors.getInt("benzoApyrene");
         arsenic = sensors.getInt("arsenic");
         pH = sensors.getInt("pH");
-        power = sensors.getInt("power");
+        //power = sensors.getInt("power");
         return true;
     } catch(Exception e) {
         System.out.println("Something went wrong getting the JSON data");
@@ -72,7 +72,7 @@ boolean updateSensors() {
     try {
         PostRequest post = new PostRequest(serverURL + updateSensorsEndpoint);
         post.addHeader("Content-Type", "application/json");
-        post.addData("{\"benzoApyrene\":"+postBenzoApyrene+",\"arsenic\":"+postArsenic+",\"pH\":"+postPH+",\"power\":"+postPower+"}");
+        post.addData("{\"benzoApyrene\":"+postBenzoApyrene+",\"arsenic\":"+postArsenic+",\"pH\":"+postPH+"}");
         post.send();
         System.out.println("Reponse Content: " + post.getContent());
         System.out.println("Reponse Content-Length Header: " + post.getHeader("Content-Length"));

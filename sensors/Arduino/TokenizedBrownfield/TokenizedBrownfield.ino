@@ -1,15 +1,15 @@
 #include <SPI.h>
-#include <RunningMedian.h>
-#include <math.h>
+//#include <RunningMedian.h>
+//#include <math.h>
 
-int powerLevels = 0;
-int prevPowerLevels = 0;
-const int ANALOG_REFERENCE = 3300; // 3300 millivots
-const int CURRENT = 1; // 1 milliamp
+//int powerLevels = 0;
+//int prevPowerLevels = 0;
+//const int ANALOG_REFERENCE = 3300; // 3300 millivots
+//const int CURRENT = 1; // 1 milliamp
 //const int SECONDS_IN_HOUR = 3600;
-unsigned long previousMillis = 0;  // will store last time power was updated
-const long INTERVAL = 60000;  // interval at which to check power levels
-RunningMedian runningMedian = RunningMedian(5);
+//unsigned long previousMillis = 0;  // will store last time power was updated
+//const long INTERVAL = 60000;  // interval at which to check power levels
+//RunningMedian runningMedian = RunningMedian(5);
 
 /*******************
 SERIAL COMMUNICATION
@@ -28,7 +28,7 @@ void setup() {
 }
 
 void loop() {
-   unsigned long currentMillis = millis();
+/*    unsigned long currentMillis = millis();
    if (currentMillis - previousMillis >= INTERVAL) {
       // save the last time you checked the power levels
       previousMillis = currentMillis;
@@ -39,7 +39,7 @@ void loop() {
       power = power / 60.0; // milliwatt hours
       powerLevels = round(power) + prevPowerLevels; // add the current power levels to the previous
       prevPowerLevels = powerLevels;
-   }
+   } */
 
    //check serial port for new commands
    readSerial();
@@ -74,7 +74,7 @@ void processSerial() {
    int numTokensMinted = serialStr.substring(thirdCommaIdx+1).toInt();
 
    // send the the powerLevels back to the node.js app
-   Serial.print(powerLevels);
+   //Serial.print(powerLevels);
    //Serial.print("\n");
    serialStrReady = false;
    serialStr = "";
