@@ -29,10 +29,10 @@ const tokenContract = new ethers.Contract(
 );
 
 // Define function to send power level data to the SoilSensors smart contract
-async function sendPowerLevel(powerLevel) {
-  const tx = await sensorsContract.setPower(powerLevel);
-  console.log(`Transaction hash: ${tx.hash}`);
-}
+// async function sendPowerLevel(powerLevel) {
+//   const tx = await sensorsContract.setPower(powerLevel);
+//   console.log(`Transaction hash: ${tx.hash}`);
+// }
 
 // ======= SERIAL PORT/ARDUINO STUFF ======= //
 // get the port name from the command line
@@ -59,8 +59,8 @@ myPort.on("error", (err) => {
 
 // Set up event listener for incoming data from Arduino
 serialPort.on("data", async (data) => {
-  const powerLevel = parseInt(data.toString(), 10);
-  sendPowerLevel(powerLevel);
+  //const powerLevel = parseInt(data.toString(), 10);
+  //sendPowerLevel(powerLevel);
 
   // get the pollution levels from the SoilSensors contract
   const benzoApyrene = await sensorsContract.sensors("benzoApyrene");
