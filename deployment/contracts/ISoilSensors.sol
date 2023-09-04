@@ -8,5 +8,5 @@ interface ISoilSensors {
 
     function readPH() external view returns (uint256);
 
-    function readPower() external view returns (uint256);
+    //function readPower() external view returns (uint256);
 }
