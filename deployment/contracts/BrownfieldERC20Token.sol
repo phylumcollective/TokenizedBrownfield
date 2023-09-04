@@ -53,8 +53,8 @@ contract BrownfieldERC20Token is ERC20 {
         uint256 curr_arsenic = ISoilSensors(sensors).readArsenic();
         pH = ISoilSensors(sensors).readPH();
         require(
-            curr_benzoApyrene < benzoApyrene &&
-                curr_arsenic < arsenic &&
+            curr_benzoApyrene <= benzoApyrene &&
+                curr_arsenic <= arsenic &&
                 pH >= minPH &&
                 pH <= maxPH,
             "Soil pollution levels have not decreased, no token can me minted!"
