@@ -55,8 +55,8 @@ contract BrownfieldERC20Token is ERC20 {
             "Soil pollution levels have not decreased, no token can me minted!"
         );
 
-        //uint256 amount = 1 ether;
-        _mint(msg.sender, supply);
+        uint256 amount = 1 ether;
+        _mint(msg.sender, amount);
         lastMinted = block.timestamp;
         ++numMinted; // ++i saves gas vs i++
         benzoApyrene = curr_benzoApyrene;
