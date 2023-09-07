@@ -3,6 +3,8 @@ import http.requests.*;
 String serverURL = "http://localhost:8001";
 static final String getSensorsEndpoint = "/getSensors";
 static final String updateSensorsEndpoint = "/updateSensors";
+static final String mintERC20Endpoint = "/mintERC20"; // cryptocurrency 
+static final String mintERC721Endpoint = "/mintERC721"; // NFT
 
 static final long secondsInMilli = 1000;
 static final long minutesInMilli = secondsInMilli * 60;
@@ -27,7 +29,7 @@ void setup() {
 }
 
 void draw {
-    // attempt to mint an ERC20 token every hour
+    // attempt to mint an ERC20 and ERC721 token every hour
     long currentMillis = millis();
     long difference = currentMillis - previousMillis;
     long elapsedMinutes = round(difference / minutesInMilli);
@@ -35,6 +37,10 @@ void draw {
         if(mintERC20Token()) {
             //update the amount minted, show that a token was minted...
         }
+        if(mintERC721Token()) {
+            //update the amount minted, show that a token was minted...
+        }
+
         previousMillis = currentMillis;
     }
 
@@ -84,12 +90,34 @@ boolean updateSensors() {
     }
 }
 
-// mint a TerraRete token
+// mint a TerraRete cryptocurrency token
 boolean mintERC20Token() {
-    return true;
+    try {
+        GetRequest get = new GetRequest(serverURL + mintERC20Endpoint);
+        get.send();
+        println("Reponse Content: " + get.getContent());
+        println("Reponse Content-Length Header: " + get.getHeader("Content-Length"));
+        return true;
+    } catch(Exception e) {
+        System.out.println("Something went wrong with the server request");
+        e.toString();
+        return false;
+    }
 }
 
 // mint an NFT
-boolean mintERC721Token() {
-    return true;
+boolean mintERC721Token(String filepath) {
+    try {
+        PostRequest post = new PostRequest(serverURL + mintERC721Endpoint);
+        post.addHeader("Content-Type", "application/json");
+        post.addData("{\"TokenURI\":"+filepath+"}");
+        post.send();
+        System.out.println("Reponse Content: " + post.getContent());
+        System.out.println("Reponse Content-Length Header: " + post.getHeader("Content-Length"));
+        return true;
+    } catch(Exception e) {
+        System.out.println("Something went wrong posting the JSON data");
+        e.toString();
+        return false;
+    }
 }

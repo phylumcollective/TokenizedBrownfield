@@ -10,7 +10,8 @@ const provider = new ethers.providers.JsonRpcProvider(
 );
 const wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider);
 
-// Set up the contract instances
+// --- Set up the contract instances --- //
+// sensors
 const sensorsContractAddress = process.env.SENSORS_CONTRACT_ADDRESS;
 const sensorsContractABI =
   require("../artifacts/contracts/SoilSensors.sol/SoilSensors.json").abi;
@@ -19,12 +20,24 @@ const sensorsContract = new ethers.Contract(
   sensorsContractABI,
   wallet
 );
-const tokenContractAddress = process.env.TOKEN_CONTRACT_ADDRESS;
-const tokenContractABI =
+
+// ERC-20
+const erc20ContractAddress = process.env.ERC20_CONTRACT_ADDRESS;
+const erc20ContractABI =
   require("../artifacts/contracts/BrownfieldERC20Token.sol/BrownfieldERC20Token.json").abi;
-const tokenContract = new ethers.Contract(
-  tokenContractAddress,
-  tokenContractABI,
+const erc20Contract = new ethers.Contract(
+  erc20ContractAddress,
+  erc20ContractABI,
+  wallet
+);
+
+// ERC-721 (NFT)
+const erc721ContractAddress = process.env.ERC721_CONTRACT_ADDRESS;
+const erc721ContractABI =
+  require("../artifacts/contracts/BrownfieldERC721Token.sol/BrownfieldERC721Token.json").abi;
+const erc721Contract = new ethers.Contract(
+  erc721ContractAddress,
+  erc721ContractABI,
   wallet
 );
 
@@ -113,6 +126,18 @@ app.post("/updateSensors", async (req, res) => {
   await sensorsContract.setArsenic(Number(req.body.arsenic));
   await sensorsContract.setPH(Number(req.body.pH));
   //await sensorsContract.setPower(Number(req.body.power));
+  res.end();
+});
+
+// mint a cryptocurrency token!
+app.get("/mintERC20", async (req, res) => {
+  await erc20Contract.mint();
+  res.send("OK");
+});
+
+// mint an NFT!
+app.post("/mintERC721", async (req, res) => {
+  await erc721Contract.mint(req.body.TokenURI);
   res.end();
 });
 
