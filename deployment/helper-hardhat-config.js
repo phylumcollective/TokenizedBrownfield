@@ -8,13 +8,13 @@ const networkConfig = {
 };
 
 const INITIAL_SUPPLY = "1000000000000000000000000";
-const INITIAL_BENZOAPYRENE = "100";
-const INITIAL_ARSENIC = "100";
-const INITIAL_PH = "7";
+const INITIAL_BENZOAPYRENE = "100"; //ppm
+const INITIAL_ARSENIC = "100"; //ppm
+const INITIAL_PH = "700"; // real value * 100 (restrict to two decimal points)
 //const INITIAL_POWER = "0";
-const MIN_PH = "5";
-const MAX_PH = "8";
-const MINT_INTERVAL = "3600";
+const MIN_PH = "550";
+const MAX_PH = "750"; // real value * 100 (restrict to two decimal points)
+const MINT_INTERVAL = "3600"; // seconds (1 hour)
 
 const developmentChains = ["hardhat", "localhost"];
 

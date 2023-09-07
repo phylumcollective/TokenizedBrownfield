@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.18;
 
-import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "./ISoilSensors.sol";
 
-contract BrownfieldERC20Token is ERC20 {
+contract BrownfieldERC721Token is ERC721 {
     address private immutable owner; // the contract owner
     address private sensors; // The address of the sensors contract
     uint256 public lastMinted; // The timestamp of the last minting
@@ -19,13 +19,9 @@ contract BrownfieldERC20Token is ERC20 {
     uint256 public arsenic; // The arsenic level (in ppm)
     uint256 public pH; // The pH level
 
-    constructor(
-        address _sensors,
-        uint256 _supply,
-        uint256 _mintInterval,
-        uint256 _minPH,
-        uint256 _maxPH
-    ) ERC20("Brownfield Tokenization Prototype ERC20", "BTP_ERC20") {
+    constructor()
+        ERC721("Brownfield Tokenization Prototype ERC721", "BTP_ERC721")
+    {
         sensors = _sensors;
         supply = _supply;
         initialSupply = _supply;
@@ -35,10 +31,9 @@ contract BrownfieldERC20Token is ERC20 {
         maxPH = _maxPH;
         lastMinted = block.timestamp; // in seconds
         owner = msg.sender;
-        //_mint(owner, _supply);
     }
 
-    function mint() external {
+    function mint(string memory tokenURI) external returns (uint256) {
         require(msg.sender == owner, "Only the owner can call this function");
         require(
             SafeMath.sub(block.timestamp, lastMinted) >= mintInterval,
@@ -60,12 +55,14 @@ contract BrownfieldERC20Token is ERC20 {
             "Soil pollution levels have not decreased, no token can me minted!"
         );
 
-        //uint256 amount = 1 ether;
-        _mint(msg.sender, supply);
+        uint256 newItemId = numMinted;
+        _safeMint(msg.sender, newItemId);
+        _setTokenURI(newItemId, tokenURI);
         lastMinted = block.timestamp;
         ++numMinted; // ++i saves gas vs i++
         benzoApyrene = curr_benzoApyrene;
         arsenic = curr_arsenic;
+        return newItemId;
     }
 
     function getNumMinted() public view returns (uint256) {

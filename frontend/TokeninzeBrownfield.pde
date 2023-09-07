@@ -84,6 +84,12 @@ boolean updateSensors() {
     }
 }
 
+// mint a TerraRete token
 boolean mintERC20Token() {
+    return true;
+}
+
+// mint an NFT
+boolean mintERC721Token() {
     return true;
 }

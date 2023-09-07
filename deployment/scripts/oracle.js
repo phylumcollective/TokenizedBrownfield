@@ -112,7 +112,7 @@ app.post("/updateSensors", async (req, res) => {
   await sensorsContract.setBenzoApyrene(Number(req.body.benzoApyrene));
   await sensorsContract.setArsenic(Number(req.body.arsenic));
   await sensorsContract.setPH(Number(req.body.pH));
-  await sensorsContract.setPower(Number(req.body.power));
+  //await sensorsContract.setPower(Number(req.body.power));
   res.end();
 });
 
