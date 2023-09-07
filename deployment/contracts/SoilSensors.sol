@@ -53,11 +53,8 @@ contract SoilSensors is ISoilSensors, AccessControl {
 
     function setBenzoApyrene(uint256 benzoApyrene_) external {
         require(
-            hasRole(
-                SENSORS_UPDATER_ROLE,
-                msg.sender,
-                "Caller does not have permission to update sensors!"
-            )
+            hasRole(SENSORS_UPDATER_ROLE, msg.sender),
+            "Caller does not have permission to update sensors!"
         );
         benzoApyrene = benzoApyrene_;
         sensors["benzoApyrene"] = benzoApyrene;
@@ -65,11 +62,8 @@ contract SoilSensors is ISoilSensors, AccessControl {
 
     function setArsenic(uint256 arsenic_) external {
         require(
-            hasRole(
-                SENSORS_UPDATER_ROLE,
-                msg.sender,
-                "Caller does not have permission to update sensors!"
-            )
+            hasRole(SENSORS_UPDATER_ROLE, msg.sender),
+            "Caller does not have permission to update sensors!"
         );
         arsenic = arsenic_;
         sensors["arsenic"] = arsenic;
@@ -77,11 +71,8 @@ contract SoilSensors is ISoilSensors, AccessControl {
 
     function setPH(uint256 pH_) external {
         require(
-            hasRole(
-                SENSORS_UPDATER_ROLE,
-                msg.sender,
-                "Caller does not have permission to update sensors!"
-            )
+            hasRole(SENSORS_UPDATER_ROLE, msg.sender),
+            "Caller does not have permission to update sensors!"
         );
         pH = pH_;
         sensors["pH"] = pH;
