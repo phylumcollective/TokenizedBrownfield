@@ -10,7 +10,6 @@ contract BrownfieldERC20Token is ERC20 {
     address private sensors; // The address of the sensors contract
     uint256 public lastMinted; // The timestamp of the last minting
     uint256 public mintInterval; // The interval between minting attempts in seconds
-    uint256 public supply; // The number of tokens available
     uint256 private initialSupply; // The initial number of tokens available
     uint256 private numMinted; // The number of tokens minted
     uint256 public minPH; // The minimum pH level for minting
@@ -27,7 +26,6 @@ contract BrownfieldERC20Token is ERC20 {
         uint256 _maxPH
     ) ERC20("Brownfield Tokenization Prototype ERC20", "BTP_ERC20") {
         sensors = _sensors;
-        supply = _supply;
         initialSupply = _supply;
         numMinted = 0;
         mintInterval = _mintInterval;
@@ -35,7 +33,7 @@ contract BrownfieldERC20Token is ERC20 {
         maxPH = _maxPH;
         lastMinted = block.timestamp; // in seconds
         owner = msg.sender;
-        //_mint(owner, _supply);
+        _mint(owner, _supply);
     }
 
     function mint() external {
@@ -44,9 +42,6 @@ contract BrownfieldERC20Token is ERC20 {
             SafeMath.sub(block.timestamp, lastMinted) >= mintInterval,
             "Not enough time has passed since last minting"
         );
-
-        supply = totalSupply();
-        require(supply > 0, "Out of tokens!");
 
         // get the soil pollution and pH levels
         uint256 curr_benzoApyrene = ISoilSensors(sensors).readBenzoApyrene();

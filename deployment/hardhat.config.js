@@ -70,7 +70,7 @@ module.exports = {
   },
   contractSizer: {
     runOnCompile: false,
-    only: ["BrownfieldERC20Token", "SoilSensors"],
+    only: ["BrownfieldERC20Token", "BrownfieldERC721Token", "SoilSensors"],
   },
   mocha: {
     timeout: 200000, // 200 seconds max for running tests

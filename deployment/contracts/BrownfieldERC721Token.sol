@@ -1,16 +1,15 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.18;
 
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "./ISoilSensors.sol";
 
-contract BrownfieldERC721Token is ERC721 {
+contract BrownfieldERC721Token is ERC721URIStorage {
     address private immutable owner; // the contract owner
     address private sensors; // The address of the sensors contract
     uint256 public lastMinted; // The timestamp of the last minting
     uint256 public mintInterval; // The interval between minting attempts in seconds
-    uint256 public supply; // The number of tokens available
     uint256 private initialSupply; // The initial number of tokens available
     uint256 private numMinted; // The number of tokens minted
     uint256 public minPH; // The minimum pH level for minting
@@ -27,7 +26,6 @@ contract BrownfieldERC721Token is ERC721 {
         uint256 _maxPH
     ) ERC721("Brownfield Tokenization Prototype ERC721", "BTP_ERC721") {
         sensors = _sensors;
-        supply = _supply;
         initialSupply = _supply;
         numMinted = 0;
         mintInterval = _mintInterval;
@@ -35,6 +33,7 @@ contract BrownfieldERC721Token is ERC721 {
         maxPH = _maxPH;
         lastMinted = block.timestamp; // in seconds
         owner = msg.sender;
+        _mint(owner, _supply);
     }
 
     function mint(string memory tokenURI) external returns (uint256) {
@@ -43,9 +42,6 @@ contract BrownfieldERC721Token is ERC721 {
             SafeMath.sub(block.timestamp, lastMinted) >= mintInterval,
             "Not enough time has passed since last minting"
         );
-
-        supply = totalSupply();
-        require(supply > 0, "Out of tokens!");
 
         // get the soil pollution and pH levels
         uint256 curr_benzoApyrene = ISoilSensors(sensors).readBenzoApyrene();

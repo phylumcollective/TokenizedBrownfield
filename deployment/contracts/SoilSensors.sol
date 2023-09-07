@@ -11,14 +11,15 @@ contract SoilSensors is ISoilSensors, AccessControl {
     //uint256 private power;
     mapping(string => uint256) public sensors;
     address private immutable owner;
-    bytes32 private constant SENSORS_UPDATER_ROLE = keccak256("SENSORS_UPDATER_ROLE");
+    bytes32 private constant SENSORS_UPDATER_ROLE =
+        keccak256("SENSORS_UPDATER_ROLE");
 
     constructor(
         uint256 initialBenzoApyrene,
         uint256 initialArsenic,
         uint256 initialPH,
         //uint256 initialPower,
-        address sensorsUpdater
+        address sensorsUpdater,
         address defaultAdmin
     ) {
         benzoApyrene = initialBenzoApyrene;
@@ -51,19 +52,37 @@ contract SoilSensors is ISoilSensors, AccessControl {
     // }
 
     function setBenzoApyrene(uint256 benzoApyrene_) external {
-        require(hasRole(SENSORS_UPDATER_ROLE, msg.sender, "Caller does not have permission to update sensors!");
+        require(
+            hasRole(
+                SENSORS_UPDATER_ROLE,
+                msg.sender,
+                "Caller does not have permission to update sensors!"
+            )
+        );
         benzoApyrene = benzoApyrene_;
         sensors["benzoApyrene"] = benzoApyrene;
     }
 
     function setArsenic(uint256 arsenic_) external {
-        require(hasRole(SENSORS_UPDATER_ROLE, msg.sender, "Caller does not have permission to update sensors!");
+        require(
+            hasRole(
+                SENSORS_UPDATER_ROLE,
+                msg.sender,
+                "Caller does not have permission to update sensors!"
+            )
+        );
         arsenic = arsenic_;
         sensors["arsenic"] = arsenic;
     }
 
     function setPH(uint256 pH_) external {
-        require(hasRole(SENSORS_UPDATER_ROLE, msg.sender, "Caller does not have permission to update sensors!");
+        require(
+            hasRole(
+                SENSORS_UPDATER_ROLE,
+                msg.sender,
+                "Caller does not have permission to update sensors!"
+            )
+        );
         pH = pH_;
         sensors["pH"] = pH;
     }
@@ -74,8 +93,7 @@ contract SoilSensors is ISoilSensors, AccessControl {
     //     sensors["power"] = power;
     // }
 
-/*     function setSensors(mapping(string => uint256) _sensors) external {
+    /*     function setSensors(mapping(string => uint256) _sensors) external {
         sensors = _sensors;
     } */
-
 }

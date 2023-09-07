@@ -48,6 +48,15 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
   });
   log(`BrownfieldERC20Token deployed at ${brownfieldERC20Token.address}`);
 
+  const brownfieldERC721Token = await deploy("BrownfieldERC721Token", {
+    from: deployer,
+    args: [SoilSensors.address, INITIAL_SUPPLY, MINT_INTERVAL, MIN_PH, MAX_PH],
+    log: true,
+    // we need to wait if on a live network so we can verify properly
+    waitConfirmations: network.config.blockConfirmations || 1,
+  });
+  log(`BrownfieldERC20Token deployed at ${brownfieldERC20Token.address}`);
+
   // if not running on a development chain, verify
   if (
     !developmentChains.includes(network.name) &&
