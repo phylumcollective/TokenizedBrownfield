@@ -19,9 +19,13 @@ contract BrownfieldERC721Token is ERC721 {
     uint256 public arsenic; // The arsenic level (in ppm)
     uint256 public pH; // The pH level
 
-    constructor()
-        ERC721("Brownfield Tokenization Prototype ERC721", "BTP_ERC721")
-    {
+    constructor(
+        address _sensors,
+        uint256 _supply,
+        uint256 _mintInterval,
+        uint256 _minPH,
+        uint256 _maxPH
+    ) ERC721("Brownfield Tokenization Prototype ERC721", "BTP_ERC721") {
         sensors = _sensors;
         supply = _supply;
         initialSupply = _supply;
