@@ -69,7 +69,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     // we need to wait if on a live network so we can verify properly
     waitConfirmations: network.config.blockConfirmations || 1,
   });
-  log(`BrownfieldERC20Token deployed at ${brownfieldERC20Token.address}`);
+  log(`BrownfieldERC721Token deployed at ${brownfieldERC721Token.address}`);
 
   // if not running on a development chain, verify
   if (
