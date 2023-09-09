@@ -58,7 +58,7 @@ module.exports = {
     deploy: "deploy",
     deployments: "deployments",
   },
-  roles: {
+  /*   roles: {
     sensorsUpdater: {
       name: "SENSORS_UPDATER_ROLE",
       description: "Role for updating sensor levels",
@@ -67,7 +67,7 @@ module.exports = {
       name: "DEFAULT_ADMIN_ROLE",
       description: "Role for default admin",
     },
-  },
+  }, */
   contractSizer: {
     runOnCompile: false,
     only: ["BrownfieldERC20Token", "BrownfieldERC721Token", "SoilSensors"],

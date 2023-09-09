@@ -11,17 +11,18 @@ contract SoilSensors is ISoilSensors, AccessControl {
     //uint256 private power;
     mapping(string => uint256) public sensors;
     address private immutable owner;
-    bytes32 private constant SENSORS_UPDATER_ROLE =
-        keccak256("SENSORS_UPDATER_ROLE");
+
+    // bytes32 private constant SENSORS_UPDATER_ROLE =
+    //keccak256("SENSORS_UPDATER_ROLE");
 
     constructor(
         uint256 initialBenzoApyrene,
         uint256 initialArsenic,
-        uint256 initialPH,
-        //uint256 initialPower,
-        address sensorsUpdater,
-        address defaultAdmin
-    ) {
+        uint256 initialPH
+    ) //uint256 initialPower,
+    //address sensorsUpdater,
+    //address defaultAdmin
+    {
         benzoApyrene = initialBenzoApyrene;
         arsenic = initialArsenic;
         pH = initialPH;
@@ -30,8 +31,8 @@ contract SoilSensors is ISoilSensors, AccessControl {
         sensors["arsenic"] = arsenic;
         sensors["pH"] = pH;
         //sensors["power"] = power;
-        _setupRole(DEFAULT_ADMIN_ROLE, defaultAdmin);
-        _setupRole(SENSORS_UPDATER_ROLE, sensorsUpdater);
+        //_setupRole(DEFAULT_ADMIN_ROLE, defaultAdmin);
+        //_setupRole(SENSORS_UPDATER_ROLE, sensorsUpdater);
         owner = msg.sender;
     }
 
@@ -52,28 +53,28 @@ contract SoilSensors is ISoilSensors, AccessControl {
     // }
 
     function setBenzoApyrene(uint256 benzoApyrene_) external {
-        require(
+        /* require(
             hasRole(SENSORS_UPDATER_ROLE, msg.sender),
             "Caller does not have permission to update sensors!"
-        );
+        ); */
         benzoApyrene = benzoApyrene_;
         sensors["benzoApyrene"] = benzoApyrene;
     }
 
     function setArsenic(uint256 arsenic_) external {
-        require(
+        /* require(
             hasRole(SENSORS_UPDATER_ROLE, msg.sender),
             "Caller does not have permission to update sensors!"
-        );
+        ); */
         arsenic = arsenic_;
         sensors["arsenic"] = arsenic;
     }
 
     function setPH(uint256 pH_) external {
-        require(
+        /* require(
             hasRole(SENSORS_UPDATER_ROLE, msg.sender),
             "Caller does not have permission to update sensors!"
-        );
+        ); */
         pH = pH_;
         sensors["pH"] = pH;
     }

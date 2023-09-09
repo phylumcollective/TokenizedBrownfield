@@ -20,10 +20,10 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
   const { deploy, log } = deployments;
   const { deployer } = await getNamedAccounts();
   const chainId = network.config.chainId;
-  const roles = {
+  /*   const roles = {
     sensorsUpdater: await hre.ethers.getNamedSigners("sensorsUpdater"),
     defaultAdmin: await hre.ethers.getNamedSigners("defaultAdmin"),
-  };
+  }; */
 
   const SoilSensors = await deploy("SoilSensors", {
     from: deployer,
@@ -32,8 +32,8 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
       INITIAL_ARSENIC,
       INITIAL_PH,
       //INITIAL_POWER,
-      roles.sensorsUpdater.address,
-      roles.defaultAdmin.address,
+      //roles.sensorsUpdater.address,
+      //roles.defaultAdmin.address,
     ],
     log: true,
     // we need to wait if on a live network so we can verify properly
