@@ -1,6 +1,6 @@
 import http.requests.*;
 
-String serverURL = "http://localhost:8001";
+static final String serverURL = "http://localhost:8001";
 static final String getSensorsEndpoint = "/getSensors";
 static final String updateSensorsEndpoint = "/updateSensors";
 static final String mintERC20Endpoint = "/mintERC20"; // cryptocurrency 
