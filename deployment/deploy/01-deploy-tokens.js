@@ -2,16 +2,18 @@ const { network } = require("hardhat");
 const {
   networkConfig,
   developmentChains,
-  INITIAL_SUPPLY,
+  INITIAL_SUPPLY_ERC20,
+  INITIAL_SUPPLY_ERC721,
   INITIAL_BENZOAPYRENE,
   INITIAL_ARSENIC,
   INITIAL_PH,
   //INITIAL_POWER,
   MIN_PH,
   MAX_PH,
-  MINT_INTERVAL,
+  MINT_INTERVAL_ERC20,
+  MINT_INTERVAL_ERC721,
 } = require("../helper-hardhat-config");
-const { verify } = require("../helper-functions");
+const { verify } = require("../utils/verify");
 require("dotenv").config();
 
 module.exports = async ({ getNamedAccounts, deployments }) => {
@@ -41,7 +43,13 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
 
   const brownfieldERC20Token = await deploy("BrownfieldERC20Token", {
     from: deployer,
-    args: [SoilSensors.address, INITIAL_SUPPLY, MINT_INTERVAL, MIN_PH, MAX_PH],
+    args: [
+      SoilSensors.address,
+      INITIAL_SUPPLY_ERC20,
+      MINT_INTERVAL_ERC20,
+      MIN_PH,
+      MAX_PH,
+    ],
     log: true,
     // we need to wait if on a live network so we can verify properly
     waitConfirmations: network.config.blockConfirmations || 1,
@@ -50,7 +58,13 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
 
   const brownfieldERC721Token = await deploy("BrownfieldERC721Token", {
     from: deployer,
-    args: [SoilSensors.address, INITIAL_SUPPLY, MINT_INTERVAL, MIN_PH, MAX_PH],
+    args: [
+      SoilSensors.address,
+      INITIAL_SUPPLY_ERC721,
+      MINT_INTERVAL_ERC721,
+      MIN_PH,
+      MAX_PH,
+    ],
     log: true,
     // we need to wait if on a live network so we can verify properly
     waitConfirmations: network.config.blockConfirmations || 1,
@@ -72,12 +86,19 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     ]);
     await verify(brownfieldERC20Token.address, [
       SoilSensors.address,
-      INITIAL_SUPPLY,
-      MINT_INTERVAL,
+      INITIAL_SUPPLY_ERC20,
+      MINT_INTERVAL_ERC20,
+      MIN_PH,
+      MAX_PH,
+    ]);
+    await verify(brownfieldERC721Token.address, [
+      SoilSensors.address,
+      INITIAL_SUPPLY_ERC721,
+      MINT_INTERVAL_ERC721,
       MIN_PH,
       MAX_PH,
     ]);
   }
 };
 
-module.exports.tags = ["all", "token", "sensors"];
+module.exports.tags = ["all", "tokens", "sensors"];

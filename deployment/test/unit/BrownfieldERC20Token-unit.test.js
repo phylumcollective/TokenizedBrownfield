@@ -2,7 +2,7 @@ const { assert, expect } = require("chai");
 const { network, getNamedAccounts, deployments, ethers } = require("hardhat");
 const {
   developmentChains,
-  INITIAL_SUPPLY,
+  INITIAL_SUPPLY_ERC20,
 } = require("../../helper-hardhat-config");
 
 !developmentChains.includes(network.name)
@@ -28,7 +28,7 @@ const {
       describe("constructor", () => {
         it("Should have correct INITIAL_SUPPLY of token ", async () => {
           const totalSupply = await brownfieldToken.totalSupply();
-          assert.equal(totalSupply.toString(), INITIAL_SUPPLY);
+          assert.equal(totalSupply.toString(), INITIAL_SUPPLY_ERC20);
         });
         it("initializes the token with the correct name and symbol ", async () => {
           const name = (await brownfieldToken.name()).toString();
