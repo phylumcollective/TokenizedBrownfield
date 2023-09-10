@@ -1,5 +1,5 @@
 require("dotenv").config();
-const SerialPort = require("serialport");
+const { SerialPort } = require("serialport");
 const { ethers } = require("hardhat");
 const express = require("express");
 
@@ -49,24 +49,26 @@ const erc721Contract = new ethers.Contract(
 
 // ======= SERIAL PORT/ARDUINO STUFF ======= //
 // get the port name from the command line
-let portName = process.argv[2];
+//console.log(SerialPort.list());
+const portName = "/dev/tty.usbmodem14701";
+//let portName = process.argv[2];
 // Set up serial port connection to the Arduino
-const serialPort = new SerialPort(portName, { baudRate: 9600 });
+const serialPort = new SerialPort({ path: portName, baudRate: 9600 });
 // if they didn't give a port name, tell them so, then quit:
 if (!portName) {
   giveInstructions();
 }
 
 // --- these are the definitions for the serial events: --- //
-myPort.on("open", () => {
+serialPort.on("open", () => {
   console.log("Serial port opened");
 }); // called when the serial port opens
 
-myPort.on("close", () => {
+serialPort.on("close", () => {
   console.log("serial port closed.");
 }); // called when the serial port closes
 
-myPort.on("error", (err) => {
+serialPort.on("error", (err) => {
   console.log(err);
 }); // called when there's an error with the serial port
 
@@ -79,12 +81,14 @@ serialPort.on("data", async (data) => {
   const benzoApyrene = await sensorsContract.sensors("benzoApyrene");
   const arsenic = await sensorsContract.sensors("arsenic");
   const pH = await sensorsContract.sensors("pH");
-  const numTokensMinted = await tokenContract.numMinted;
+  const numERC20TokensMinted = await erc20Contract.getNumMinted();
+  const numERC721TokensMinted = await erc721Contract.getNumMinted();
   let response = [
     benzoApyrene.toString(),
     arsenic.toString(),
     pH.toString(),
-    numTokensMinted.toString(),
+    numERC20TokensMinted.toString(),
+    numERC721TokensMinted.toString(),
   ];
   // Send the response over serial
   serialPort.write(response.join(",") + "\n");
@@ -111,13 +115,13 @@ app.use(express.json());
 
 // get all the sensor levels from the SoilSensors contract and send them back
 app.get("/getSensors", async (req, res) => {
-  const allSensors = await sensorsContract.sensors;
-  // Convert mapping data to a JSON object
-  const allSensorsJSON = {};
-  for (const key in allSensors) {
-    allSensorsJSON[key] = allSensors[key].toString();
-  }
-  res.send(allSensorsJSON);
+  // get the sensors data and format as JSON/dictionary
+  const allSensorsJSON = {
+    benzoApyrene: sensorsContract.readBenzoApyrene(),
+    arsenic: sensorsContract.readArsenic(),
+    pH: sensorsContract.readPH(),
+  };
+  res.send(allSensorsJSON.toString());
 });
 
 // get all the sensor levels from the SoilSensors contract and send them back

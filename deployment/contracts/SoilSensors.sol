@@ -2,9 +2,10 @@
 pragma solidity ^0.8.18;
 
 import "./ISoilSensors.sol";
-import "@openzeppelin/contracts/access/AccessControl.sol";
 
-contract SoilSensors is ISoilSensors, AccessControl {
+//import "@openzeppelin/contracts/access/AccessControl.sol";
+
+contract SoilSensors is ISoilSensors {
     uint256 private benzoApyrene;
     uint256 private arsenic;
     uint256 private pH;
@@ -18,11 +19,8 @@ contract SoilSensors is ISoilSensors, AccessControl {
     constructor(
         uint256 initialBenzoApyrene,
         uint256 initialArsenic,
-        uint256 initialPH
-    ) //uint256 initialPower,
-    //address sensorsUpdater,
-    //address defaultAdmin
-    {
+        uint256 initialPH //uint256 initialPower, //address sensorsUpdater, //address defaultAdmin
+    ) {
         benzoApyrene = initialBenzoApyrene;
         arsenic = initialArsenic;
         pH = initialPH;

@@ -68,14 +68,17 @@ void processSerial() {
    int firstCommaIdx = serialStr.indexOf(',');
    int secondCommaIdx = serialStr.indexOf(',', firstCommaIdx+1);
    int thirdCommaIdx = serialStr.indexOf(',', secondCommaIdx+1);
+   int fourthCommaIdx = serialStr.indexOf(',', thirdCommaIdx+1);
    int benzoApyrene = serialStr.substring(0, firstCommaIdx).toInt();
    int arsenic = serialStr.substring(firstCommaIdx+1, secondCommaIdx).toInt();
    int pH = serialStr.substring(secondCommaIdx+1, thirdCommaIdx).toInt();
-   int numTokensMinted = serialStr.substring(thirdCommaIdx+1).toInt();
+   int numERC20TokensMinted = serialStr.substring(thirdCommaIdx+1, fourthCommaIdx).toInt();
+   int numERC721TokensMinted = serialStr.substring(fourthCommaIdx+1).toInt();
 
    // send the the powerLevels back to the node.js app
    //Serial.print(powerLevels);
    //Serial.print("\n");
+   Serial.print(1); // send data back to express server
    serialStrReady = false;
    serialStr = "";
 }
