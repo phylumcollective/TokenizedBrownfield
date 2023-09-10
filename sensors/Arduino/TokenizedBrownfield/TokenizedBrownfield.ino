@@ -52,6 +52,7 @@ void loop() {
 void readSerial() {
    // pulls in characters from serial port as they arrive
    // builds serialStr and sets ready flag when newline is found
+   // serial data will only be sent to Arduino when minting occurs, so consider this a minting "flag"
    while (Serial.available()) {
     char inChar = (char)Serial.read(); 
     if (inChar == '\n') {
@@ -78,7 +79,6 @@ void processSerial() {
    // send the the powerLevels back to the node.js app
    //Serial.print(powerLevels);
    //Serial.print("\n");
-   Serial.print(1); // send data back to express server
    serialStrReady = false;
    serialStr = "";
 }

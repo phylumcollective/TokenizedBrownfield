@@ -33,7 +33,7 @@ contract BrownfieldERC721Token is ERC721URIStorage {
         maxPH = _maxPH;
         lastMinted = block.timestamp; // in seconds
         owner = msg.sender;
-        _mint(owner, _supply);
+        //_mint(owner, _supply);
     }
 
     function mint(string memory tokenURI) external returns (uint256) {
@@ -42,6 +42,8 @@ contract BrownfieldERC721Token is ERC721URIStorage {
             SafeMath.sub(block.timestamp, lastMinted) >= mintInterval,
             "Not enough time has passed since last minting"
         );
+
+        require(numMinted < initialSupply, "No more tokens can be minted!");
 
         // get the soil pollution and pH levels
         uint256 curr_benzoApyrene = ISoilSensors(sensors).readBenzoApyrene();

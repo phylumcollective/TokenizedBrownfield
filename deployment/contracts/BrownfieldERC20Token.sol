@@ -43,6 +43,8 @@ contract BrownfieldERC20Token is ERC20 {
             "Not enough time has passed since last minting"
         );
 
+        require(numMinted < initialSupply, "No more tokens can be minted!");
+
         // get the soil pollution and pH levels
         uint256 curr_benzoApyrene = ISoilSensors(sensors).readBenzoApyrene();
         uint256 curr_arsenic = ISoilSensors(sensors).readArsenic();
@@ -55,7 +57,7 @@ contract BrownfieldERC20Token is ERC20 {
             "Soil pollution levels have not decreased, no token can me minted!"
         );
 
-        uint256 amount = 1 ether;
+        uint256 amount = 1;
         _mint(msg.sender, amount);
         lastMinted = block.timestamp;
         ++numMinted; // ++i saves gas vs i++
