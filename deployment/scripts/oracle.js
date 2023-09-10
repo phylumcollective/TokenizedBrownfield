@@ -141,12 +141,14 @@ app.post("/updateSensors", async (req, res) => {
 // mint a cryptocurrency token!
 app.get("/mintERC20", async (req, res) => {
   await erc20Contract.mint();
+  await serialMint();
   res.send("OK");
 });
 
 // mint an NFT!
 app.post("/mintERC721", async (req, res) => {
   await erc721Contract.mint(req.body.TokenURI);
+  await serialMint();
   res.end();
 });
 
@@ -154,3 +156,24 @@ const PORT_NUM = 8001;
 app.listen(PORT_NUM, () => {
   console.log(`Express HTTP server running on port ${PORT_NUM}`);
 });
+
+async function serialMint() {
+  //const powerLevel = parseInt(data.toString(), 10);
+  //sendPowerLevel(powerLevel);
+
+  // get the pollution levels from the SoilSensors contract
+  const benzoApyrene = await sensorsContract.sensors("benzoApyrene");
+  const arsenic = await sensorsContract.sensors("arsenic");
+  const pH = await sensorsContract.sensors("pH");
+  const numERC20TokensMinted = await erc20Contract.getNumMinted();
+  const numERC721TokensMinted = await erc721Contract.getNumMinted();
+  let response = [
+    benzoApyrene.toString(),
+    arsenic.toString(),
+    pH.toString(),
+    numERC20TokensMinted.toString(),
+    numERC721TokensMinted.toString(),
+  ];
+  // Send the response over serial
+  serialPort.write(response.join(",") + "\n");
+}
