@@ -37,7 +37,7 @@ void draw() {
         if(mintERC20Token()) {
             //update the amount minted, show that a token was minted...
         }
-        if(mintERC721Token()) {
+        if(mintERC721Token("")) {
             //update the amount minted, show that a token was minted...
         }
 
