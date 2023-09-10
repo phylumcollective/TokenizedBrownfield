@@ -5,6 +5,7 @@ static final String getSensorsEndpoint = "/getSensors";
 static final String updateSensorsEndpoint = "/updateSensors";
 static final String mintERC20Endpoint = "/mintERC20"; // cryptocurrency 
 static final String mintERC721Endpoint = "/mintERC721"; // NFT
+String tokenURI = ""; // URI/path of the NFT image
 
 static final long secondsInMilli = 1000;
 static final long minutesInMilli = secondsInMilli * 60;
@@ -37,7 +38,7 @@ void draw() {
         if(mintERC20Token()) {
             //update the amount minted, show that a token was minted...
         }
-        if(mintERC721Token("")) {
+        if(mintERC721Token(tokenURI)) {
             //update the amount minted, show that a token was minted...
         }
 
