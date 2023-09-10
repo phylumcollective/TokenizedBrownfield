@@ -116,12 +116,17 @@ app.use(express.json());
 // get all the sensor levels from the SoilSensors contract and send them back
 app.get("/getSensors", async (req, res) => {
   // get the sensors data and format as JSON/dictionary
-  const allSensorsJSON = {
-    benzoApyrene: sensorsContract.readBenzoApyrene(),
-    arsenic: sensorsContract.readArsenic(),
-    pH: sensorsContract.readPH(),
+  // need to convert to String to get a decimal repesentaion (as ethers defaults to hex)
+  const benzoApyrene = await sensorsContract.readBenzoApyrene();
+  const arsenic = await sensorsContract.readArsenic();
+  const pH = await sensorsContract.readPH();
+
+  const allSensors = {
+    benzoApyrene: benzoApyrene.toString(),
+    arsenic: arsenic.toString(),
+    pH: pH.toString(),
   };
-  res.send(allSensorsJSON.toString());
+  res.json(allSensors);
 });
 
 // get all the sensor levels from the SoilSensors contract and send them back

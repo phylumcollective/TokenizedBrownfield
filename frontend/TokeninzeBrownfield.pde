@@ -28,7 +28,7 @@ void setup() {
 
 }
 
-void draw {
+void draw() {
     // attempt to mint an ERC20 and ERC721 token every hour
     long currentMillis = millis();
     long difference = currentMillis - previousMillis;
