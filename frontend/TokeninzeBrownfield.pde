@@ -1,4 +1,8 @@
 import http.requests.*;
+import java.util.Calendar;
+import java.time.format.DateTimeFormatter;
+import java.text.SimpleDateFormat
+import java.util.Date
 
 static final String serverURL = "http://localhost:8001";
 static final String getSensorsEndpoint = "/getSensors";
@@ -26,7 +30,7 @@ String postPH = "";
 
 void setup() {
     size(720, 1280);
-
+    Calendar cal = Calendar.getInstance(); // calendar to get day of week
 }
 
 void draw() {
@@ -35,11 +39,43 @@ void draw() {
     long difference = currentMillis - previousMillis;
     long elapsedMinutes = round(difference / minutesInMilli);
     if(elapsedMinutes >= 60) {
+        // --- mint ERC-20 (currency) ---
         if(mintERC20Token()) {
             //update the amount minted, show that a token was minted...
         }
-        if(mintERC721Token(tokenURI)) {
-            //update the amount minted, show that a token was minted...
+        // --- mint ERC-721 (NFT) ---
+        // skip Mon & Tues
+        int dow = cal.get(Calendar.DAY_OF_WEEK);
+        if(!dow==Calendar.MONAY || !dow==Calendar.TUESDAY) {
+            // set up date format
+            SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+            Date d = cal.getTime();
+            String currTimeStr = formatter.format(d);
+            Date currTime = formatter.parse(currTimeStr);
+            //cal.setTime(currTime);
+            // Friday hours
+            if(dow==Calendar.FRIDAY) {
+                // make sure it's between 12-9pm if it's Fri
+                Date time1 = new SimpleDateFormat("HH:mm:ss").parse("12:00:00");
+                Date time2 = new SimpleDateFormat("HH:mm:ss").parse("21:00:00");
+                if(currTime.after(time1.getTime()) && currTime.before(time2.getTime())) {
+                    if(mintERC721Token(tokenURI)) {
+                        //update the amount minted, show that a token was minted...
+                    }
+
+                }
+            } else {
+                // the rest of the days
+                Date time1 = new SimpleDateFormat("HH:mm:ss").parse("12:00:00");
+                Date time2 = new SimpleDateFormat("HH:mm:ss").parse("17:00:00");
+                if(currTime.after(time1.getTime()) && currTime.before(time2.getTime())) {
+                    if(mintERC721Token(tokenURI)) {
+                        //update the amount minted, show that a token was minted...
+                    }
+
+                }
+            }
+
         }
 
         previousMillis = currentMillis;
