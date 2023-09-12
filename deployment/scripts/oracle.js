@@ -73,7 +73,7 @@ serialPort.on("error", (err) => {
 }); // called when there's an error with the serial port
 
 // Set up event listener for incoming data from Arduino
-serialPort.on("data", async (data) => {
+/* serialPort.on("data", async (data) => {
   //const powerLevel = parseInt(data.toString(), 10);
   //sendPowerLevel(powerLevel);
 
@@ -92,7 +92,7 @@ serialPort.on("data", async (data) => {
   ];
   // Send the response over serial
   serialPort.write(response.join(",") + "\n");
-});
+}); */
 
 function giveInstructions() {
   //console.log('you did not give a port name');
@@ -116,11 +116,11 @@ app.use(express.json());
 // get all the sensor levels from the SoilSensors contract and send them back
 app.get("/getSensors", async (req, res) => {
   // get the sensors data and format as JSON/dictionary
-  // need to convert to String to get a decimal repesentaion (as ethers defaults to hex)
   const benzoApyrene = await sensorsContract.readBenzoApyrene();
   const arsenic = await sensorsContract.readArsenic();
   const pH = await sensorsContract.readPH();
 
+  // need to convert to String to get a decimal repesentaion (as ethers defaults to hex)
   const allSensors = {
     benzoApyrene: benzoApyrene.toString(),
     arsenic: arsenic.toString(),
