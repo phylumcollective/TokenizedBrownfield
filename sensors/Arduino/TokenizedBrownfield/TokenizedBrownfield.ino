@@ -76,6 +76,9 @@ void processSerial() {
    int numERC20TokensMinted = serialStr.substring(thirdCommaIdx+1, fourthCommaIdx).toInt();
    int numERC721TokensMinted = serialStr.substring(fourthCommaIdx+1).toInt();
 
+   // convert pH value to float (with proper decimal place)
+   float pH_f = pH/100.0;
+
    // send the the powerLevels back to the node.js app
    //Serial.print(powerLevels);
    //Serial.print("\n");

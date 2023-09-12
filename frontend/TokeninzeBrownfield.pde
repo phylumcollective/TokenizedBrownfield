@@ -157,3 +157,9 @@ boolean mintERC721Token(String filepath) {
         return false;
     }
 }
+
+// rounds a number to 2 decimal places
+// example: round(3.14159) -> 3.14
+float round2(float value) {
+   return (int(value * 100 + 0.5)) / 100.0;
+}
