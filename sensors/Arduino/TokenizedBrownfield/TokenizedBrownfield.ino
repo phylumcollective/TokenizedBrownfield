@@ -11,6 +11,12 @@
 //const long INTERVAL = 60000;  // interval at which to check power levels
 //RunningMedian runningMedian = RunningMedian(5);
 
+// keep track of the number of tokens minted
+int ERC20Count = 0;
+int ERC721Count = 0;
+bool erc20Minted = false;
+bool erc721Minted = false;
+
 /*******************
 SERIAL COMMUNICATION
 *******************/
@@ -46,6 +52,23 @@ void loop() {
    if(serialStrReady) {
       processSerial();
    }
+   
+   if(erc20Minted) {
+      // ---- DRAW SOMETHING HERE!!! ---- //
+
+
+      // now reset the minted flag to false
+      erc20Minted = false;
+   }
+
+   if(erc721Minted) {
+      // ---- DRAW SOMETHING HERE!!! ---- //
+
+
+      // now reset the minted flag to false
+      erc721Minted = false;
+   }
+   
    delay(1);
 }
 
@@ -78,6 +101,18 @@ void processSerial() {
 
    // convert pH value to float (with proper decimal place)
    float pH_f = pH/100.0;
+
+   // check if tokens were actually minted
+   if(numERC20TokensMinted > ERC20Count) {
+      erc20Minted = true;
+      ERC20Count = numERC20TokensMinted;
+   }
+
+   if(numERC721TokensMinted > ERC721Count) {
+      erc721Minted = true;
+      // update the count
+      ERC721Count = numERC721TokensMinted;
+   }
 
    // send the the powerLevels back to the node.js app
    //Serial.print(powerLevels);
