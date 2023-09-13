@@ -95,12 +95,9 @@ void processSerial() {
    int fourthCommaIdx = serialStr.indexOf(',', thirdCommaIdx+1);
    int benzoApyrene = serialStr.substring(0, firstCommaIdx).toInt();
    int arsenic = serialStr.substring(firstCommaIdx+1, secondCommaIdx).toInt();
-   int pH = serialStr.substring(secondCommaIdx+1, thirdCommaIdx).toInt();
+   float pH = serialStr.substring(secondCommaIdx+1, thirdCommaIdx).toInt() / 100.0; // convert pH value to float (with proper decimal place)
    int numERC20TokensMinted = serialStr.substring(thirdCommaIdx+1, fourthCommaIdx).toInt();
    int numERC721TokensMinted = serialStr.substring(fourthCommaIdx+1).toInt();
-
-   // convert pH value to float (with proper decimal place)
-   float pH_f = pH/100.0;
 
    // check if tokens were actually minted
    if(numERC20TokensMinted > ERC20Count) {
