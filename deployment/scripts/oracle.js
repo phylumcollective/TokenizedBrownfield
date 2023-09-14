@@ -73,8 +73,10 @@ serialPort.on("error", (err) => {
 }); // called when there's an error with the serial port
 
 // Set up event listener for incoming data from Arduino
-/* serialPort.on("data", async (data) => {
-  //const powerLevel = parseInt(data.toString(), 10);
+serialPort.on("data", async (data) => {
+  console.log(data.toString());
+
+  /*   //const powerLevel = parseInt(data.toString(), 10);
   //sendPowerLevel(powerLevel);
 
   // get the pollution levels from the SoilSensors contract
@@ -91,8 +93,8 @@ serialPort.on("error", (err) => {
     numERC721TokensMinted.toString(),
   ];
   // Send the response over serial
-  serialPort.write(response.join(",") + "\n");
-}); */
+  serialPort.write(response.join(",") + "\n"); */
+});
 
 function giveInstructions() {
   //console.log('you did not give a port name');
