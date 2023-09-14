@@ -18,7 +18,7 @@ long previousMillis = 0;
 // sensor data from the server
 int benzoApyrene = 0; //in ppm
 int arsenic = 0; //in  ppm
-int pH = 0;
+float pH = 0.0;
 //int power = 0; //in millwatt hours
 
 // to send (HTTP "POST") new sensors data to the server
@@ -26,6 +26,12 @@ String postBenzoApyrene = ""; //in ppm
 String postArsenic = ""; //in  ppm
 String postPH = "";
 //String postPower = ""; //in millwatt hours
+
+// keep track of the number of tokens minted
+int ERC20Count = 0;
+int ERC721Count = 0;
+boolean erc20Minted = false;
+boolean erc721Minted = false;
 
 void setup() {
     size(720, 1280);
@@ -41,6 +47,7 @@ void draw() {
         // --- mint ERC-20 (currency) ---
         if(mintERC20Token()) {
             //update the amount minted, show that a token was minted...
+            
         }
         // --- mint ERC-721 (NFT) ---
         // skip Mon & Tues
@@ -100,7 +107,7 @@ boolean getSensors() {
         JSONObject sensors = loadJSONObject(serverURL + getSensorsEndpoint);
         benzoApyrene = sensors.getInt("benzoApyrene");
         arsenic = sensors.getInt("arsenic");
-        pH = sensors.getInt("pH");
+        pH = sensors.getInt("pH") / 100.0; // convert pH value to float (with proper decimal place)
         //power = sensors.getInt("power");
         return true;
     } catch(Exception e) {
@@ -131,9 +138,18 @@ boolean mintERC20Token() {
     try {
         GetRequest get = new GetRequest(serverURL + mintERC20Endpoint);
         get.send();
-        println("Reponse Content: " + get.getContent());
+        String numMintedStr = get.getContent();
+        println("Reponse Content: " + numMintedStr);
         println("Reponse Content-Length Header: " + get.getHeader("Content-Length"));
-        return true;
+        
+        // check if token was actually minted
+        int numERC20TokensMinted = numMintedStr.toInt();
+        if(numERC20TokensMinted > ERC20Count) {
+            ERC20Count = numERC20TokensMinted;
+            return = true;
+        } else {
+            return false;
+        }
     } catch(Exception e) {
         System.out.println("Something went wrong with the server request");
         e.toString();
@@ -148,9 +164,19 @@ boolean mintERC721Token(String filepath) {
         post.addHeader("Content-Type", "application/json");
         post.addData("{\"TokenURI\":"+filepath+"}");
         post.send();
-        System.out.println("Reponse Content: " + post.getContent());
+        String numMintedStr = post.getContent()
+        System.out.println("Reponse Content: " + numMintedStr);
         System.out.println("Reponse Content-Length Header: " + post.getHeader("Content-Length"));
-        return true;
+        
+        // check if token was actually minted
+        int numERC721TokensMinted = numMintedStr.toInt();
+        if(numERC721TokensMinted > ERC721Count) {
+            ERC20Count = numERC20TokensMinted;
+            return = true;
+        } else {
+            return false;
+        }
+
     } catch(Exception e) {
         System.out.println("Something went wrong posting the JSON data");
         e.toString();

@@ -128,7 +128,11 @@ app.get("/getSensors", async (req, res) => {
     arsenic: arsenic.toString(),
     pH: pH.toString(),
   };
-  res.json(allSensors);
+  try {
+    res.json(allSensors); // send json formated sensor values
+  } catch (error) {
+    res.status(500).send(error);
+  }
 });
 
 // get all the sensor levels from the SoilSensors contract and send them back
@@ -143,15 +147,25 @@ app.post("/updateSensors", async (req, res) => {
 // mint a cryptocurrency token!
 app.get("/mintERC20", async (req, res) => {
   await erc20Contract.mint();
-  await serialMint();
-  res.send("OK");
+  const numERC20TokensMinted = await erc20Contract.getNumMinted();
+  await serialMint(); // update Arduino
+  try {
+    res.send(numERC20TokensMinted.toString()); // send back the number of tokens minted
+  } catch (error) {
+    res.status(500).send(error);
+  }
 });
 
 // mint an NFT!
 app.post("/mintERC721", async (req, res) => {
   await erc721Contract.mint(req.body.TokenURI);
-  await serialMint();
-  res.end();
+  const numERC721TokensMinted = await erc721Contract.getNumMinted();
+  await serialMint(); // update Arduino
+  try {
+    res.send(numERC721TokensMinted.toString()); // send back the number of tokens minted
+  } catch (error) {
+    res.status(500).send(error);
+  }
 });
 
 const PORT_NUM = 8001;
