@@ -58,6 +58,7 @@ void loop() {
 
 
       // now reset the minted flag to false
+      Serial.println(F("ERC-20 minted. Updating mini-display."));
       erc20Minted = false;
    }
 
@@ -66,6 +67,7 @@ void loop() {
 
 
       // now reset the minted flag to false
+      Serial.println(F("ERC-721 minted. Updating mini-display."));
       erc721Minted = false;
    }
    
