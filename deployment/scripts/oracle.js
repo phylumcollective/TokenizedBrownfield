@@ -162,9 +162,10 @@ app.get("/mintERC20", async (req, res) => {
 });
 
 // mint an NFT!
-app.post("/mintERC721", async (req, res) => {
+app.get("/mintERC721", async (req, res) => {
+  let uri = req.query.tokenURI;
   try {
-    await erc721Contract.mint(req.body.TokenURI);
+    await erc721Contract.mint(uri);
   } catch (error) {
     console.log("ERC-721 minting error!");
     console.log(error);

@@ -9,7 +9,7 @@ static final String getSensorsEndpoint = "/getSensors";
 static final String updateSensorsEndpoint = "/updateSensors";
 static final String mintERC20Endpoint = "/mintERC20"; // cryptocurrency 
 static final String mintERC721Endpoint = "/mintERC721"; // NFT
-String tokenURI = ""; // URI/path of the NFT image
+String tokenURI = "/"; // URI/path of the NFT image
 
 static final long secondsInMilli = 1000;
 static final long minutesInMilli = secondsInMilli * 60;
@@ -48,6 +48,7 @@ void draw() {
         // --- mint ERC-20 (currency) ---
         if(mintERC20Token()) {
             //update the amount minted, show that a token was minted...
+            println("show that an ERC-20 token was minted");
             
         }
         // --- mint ERC-721 (NFT) ---
@@ -70,6 +71,7 @@ void draw() {
                         if(currTime.after(time1) && currTime.before(time2)) {
                             if(mintERC721Token(tokenURI)) {
                                 //update the amount minted, show that a token was minted...
+                                println("show that an ERC-721 token was minted");
                             }
 
                         }
@@ -161,6 +163,7 @@ boolean mintERC20Token() {
         
         // check if token was actually minted
         int numERC20TokensMinted = Integer.parseInt(numMintedStr);
+        println("number of ERC-20 tokens minted so far: " + numERC20TokensMinted);
         if(numERC20TokensMinted > ERC20Count) {
             ERC20Count = numERC20TokensMinted;
             return true;
@@ -187,6 +190,7 @@ boolean mintERC721Token(String filepath) {
         
         // check if token was actually minted
         int numERC721TokensMinted = Integer.parseInt(numMintedStr);
+        println("number of ERC-721 tokens minted so far: " + numERC721TokensMinted);
         if(numERC721TokensMinted > ERC721Count) {
             ERC721Count = numERC721TokensMinted;
             return true;
@@ -196,7 +200,7 @@ boolean mintERC721Token(String filepath) {
 
     } catch(Exception e) {
         System.out.println("Something went wrong posting the JSON data");
-        e.toString();
+        println(e.toString());
         return false;
     }
 }

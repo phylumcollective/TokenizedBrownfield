@@ -17,6 +17,7 @@ contract BrownfieldERC721Token is ERC721URIStorage {
     uint256 public benzoApyrene; // The benzoApyrene level (in ppm)
     uint256 public arsenic; // The arsenic level (in ppm)
     uint256 public pH; // The pH level
+    ISoilSensors private soilSensors;
 
     constructor(
         address _sensors,
@@ -31,6 +32,7 @@ contract BrownfieldERC721Token is ERC721URIStorage {
         mintInterval = _mintInterval;
         minPH = _minPH;
         maxPH = _maxPH;
+        soilSensors = ISoilSensors(sensors);
         lastMinted = block.timestamp; // in seconds
         owner = msg.sender;
         //_mint(owner, _supply);
@@ -46,9 +48,9 @@ contract BrownfieldERC721Token is ERC721URIStorage {
         require(numMinted < initialSupply, "No more tokens can be minted!");
 
         // get the soil pollution and pH levels
-        uint256 curr_benzoApyrene = ISoilSensors(sensors).readBenzoApyrene();
-        uint256 curr_arsenic = ISoilSensors(sensors).readArsenic();
-        pH = ISoilSensors(sensors).readPH();
+        uint256 curr_benzoApyrene = soilSensors.readBenzoApyrene();
+        uint256 curr_arsenic = soilSensors.readArsenic();
+        pH = soilSensors.readPH();
         require(
             curr_benzoApyrene <= benzoApyrene &&
                 curr_arsenic <= arsenic &&
