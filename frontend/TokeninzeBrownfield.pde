@@ -50,7 +50,7 @@ void draw() {
         // --- mint ERC-721 (NFT) ---
         // skip Mon & Tues
         int dow = cal.get(Calendar.DAY_OF_WEEK);
-        if(!dow==Calendar.MONAY || !dow==Calendar.TUESDAY) {
+        if(!dow==Calendar.MONDAY || !dow==Calendar.TUESDAY) {
             // set up date format
             SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
             Date d = cal.getTime();
