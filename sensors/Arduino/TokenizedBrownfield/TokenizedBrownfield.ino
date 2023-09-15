@@ -30,7 +30,7 @@ void setup() {
    while(!Serial) {
       ; // wait for the serial port to connect
    }
-   establishContact();
+   //establishContact();
 }
 
 void loop() {
@@ -126,9 +126,9 @@ double round2(double value) {
    return (int)(value * 100 + 0.5) / 100.0;
 }
 
-void establishContact() {
+/* void establishContact() {
    while (Serial.available() <= 0) {
     Serial.print("0");  // send an initial string
     delay(300);
   }
-}
+} */
