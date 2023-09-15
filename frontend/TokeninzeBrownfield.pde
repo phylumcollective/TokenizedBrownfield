@@ -1,7 +1,8 @@
 import http.requests.*;
 import java.util.Calendar;
-import java.text.SimpleDateFormat
-import java.util.Date
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.text.ParseException;
 
 static final String serverURL = "http://localhost:8001";
 static final String getSensorsEndpoint = "/getSensors";
@@ -31,9 +32,11 @@ String postPH = "";
 int ERC20Count = 0;
 int ERC721Count = 0;
 
+Calendar cal;
+
 void setup() {
     size(720, 1280);
-    Calendar cal = Calendar.getInstance(); // calendar to get day of week
+    cal = Calendar.getInstance(); // calendar to get day of week
 }
 
 void draw() {
@@ -50,37 +53,52 @@ void draw() {
         // --- mint ERC-721 (NFT) ---
         // skip Mon & Tues
         int dow = cal.get(Calendar.DAY_OF_WEEK);
-        if(!dow==Calendar.MONDAY || !dow==Calendar.TUESDAY) {
+        if(dow!=Calendar.MONDAY || dow!=Calendar.TUESDAY) {
             // set up date format
             SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
             Date d = cal.getTime();
             String currTimeStr = formatter.format(d);
-            Date currTime = formatter.parse(currTimeStr);
-            //cal.setTime(currTime);
-            // Friday hours
-            if(dow==Calendar.FRIDAY) {
-                // make sure it's between 12-9pm if it's Fri
-                Date time1 = new SimpleDateFormat("HH:mm:ss").parse("12:00:00");
-                Date time2 = new SimpleDateFormat("HH:mm:ss").parse("21:00:00");
-                if(currTime.after(time1.getTime()) && currTime.before(time2.getTime())) {
-                    if(mintERC721Token(tokenURI)) {
-                        //update the amount minted, show that a token was minted...
-                    }
+            try {
+                Date currTime = formatter.parse(currTimeStr);
+                //cal.setTime(currTime);
+                // Friday hours
+                if(dow==Calendar.FRIDAY) {
+                    // make sure it's between 12-9pm if it's Fri
+                    try {
+                        Date time1 = new SimpleDateFormat("HH:mm:ss").parse("12:00:00");
+                        Date time2 = new SimpleDateFormat("HH:mm:ss").parse("21:00:00");
+                        if(currTime.after(time1) && currTime.before(time2)) {
+                            if(mintERC721Token(tokenURI)) {
+                                //update the amount minted, show that a token was minted...
+                            }
 
-                }
-            } else {
-                // the rest of the days
-                Date time1 = new SimpleDateFormat("HH:mm:ss").parse("12:00:00");
-                Date time2 = new SimpleDateFormat("HH:mm:ss").parse("17:00:00");
-                if(currTime.after(time1.getTime()) && currTime.before(time2.getTime())) {
-                    if(mintERC721Token(tokenURI)) {
-                        //update the amount minted, show that a token was minted...
+                        }
+                    } catch(ParseException pe) {
+                        println("Error parsing the date/time!");
+                        println(pe.toString());
                     }
+                } else {
+                    try {
+                        // the rest of the days
+                        Date time1 = new SimpleDateFormat("HH:mm:ss").parse("12:00:00");
+                        Date time2 = new SimpleDateFormat("HH:mm:ss").parse("17:00:00");
+                        if(currTime.after(time1) && currTime.before(time2)) {
+                            if(mintERC721Token(tokenURI)) {
+                                //update the amount minted, show that a token was minted...
+                            }
 
-                }
+                        }
+                    } catch(ParseException pe) {
+                        println("Error parsing the date/time!");
+                        println(pe.toString());
+                    }
+                } // end else
+            } catch(ParseException pe) {
+                println("Error parsing the date/time!");
+                println(pe.toString());
             }
 
-        }
+        } // end if
 
         previousMillis = currentMillis;
     }
@@ -141,16 +159,16 @@ boolean mintERC20Token() {
         println("Reponse Content-Length Header: " + get.getHeader("Content-Length"));
         
         // check if token was actually minted
-        int numERC20TokensMinted = numMintedStr.toInt();
+        int numERC20TokensMinted = Integer.parseInt(numMintedStr);
         if(numERC20TokensMinted > ERC20Count) {
             ERC20Count = numERC20TokensMinted;
-            return = true;
+            return true;
         } else {
             return false;
         }
     } catch(Exception e) {
         System.out.println("Something went wrong with the server request");
-        e.toString();
+        println(e.toString());
         return false;
     }
 }
@@ -162,15 +180,15 @@ boolean mintERC721Token(String filepath) {
         post.addHeader("Content-Type", "application/json");
         post.addData("{\"TokenURI\":"+filepath+"}");
         post.send();
-        String numMintedStr = post.getContent()
+        String numMintedStr = post.getContent();
         System.out.println("Reponse Content: " + numMintedStr);
         System.out.println("Reponse Content-Length Header: " + post.getHeader("Content-Length"));
         
         // check if token was actually minted
-        int numERC721TokensMinted = numMintedStr.toInt();
+        int numERC721TokensMinted = Integer.parseInt(numMintedStr);
         if(numERC721TokensMinted > ERC721Count) {
-            ERC20Count = numERC20TokensMinted;
-            return = true;
+            ERC721Count = numERC721TokensMinted;
+            return true;
         } else {
             return false;
         }
