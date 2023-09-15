@@ -30,8 +30,6 @@ String postPH = "";
 // keep track of the number of tokens minted
 int ERC20Count = 0;
 int ERC721Count = 0;
-boolean erc20Minted = false;
-boolean erc721Minted = false;
 
 void setup() {
     size(720, 1280);
