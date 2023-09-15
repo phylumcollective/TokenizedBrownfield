@@ -146,7 +146,12 @@ app.post("/updateSensors", async (req, res) => {
 
 // mint a cryptocurrency token!
 app.get("/mintERC20", async (req, res) => {
-  await erc20Contract.mint();
+  try {
+    await erc20Contract.mint();
+  } catch (error) {
+    console.log("ERC-20 minting error!");
+    console.log(error);
+  }
   const numERC20TokensMinted = await erc20Contract.getNumMinted();
   await serialMint(); // update Arduino
   try {
@@ -158,7 +163,12 @@ app.get("/mintERC20", async (req, res) => {
 
 // mint an NFT!
 app.post("/mintERC721", async (req, res) => {
-  await erc721Contract.mint(req.body.TokenURI);
+  try {
+    await erc721Contract.mint(req.body.TokenURI);
+  } catch (error) {
+    console.log("ERC-721 minting error!");
+    console.log(error);
+  }
   const numERC721TokensMinted = await erc721Contract.getNumMinted();
   await serialMint(); // update Arduino
   try {

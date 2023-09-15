@@ -125,6 +125,7 @@ boolean getSensors() {
         arsenic = sensors.getInt("arsenic");
         pH = sensors.getInt("pH") / 100.0; // convert pH value to float (with proper decimal place)
         //power = sensors.getInt("power");
+        println(sensors.toString());
         return true;
     } catch(Exception e) {
         System.out.println("Something went wrong getting the JSON data");
