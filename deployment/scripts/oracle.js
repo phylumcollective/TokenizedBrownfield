@@ -74,7 +74,7 @@ serialPort.on("error", (err) => {
 
 // Set up event listener for incoming data from Arduino
 serialPort.on("data", async (data) => {
-  //console.log(data.toString());
+  console.log(data.toString());
   /*   //const powerLevel = parseInt(data.toString(), 10);
   //sendPowerLevel(powerLevel);
 
