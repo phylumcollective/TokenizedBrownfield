@@ -49,6 +49,7 @@ void draw() {
         if(mintERC20Token()) {
             //update the amount minted, show that a token was minted...
             println("show that an ERC-20 token was minted");
+            println();
             
         }
         // --- mint ERC-721 (NFT) ---
@@ -72,6 +73,7 @@ void draw() {
                             if(mintERC721Token(tokenURI)) {
                                 //update the amount minted, show that a token was minted...
                                 println("show that an ERC-721 token was minted");
+                                println();
                             }
 
                         }
@@ -87,6 +89,8 @@ void draw() {
                         if(currTime.after(time1) && currTime.before(time2)) {
                             if(mintERC721Token(tokenURI)) {
                                 //update the amount minted, show that a token was minted...
+                                println("show that an ERC-721 token was minted");
+                                println();
                             }
 
                         }
@@ -127,6 +131,7 @@ boolean getSensors() {
         arsenic = sensors.getInt("arsenic");
         pH = sensors.getInt("pH") / 100.0; // convert pH value to float (with proper decimal place)
         //power = sensors.getInt("power");
+        println("getSensors():");
         println(sensors.toString());
         return true;
     } catch(Exception e) {
@@ -142,6 +147,7 @@ boolean updateSensors() {
         post.addHeader("Content-Type", "application/json");
         post.addData("{\"benzoApyrene\":"+postBenzoApyrene+",\"arsenic\":"+postArsenic+",\"pH\":"+postPH+"}");
         post.send();
+        println("updateSensors():");
         System.out.println("Reponse Content: " + post.getContent());
         System.out.println("Reponse Content-Length Header: " + post.getHeader("Content-Length"));
         return true;
@@ -158,6 +164,7 @@ boolean mintERC20Token() {
         GetRequest get = new GetRequest(serverURL + mintERC20Endpoint);
         get.send();
         String numMintedStr = get.getContent();
+        println("mintERC20Token():");
         println("Reponse Content: " + numMintedStr);
         println("Reponse Content-Length Header: " + get.getHeader("Content-Length"));
         
@@ -185,6 +192,7 @@ boolean mintERC721Token(String filepath) {
         post.addData("{\"TokenURI\":"+filepath+"}");
         post.send();
         String numMintedStr = post.getContent();
+        println("mintERC721Token():");
         System.out.println("Reponse Content: " + numMintedStr);
         System.out.println("Reponse Content-Length Header: " + post.getHeader("Content-Length"));
         
