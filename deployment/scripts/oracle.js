@@ -1,5 +1,6 @@
 require("dotenv").config();
 const { SerialPort } = require("serialport");
+const { ReadlineParser } = require("@serialport/parser-readline");
 const { ethers } = require("hardhat");
 const express = require("express");
 
@@ -59,6 +60,9 @@ if (!portName) {
   giveInstructions();
 }
 
+const parser = serialPort.pipe(new ReadlineParser({ delimiter: "\r\n" }));
+parser.on("data", console.log);
+
 // --- these are the definitions for the serial events: --- //
 serialPort.on("open", () => {
   console.log("Serial port opened");
@@ -69,30 +73,12 @@ serialPort.on("close", () => {
 }); // called when the serial port closes
 
 serialPort.on("error", (err) => {
-  console.log(err);
+  console.log("Serial error: ", err.message);
 }); // called when there's an error with the serial port
 
 // Set up event listener for incoming data from Arduino
 serialPort.on("data", async (data) => {
-  console.log(data.toString());
-  /*   //const powerLevel = parseInt(data.toString(), 10);
-  //sendPowerLevel(powerLevel);
-
-  // get the pollution levels from the SoilSensors contract
-  const benzoApyrene = await sensorsContract.sensors("benzoApyrene");
-  const arsenic = await sensorsContract.sensors("arsenic");
-  const pH = await sensorsContract.sensors("pH");
-  const numERC20TokensMinted = await erc20Contract.getNumMinted();
-  const numERC721TokensMinted = await erc721Contract.getNumMinted();
-  let response = [
-    benzoApyrene.toString(),
-    arsenic.toString(),
-    pH.toString(),
-    numERC20TokensMinted.toString(),
-    numERC721TokensMinted.toString(),
-  ];
-  // Send the response over serial
-  serialPort.write(response.join(",") + "\n"); */
+  //console.log(data.toString());
 });
 
 function giveInstructions() {
@@ -121,6 +107,8 @@ app.get("/getSensors", async (req, res) => {
   const arsenic = await sensorsContract.readArsenic();
   const pH = await sensorsContract.readPH();
 
+  console.log("HTTP GET request received (/getSensors)");
+
   // need to convert to String to get a decimal repesentaion (as ethers defaults to hex)
   const allSensors = {
     benzoApyrene: benzoApyrene.toString(),
@@ -140,16 +128,20 @@ app.post("/updateSensors", async (req, res) => {
   await sensorsContract.setArsenic(Number(req.body.arsenic));
   await sensorsContract.setPH(Number(req.body.pH));
   //await sensorsContract.setPower(Number(req.body.power));
+
+  console.log("HTTP PUT request received (/updateSensors)");
+
   res.end();
 });
 
 // mint a cryptocurrency token!
 app.get("/mintERC20", async (req, res) => {
+  console.log("HTTP GET request received (/mintERC20)");
   try {
     await erc20Contract.mint();
   } catch (error) {
     console.log("ERC-20 minting error!");
-    console.log(error);
+    console.log(error.toString());
   }
   const numERC20TokensMinted = await erc20Contract.getNumMinted();
   await serialMint(); // update Arduino
@@ -162,12 +154,13 @@ app.get("/mintERC20", async (req, res) => {
 
 // mint an NFT!
 app.get("/mintERC721", async (req, res) => {
+  console.log("HTTP GET request received (/mintERC721)");
   let uri = req.query.tokenURI;
   try {
     await erc721Contract.mint(uri);
   } catch (error) {
     console.log("ERC-721 minting error!");
-    console.log(error);
+    console.log(error.toString());
   }
   const numERC721TokensMinted = await erc721Contract.getNumMinted();
   await serialMint(); // update Arduino
@@ -202,4 +195,5 @@ async function serialMint() {
   ];
   // Send the response over serial
   serialPort.write(response.join(",") + "\n");
+  console.log("serialMint(): " + response.join(",") + "\n");
 }
