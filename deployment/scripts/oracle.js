@@ -60,6 +60,7 @@ if (!portName) {
   giveInstructions();
 }
 
+// Set up a parser and event listener for incoming data from Arduino
 const parser = serialPort.pipe(new ReadlineParser({ delimiter: "\r\n" }));
 parser.on("data", console.log);
 
