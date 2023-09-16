@@ -143,8 +143,26 @@ app.get("/mintERC20", async (req, res) => {
     console.log("ERC-20 minting error!");
     console.log(error.toString());
   }
+
+  //const powerLevel = parseInt(data.toString(), 10);
+  //sendPowerLevel(powerLevel);
+
+  // get the pollution levels from the SoilSensors contract
+  const benzoApyrene = await sensorsContract.sensors("benzoApyrene");
+  const arsenic = await sensorsContract.sensors("arsenic");
+  const pH = await sensorsContract.sensors("pH");
   const numERC20TokensMinted = await erc20Contract.getNumMinted();
-  await serialMint(); // update Arduino
+  const numERC721TokensMinted = await erc721Contract.getNumMinted();
+  let response = [
+    benzoApyrene.toString(),
+    arsenic.toString(),
+    pH.toString(),
+    numERC20TokensMinted.toString(),
+    numERC721TokensMinted.toString(),
+  ];
+  // update Arduino
+  serialMint(response);
+
   try {
     res.send(numERC20TokensMinted.toString()); // send back the number of tokens minted
   } catch (error) {
@@ -162,21 +180,7 @@ app.get("/mintERC721", async (req, res) => {
     console.log("ERC-721 minting error!");
     console.log(error.toString());
   }
-  const numERC721TokensMinted = await erc721Contract.getNumMinted();
-  await serialMint(); // update Arduino
-  try {
-    res.send(numERC721TokensMinted.toString()); // send back the number of tokens minted
-  } catch (error) {
-    res.status(500).send(error);
-  }
-});
 
-const PORT_NUM = 8001;
-app.listen(PORT_NUM, () => {
-  console.log(`Express HTTP server running on port ${PORT_NUM}`);
-});
-
-async function serialMint() {
   //const powerLevel = parseInt(data.toString(), 10);
   //sendPowerLevel(powerLevel);
 
@@ -193,6 +197,22 @@ async function serialMint() {
     numERC20TokensMinted.toString(),
     numERC721TokensMinted.toString(),
   ];
+  // update Arduino
+  serialMint(response);
+
+  try {
+    res.send(numERC721TokensMinted.toString()); // send back the number of tokens minted
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+const PORT_NUM = 8001;
+app.listen(PORT_NUM, () => {
+  console.log(`Express HTTP server running on port ${PORT_NUM}`);
+});
+
+function serialMint(response) {
   // Send the response over serial
   serialPort.write(response.join(",") + "\n");
   console.log("serialMint(): " + response.join(",") + "\n");
