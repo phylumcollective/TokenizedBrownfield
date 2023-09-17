@@ -137,7 +137,9 @@ app.post("/updateSensors", async (req, res) => {
 
 // mint a cryptocurrency token!
 app.get("/mintERC20", async (req, res) => {
-  console.log("HTTP GET request received (/mintERC20)");
+  console.log(
+    "==========================\nHTTP GET request received (/mintERC20)"
+  );
   try {
     await erc20Contract.mint();
   } catch (error) {
@@ -173,7 +175,9 @@ app.get("/mintERC20", async (req, res) => {
 
 // mint an NFT!
 app.get("/mintERC721", async (req, res) => {
-  console.log("HTTP GET request received (/mintERC721)");
+  console.log(
+    "==========================\nHTTP GET request received (/mintERC721)"
+  );
   let uri = req.query.tokenURI;
   try {
     await erc721Contract.mint(uri);
@@ -216,5 +220,5 @@ app.listen(PORT_NUM, () => {
 function serialMint(response) {
   // Send the response over serial
   serialPort.write(response.join(",") + "\n");
-  console.log("serialMint(): " + response.join(",") + "\n");
+  console.log("serialMint(): " + response.join(","));
 }
