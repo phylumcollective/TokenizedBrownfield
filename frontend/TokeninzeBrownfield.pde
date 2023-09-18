@@ -163,7 +163,7 @@ boolean mintERC20Token() {
     try {
         GetRequest get = new GetRequest(serverURL + mintERC20Endpoint);
         get.send();
-        String numMintedStr = get.getContent();
+        String numMintedStr = get.getContent(); // update number of tokens minted in vis
         println("mintERC20Token():");
         println("Reponse Content: " + numMintedStr);
         println("Reponse Content-Length Header: " + get.getHeader("Content-Length"));
@@ -191,7 +191,7 @@ boolean mintERC721Token(String filepath) {
         post.addHeader("Content-Type", "application/json");
         post.addData("{\"TokenURI\":"+filepath+"}");
         post.send();
-        String numMintedStr = post.getContent();
+        String numMintedStr = post.getContent(); // update number of tokens minted in vis
         println("mintERC721Token():");
         System.out.println("Reponse Content: " + numMintedStr);
         System.out.println("Reponse Content-Length Header: " + post.getHeader("Content-Length"));
