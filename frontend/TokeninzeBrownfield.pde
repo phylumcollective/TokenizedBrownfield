@@ -187,14 +187,12 @@ boolean mintERC20Token() {
 // mint an NFT
 boolean mintERC721Token(String filepath) {
     try {
-        PostRequest post = new PostRequest(serverURL + mintERC721Endpoint);
-        post.addHeader("Content-Type", "application/json");
-        post.addData("{\"TokenURI\":"+filepath+"}");
-        post.send();
-        String numMintedStr = post.getContent(); // update number of tokens minted in vis
+        GetRequest get = new GetRequest(serverURL + mintERC721Endpoint +"?tokenURI="+filepath);
+        get.send();
+        String numMintedStr = get.getContent();
         println("mintERC721Token():");
         System.out.println("Reponse Content: " + numMintedStr);
-        System.out.println("Reponse Content-Length Header: " + post.getHeader("Content-Length"));
+        System.out.println("Reponse Content-Length Header: " + get.getHeader("Content-Length"));
         
         // check if token was actually minted
         int numERC721TokensMinted = Integer.parseInt(numMintedStr);
@@ -207,7 +205,7 @@ boolean mintERC721Token(String filepath) {
         }
 
     } catch(Exception e) {
-        System.out.println("Something went wrong posting the JSON data");
+        System.out.println("Something went wrong with the server request");
         println(e.toString());
         return false;
     }
