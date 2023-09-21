@@ -258,6 +258,7 @@ void setup() {
 }
 
 void draw() {
+  
   hint(ENABLE_DEPTH_TEST);
   //println(sliderTwo);
   //println(slider);
@@ -279,91 +280,92 @@ void draw() {
   
   //--------- HTTP / Comm Draw ---------------
   
-    // attempt to mint an ERC20 and ERC721 token every hour
-    long currentMillis = millis();
-    long difference = currentMillis - previousMillis;
-    long elapsedMinutes = round(difference / minutesInMilli);
-    if(elapsedMinutes >= 60) {
-        // --- mint ERC-20 (currency) ---
-        if(mintERC20Token()) {
-            //update the amount minted, show that a token was minted...
-            println("show that an ERC-20 token was minted");
-            println();
-            
-        }
-        // --- mint ERC-721 (NFT) ---
-        // skip Mon & Tues
-        int dow = cal.get(Calendar.DAY_OF_WEEK);
-        if(dow!=Calendar.MONDAY || dow!=Calendar.TUESDAY) {
-            // set up date format
-            SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
-            Date d = cal.getTime();
-            String currTimeStr = formatter.format(d);
-            try {
-                Date currTime = formatter.parse(currTimeStr);
-                //cal.setTime(currTime);
-                // Friday hours
-                if(dow==Calendar.FRIDAY) {
-                    // make sure it's between 12-9pm if it's Fri
-                    try {
-                        Date time1 = new SimpleDateFormat("HH:mm:ss").parse("12:00:00");
-                        Date time2 = new SimpleDateFormat("HH:mm:ss").parse("21:00:00");
-                        if(currTime.after(time1) && currTime.before(time2)) {
-                            if(mintERC721Token(tokenURI)) {
-                                //update the amount minted, show that a token was minted...
-                                println("show that an ERC-721 token was minted");
-                                println();
-                            }
+  // attempt to mint an ERC20 and ERC721 token every hour
+  long currentMillis = millis();
+  long difference = currentMillis - previousMillis;
+  long elapsedMinutes = round(difference / minutesInMilli);
+  if(elapsedMinutes >= 60) {
+      // --- mint ERC-20 (currency) ---
+      if(mintERC20Token()) {
+          //update the amount minted, show that a token was minted...
+          println("show that an ERC-20 token was minted");
+          println();
+          
+      }
+      // --- mint ERC-721 (NFT) ---
+      // skip Mon & Tues
+      int dow = cal.get(Calendar.DAY_OF_WEEK);
+      if(dow!=Calendar.MONDAY || dow!=Calendar.TUESDAY) {
+          // set up date format
+          SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+          Date d = cal.getTime();
+          String currTimeStr = formatter.format(d);
+          try {
+              Date currTime = formatter.parse(currTimeStr);
+              //cal.setTime(currTime);
+              // Friday hours
+              if(dow==Calendar.FRIDAY) {
+                  // make sure it's between 12-9pm if it's Fri
+                  try {
+                      Date time1 = new SimpleDateFormat("HH:mm:ss").parse("12:00:00");
+                      Date time2 = new SimpleDateFormat("HH:mm:ss").parse("21:00:00");
+                      if(currTime.after(time1) && currTime.before(time2)) {
+                          if(mintERC721Token(tokenURI)) {
+                              //update the amount minted, show that a token was minted...
+                              println("show that an ERC-721 token was minted");
+                              println();
+                          }
 
-                        }
-                    } catch(ParseException pe) {
-                        println("Error parsing the date/time!");
-                        println(pe.toString());
-                    }
-                } else {
-                    try {
-                        // the rest of the days
-                        Date time1 = new SimpleDateFormat("HH:mm:ss").parse("12:00:00");
-                        Date time2 = new SimpleDateFormat("HH:mm:ss").parse("17:00:00");
-                        if(currTime.after(time1) && currTime.before(time2)) {
-                            if(mintERC721Token(tokenURI)) {
-                                //update the amount minted, show that a token was minted...
-                                println("show that an ERC-721 token was minted");
-                                println();
-                            }
+                      }
+                  } catch(ParseException pe) {
+                      println("Error parsing the date/time!");
+                      println(pe.toString());
+                  }
+              } else {
+                  try {
+                      // the rest of the days
+                      Date time1 = new SimpleDateFormat("HH:mm:ss").parse("12:00:00");
+                      Date time2 = new SimpleDateFormat("HH:mm:ss").parse("17:00:00");
+                      if(currTime.after(time1) && currTime.before(time2)) {
+                          if(mintERC721Token(tokenURI)) {
+                              //update the amount minted, show that a token was minted...
+                              println("show that an ERC-721 token was minted");
+                              println();
+                          }
 
-                        }
-                    } catch(ParseException pe) {
-                        println("Error parsing the date/time!");
-                        println(pe.toString());
-                    }
-                } // end else
-            } catch(ParseException pe) {
-                println("Error parsing the date/time!");
-                println(pe.toString());
-            }
+                      }
+                  } catch(ParseException pe) {
+                      println("Error parsing the date/time!");
+                      println(pe.toString());
+                  }
+              } // end else
+          } catch(ParseException pe) {
+              println("Error parsing the date/time!");
+              println(pe.toString());
+          }
 
-        } // end if
+      } // end if
 
-        previousMillis = currentMillis;
-    }
+      previousMillis = currentMillis;
+  }
 
 
-    // if new sensor data input
-    //update sensors
+  // if new sensor data input
+  //update sensors
 
-    //getSensors
-    
-    // Display the soil moisture value and token balance
-    textSize(20);
-    textAlign(CENTER);
-    text("benzoApyrene: " + benzoApyrene, width/2, height/4);
-    text("arsenic: " + arsenic, width/2, height/3);
-    text("pH: " + pH, width/2, height/2);
-    //text("powerH: " + power, width/2, height/2 + 100);
-    
-    //---------- Viz / Mesh Draw ---------------
-    demoData += thresh;
+  //getSensors
+  
+  // Display the soil moisture value and token balance
+  textSize(20);
+  textAlign(CENTER);
+  text("benzoApyrene: " + benzoApyrene, width/2, height/4);
+  text("arsenic: " + arsenic, width/2, height/3);
+  text("pH: " + pH, width/2, height/2);
+  //text("powerH: " + power, width/2, height/2 + 100);
+  
+  //---------- Viz / Mesh Draw ---------------
+  float thresh = random(1);
+  demoData += thresh;
   if (demoData > 200) demoData = 0;
   cp5.getController("sliderTwo").setValue(demoData);
   meshDistortion = (demoData * 0.01);
