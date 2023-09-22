@@ -118,8 +118,6 @@ boolean saveDXF = false;
 
 
 // ------ NEW: DATA Inputs -----
-boolean sendData = false;
-boolean drawData = true;
 
 float[] theData;
 int ii = 0;
@@ -241,8 +239,8 @@ void setup() {
   theData = new float[(uCount+1)*(1+vCount)];
   
   tiler = new TileSaver(this);
-  sendData = true;
-  if (sendData) {
+  changeData = true;
+  if (changeData) {
     for (int iu = 0; iu <= uCount; iu++) {
       for (int iv = 0; iv <= vCount; iv++) {
         theData[ii] = random(0.51);
@@ -250,11 +248,7 @@ void setup() {
       }
     }
   }
-  
-  if (drawData) {
-    theMesh.updateData(theData);
-  }
-  
+  theMesh.updateData(theData);
 }
 
 void draw() {
@@ -364,12 +358,14 @@ void draw() {
   //text("powerH: " + power, width/2, height/2 + 100);
   
   //---------- Viz / Mesh Draw ---------------
-  float thresh = random(1);
-  demoData += thresh;
+  demoData += random(1);
   if (demoData > 200) demoData = 0;
-  cp5.getController("sliderTwo").setValue(demoData);
+  benzoApyrene = round(demoData);
+  cp5.getController("sliderTwo").setValue(benzoApyrene);
   meshDistortion = (demoData * 0.01);
-  theMesh.setMeshDistortion(meshDistortion);
+  
+  arsenic = 33;
+  cp5Two.getController("sliderThree").setValue(arsenic);
   
   drawCircleViz();
   drawText();
@@ -427,28 +423,15 @@ void draw() {
   ii = 0;
   
   theMesh.setMeshDistortion(meshDistortion);
-  if (drawData) {
-    if (sendData) {
-      theData = new float[(uCount+1)*(vCount+1)];
-      
-      for (int iu = 0; iu <= uCount; iu++) {
-        for (int iv = 0; iv <= vCount; iv++) {
-          theData[ii] = random(0.51);
-          ii++;
-        }
+  if (changeData) {
+    theData = new float[(uCount+1)*(vCount+1)];
+    for (int iu = 0; iu <= uCount; iu++) {
+      for (int iv = 0; iv <= vCount; iv++) {
+        theData[ii] = random(0.51);
+        ii++;
       }
     }
     theMesh.updateData(theData);
-  }
-  else if (changeData) {
-    dataPoint++;
-    uCount += dataPoint;
-    float theDistortion = map(dataPoint, 0,100, 0,1);
-    meshDistortion = theDistortion;
-    theMesh.setMeshDistortion(meshDistortion);
-    theMesh.setUCount(uCount);
-    theMesh.update();
-    changeData = false;
   }
   else {
     theMesh.update();
@@ -473,29 +456,6 @@ void draw() {
   if (saveDXF) {
     endRaw();
     saveDXF = false;
-  }
-
-
-  // draw gui
-  if (tiler.checkStatus() == false) {
-    if (useBlendBlack || useBlendWhite) {
-    }
-
-    hint(DISABLE_DEPTH_TEST);
-    noLights();
-    //drawGUI();
-
-    if (useBlendWhite || useBlendBlack) {
-    }
-  }
-
-
-  // image output
-  if (saveOneFrame) {
-    if (controlP5.getGroup("menu").isOpen()) {
-      saveFrame(timestamp()+"_menu.png");
-    }
-    saveOneFrame = false;
   }
 
   // draw next tile for high quality output
