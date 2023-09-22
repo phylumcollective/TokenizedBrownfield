@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.text.ParseException;
 
+// urls
 static final String serverURL = "http://localhost:8001";
 static final String getSensorsEndpoint = "/getSensors";
 static final String updateSensorsEndpoint = "/updateSensors";
@@ -11,10 +12,13 @@ static final String mintERC20Endpoint = "/mintERC20"; // cryptocurrency
 static final String mintERC721Endpoint = "/mintERC721"; // NFT
 String tokenURI = "/"; // URI/path of the NFT image
 
+// time/countdown stuff
 static final long secondsInMilli = 1000;
 static final long minutesInMilli = secondsInMilli * 60;
 static final long hoursInMilli = minutesInMilli * 60;
 long previousMillis = 0;
+long startTime; // Variable to store the starting time
+static final int countdownDuration = 3600; // 3600 seconds = 1 hour
 
 // sensor data from the server
 int benzoApyrene = 0; //in ppm
@@ -37,14 +41,25 @@ Calendar cal;
 void setup() {
     size(720, 1280);
     cal = Calendar.getInstance(); // calendar to get day of week
+    startTime = millis(); // get the current time in milliseconds
 }
 
 void draw() {
+    background(255);
+
+    // Calculate the elapsed time in seconds
+    int elapsedTime = (millis() - startTime) / 1000;
+    // Calculate remaining time
+    int remainingTime = countdownDuration - elapsedTime;
+    // Display the remaining time
+    displayTime(remainingTime);
+
+    // long currentMillis = millis();
+    // long difference = currentMillis - previousMillis;
+    // long elapsedMinutes = round(difference / minutesInMilli);
+
     // attempt to mint an ERC20 and ERC721 token every hour
-    long currentMillis = millis();
-    long difference = currentMillis - previousMillis;
-    long elapsedMinutes = round(difference / minutesInMilli);
-    if(elapsedMinutes >= 60) {
+    if(remainingTime <= 0) {
         // --- mint ERC-20 (currency) ---
         if(mintERC20Token()) {
             //update the amount minted, show that a token was minted...
@@ -106,7 +121,9 @@ void draw() {
 
         } // end if
 
-        previousMillis = currentMillis;
+        //previousMillis = currentMillis;
+
+        startTime = millis(); // reset the timer
     }
 
 
@@ -209,6 +226,18 @@ boolean mintERC721Token(String filepath) {
         println(e.toString());
         return false;
     }
+}
+
+void displayTime(int timeInSeconds) {
+    int minutes = timeInSeconds / 60;
+    int seconds = timeInSeconds % 60;
+    
+    String timeString = nf(minutes, 2) + ":" + nf(seconds, 2); // Format the time string
+  
+    textAlign(CENTER, CENTER);
+    textSize(48);
+    fill(0);
+    text(timeString, width/2, height/2);
 }
 
 // rounds a number to 2 decimal places
