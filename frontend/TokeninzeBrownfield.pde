@@ -13,10 +13,10 @@ static final String mintERC721Endpoint = "/mintERC721"; // NFT
 String tokenURI = "/"; // URI/path of the NFT image
 
 // time/countdown stuff
-static final long secondsInMilli = 1000;
-static final long minutesInMilli = secondsInMilli * 60;
-static final long hoursInMilli = minutesInMilli * 60;
-long previousMillis = 0;
+//static final long secondsInMilli = 1000;
+//static final long minutesInMilli = secondsInMilli * 60;
+//static final long hoursInMilli = minutesInMilli * 60;
+//long previousMillis = 0;
 long startTime; // Variable to store the starting time
 static final int countdownDuration = 3600; // 3600 seconds = 1 hour
 
