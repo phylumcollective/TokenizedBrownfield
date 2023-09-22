@@ -21,7 +21,7 @@ String tokenURI = "/"; // URI/path of the NFT image
 //static final long minutesInMilli = secondsInMilli * 60;
 //static final long hoursInMilli = minutesInMilli * 60;
 //long previousMillis = 0;
-long startTime; // Variable to store the starting time
+int startTime; // Variable to store the starting time
 static final int countdownDuration = 3600; // 3600 seconds = 1 hour
 
 // sensor data from the server
