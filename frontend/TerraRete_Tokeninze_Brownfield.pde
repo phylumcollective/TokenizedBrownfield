@@ -3,6 +3,8 @@ import java.util.Calendar;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.text.ParseException;
+import processing.opengl.*;
+import processing.dxf.*;
 
 
 //-----HTTP / Comm Globals------
@@ -39,10 +41,6 @@ Calendar cal;
 
 
 //-------Viz / Mesh Globals------
-
-import processing.opengl.*;
-import processing.dxf.*;
-import java.util.Calendar;
 
 
 Mesh theMesh;
@@ -126,7 +124,7 @@ int dataPoint = 0;
 boolean changeData = false;
 
 PFont theFont;
-String theTxt = "Terra Rete: Sensors";
+static final String theTxt = "Terra Rete: Sensors";
 
 color aColor = color(0, 90, 255);
 
@@ -138,13 +136,13 @@ float slider = 0;
 PImage theLogo;
 
 
-String erc20 = "ERC-20 Contact Address";
-String erc20Address = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512";
+static final String erc20 = "ERC-20 Contact Address";
+static final String erc20Address = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512";
 
-String erc721 = "ERC-721 Contact Address";
-String erc721Address = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512";
+static final String erc721 = "ERC-721 Contact Address";
+static final String erc721Address = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512";
 
-String certificateTtl = "Brownfield Certificate";
+static final String certificateTtl = "Brownfield Certificate";
 String certificateNum = "008";
 
 String[] certificateTxt = new String[6];
