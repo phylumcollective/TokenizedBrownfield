@@ -572,7 +572,11 @@ void displayTime(int timeInSeconds) {
 
   textAlign(CENTER, CENTER);
   textSize(48);
-  fill(0);
+  if(timeInSeconds < 60) {
+    fill(208, 0, 27);
+  } else {
+    fill(0);
+  }
   text(timeString, width/2, height/2);
 }
 
