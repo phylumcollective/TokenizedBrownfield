@@ -160,6 +160,7 @@ double round2(double value) {
 
 void updateText(String msg) {
    tft.fillScreen(ILI9341_WHITE);
+   tft.setCursor(0, 0);
    tft.setTextColor(0x3186);
    tft.setTextSize(2);
    tft.println(msg);
