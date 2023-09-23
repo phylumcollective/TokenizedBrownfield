@@ -48,7 +48,7 @@ Calendar cal;
 
 Mesh theMesh;
 
-int form = Mesh.FIGURE8TORUS;
+int form = Mesh.DATAPLANE;
 float meshAlpha = 100;
 float meshSpecular = 100;
 float meshScale = 100;
@@ -99,6 +99,8 @@ ControlP5 controlP5;
 ControlP5 cp5;
 ControlP5 cp5Two;
 
+ControlFrame cFrame;
+
 //OG Colors: Gray with blue-green Accent
 //color activeColor = color(0,130,164);
 //color backColor = color(170, 170, 170);
@@ -127,7 +129,7 @@ int dataPoint = 0;
 boolean changeData = false;
 
 PFont theFont;
-static final String theTxt = "Terra Rete: Sensors";
+String theTxt = "Terra Rete: Sensors";
 
 color aColor = color(0, 90, 255);
 
@@ -139,13 +141,13 @@ float slider = 0;
 PImage theLogo;
 
 
-static final String erc20 = "ERC-20 Contact Address";
-static final String erc20Address = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512";
+String erc20 = "ERC-20 Contact Address";
+String erc20Address = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512";
 
-static final String erc721 = "ERC-721 Contact Address";
-static final String erc721Address = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512";
+String erc721 = "ERC-721 Contact Address";
+String erc721Address = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512";
 
-static final String certificateTtl = "Brownfield Certificate";
+String certificateTtl = "Brownfield Certificate";
 String certificateNum = "008";
 
 String[] certificateTxt = new String[6];
@@ -175,25 +177,30 @@ float rFactor3 = 0;
 
 
 
-
 void setup() {
   
-  size(720, 1280);
+  //size(720, 1280);
+  
+  size(1728,1117,P3D);
   
   //--------- HTTP / Comm Setup --------------
 
 
   
   //---------- Viz / Mesh Setup --------------
+  //"pH: 7.73 (bottom)"
+  //"Benzo(a)pyrene: 110 PPM (top)"
+  //"Arsenic: 131 PPM (middle)"
   certificateTxt[0] = "Time: Mon, Sep 11 2023 11:44:23 UTC";
-  certificateTxt[1] = "Benzo(a)pyrene: 110 PPM (top)";
-  certificateTxt[2] = "Arsenic: 131 PPM (middle)";
-  certificateTxt[3] = "pH: 7.73 (bottom)";
+  certificateTxt[1] = "pH: 7.73 (top)";
+  certificateTxt[2] = "Benzo(a)pyrene: 110 PPM (middle)";
+  certificateTxt[3] = "Arsenic: 131 PPM (bottom)";
   certificateTxt[4] = "Soil Source:";
   certificateTxt[5] = "43.13788, -77.62065 (Vacuum Oil Refinery)";
   
   minTxt = str(minutes);
   secTxt = str(seconds);
+  
   
   countDownTxt += minTxt;
   countDownTxt += ":";
@@ -213,7 +220,7 @@ void setup() {
   
   
   cp5 = new ControlP5(this);
-  cp5.addSlider("slider").setPosition(50,205).setSize(600,50).setRange(0,14).setValue(2);
+  cp5.addSlider("slider").setPosition(50,205).setSize(600,50).setRange(0,14).setValue(7.73);
   cp5.getController("slider").setLabel("ph");
   cp5.setColorActive(activeColor);
   cp5.setColorBackground(backColor);
@@ -222,15 +229,22 @@ void setup() {
   //CHANGE Label SIZE?? 
   //cp5.setSizeCaptionLabel(24);
   
-  cp5 = new ControlP5(this);
-  cp5.addSlider("sliderTwo").setPosition(50,275).setSize(600,50).setRange(0,200).setValue(128);
+  //cp5 = new ControlP5(this);
+  cp5.addSlider("sliderTwo").setPosition(50,275).setSize(600,50).setRange(0,200).setValue(110);
   cp5.getController("sliderTwo").setLabel("Benzo(a)pyrene Levels");
   cp5.setColorCaptionLabel(color(255, 0, 0));
   
   cp5Two = new ControlP5(this);
-  cp5Two.addSlider("sliderThree").setPosition(50, 345).setSize(600, 50).setRange(0, 100).setValue(33);
+  cp5Two.addSlider("sliderThree").setPosition(50, 345).setSize(600, 50).setRange(0, 200).setValue(131);
   cp5Two.getController("sliderThree").setLabel("Arsenic Levels");
   cp5Two.setColorCaptionLabel(color(180, 0, 120));
+  
+  cFrame = new ControlFrame(this, 400, 400, "Controls");
+  
+  
+  
+  
+  
   
   //printArray(PFont.list());
   
@@ -371,14 +385,13 @@ void draw() {
   //text("powerH: " + power, width/2, height/2 + 100);
   
   //---------- Viz / Mesh Draw ---------------
-  demoData += random(1);
-  if (demoData > 200) demoData = 0;
-  benzoApyrene = round(demoData);
-  cp5.getController("sliderTwo").setValue(benzoApyrene);
-  meshDistortion = (demoData * 0.01);
+  float newPh = random(-1, 1);
+  pH += newPh;
+  //cp5.getController("slider").setValue(pH);
+  
   
   arsenic = 33;
-  cp5Two.getController("sliderThree").setValue(arsenic);
+  //cp5Two.getController("sliderThree").setValue(arsenic);
   
   drawCircleViz();
   drawText();
@@ -432,10 +445,11 @@ void draw() {
   theMesh.setParam(0, paramExtra);
   
   theMesh.setColorRange(minHue,maxHue, minSaturation,maxSaturation, minBrightness,maxBrightness, meshAlpha);
-  theData = new float[(uCount+1)*(1+vCount)];
   ii = 0;
   
   theMesh.setMeshDistortion(meshDistortion);
+  
+  
   if (changeData) {
     theData = new float[(uCount+1)*(vCount+1)];
     for (int iu = 0; iu <= uCount; iu++) {
@@ -709,8 +723,8 @@ void drawCirclesThree(float x3, float y3, float radiusThree) {
 
 
 void keyPressed() {
-  demoData++;
-  cp5.getController("sliderTwo").setValue(demoData);
+  //demoData++;
+  //cp5.getController("sliderTwo").setValue(demoData);
   if (demoData > 200) demoData = 0;
   
   if (key == 's' || key == 'S') {
@@ -727,11 +741,15 @@ void keyPressed() {
   }
   
   if (key == 'r' || key == 'R') {
-    drawData = !drawData;
+    //drawData = !drawData;
   }
   
   if (key == 't' || key == 'T') {
     changeData = !changeData;
+  }
+  
+  if (key == 'm' || key == 'M') {
+    cFrame.openFrame();
   }
 }
 
@@ -751,16 +769,122 @@ void mouseExited(MouseEvent e) {
 }
 
 void slider(float theValue) {
-  //println("Slider value incoming event. the value: " + theValue);
-  meshDistortion = (theValue * 0.001);
-  theMesh.setMeshDistortion(meshDistortion);
+  println("Slider value incoming event. the value: " + theValue);
+  //meshDistortion = (theValue * 0.001);
+  //theMesh.setMeshDistortion(meshDistortion);
+}
+
+void sliderTwo(float theValue) {
+  println("Slider value incoming event. the value: " + theValue);
+  
 }
 
 
-void controlEvent(ControlEvent theControlEvent) {
-  //println("Control Event occured: " + theControlEvent);
-  theControlEvent = theControlEvent;
+void sliderThree(float theValue) {
+  println("Slider value incoming event. the value: " + theValue);
+  //meshDistortion = (theValue * 0.001);
+  //theMesh.setMeshDistortion(meshDistortion);
 }
+
+
+
+void controlEvent(ControlEvent theEvent) {
+  println("Control Event occured: " + theEvent);
+  if (theEvent.isAssignableFrom(Textfield.class)) {
+    println("controlEvent: accessing a string from controller " + theEvent.getName() + ":" + theEvent.getStringValue());
+  }
+}
+
+boolean open = false;
+
+
+
+class ControlFrame extends PApplet {
+  int w, h;
+  PApplet parent;
+  ControlP5 controlP5;
+  PFont frameFont;
+  
+  public ControlFrame(PApplet _parent, int _w, int _h, String _name) {
+    super();
+    parent = _parent;
+    w = _w;
+    h = _h;
+    //PApplet.runSketch(new String[]{this.getClass().getName()}, this);
+  }
+  
+  public void settings() {
+    size(w, h);
+  }
+  
+  public void setup() {
+    frameFont = createFont("arial", 20);
+    controlP5 = new ControlP5(this);
+    controlP5.addTextfield("input").setPosition(20, 100).setSize(200, 40).setFocus(true).setColor(color(255,255,0));
+    controlP5.addTextfield("inputTwo").setPosition(20, 200).setSize(200, 40).setFocus(true).setColor(color(255,255,0));
+    controlP5.addTextfield("inputThree").setPosition(20, 300).setSize(200, 40).setFocus(true).setColor(color(255,255,0));
+    
+    textFont(frameFont);
+  }
+  
+  public void openFrame() {
+    PApplet.runSketch(new String[]{this.getClass().getName()}, this);
+  }
+  
+  void draw() {
+    background(190);
+    fill(255);
+    text("Enter in Sensor Values Below.", 80, 50);
+    text("pH:", 250, 100);
+    text(controlP5.get(Textfield.class, "input").getText(), 250, 120);
+    text("Benzopyrene:", 250, 200);
+    text(controlP5.get(Textfield.class, "inputTwo").getText(), 250, 220);
+    text("Arsenic:", 250, 300);
+    text(controlP5.get(Textfield.class, "inputThree").getText(), 250, 320);
+  }
+  
+  
+  void controlEvent(ControlEvent theEvent) {
+    //println("Control Event occured: " + theControlEvent);
+    if (theEvent.isAssignableFrom(Textfield.class)) {
+      println("controlEvent: accessing a string from controller " + theEvent.getName() + ":" + theEvent.getStringValue());
+    }
+  }
+  
+  public void input(String theText) {
+    // automatically receives results from controller input
+    println("a textfield event for controller 'input' : " + theText);
+    demoData += random(1);
+    if (demoData > 200) demoData = 0;
+    //benzoApyrene = round(demoData);
+    pH = float(theText);
+    cp5.getController("slider").setValue(pH);
+    meshDistortion = (demoData * 0.01);
+  }
+  
+  public void inputTwo(String theText) {
+    println("Textfield event for controller 'inputTwo' " + theText);
+    demoData += random(1);
+    if (demoData > 200) demoData = 0;
+    //benzoApyrene = round(demoData);
+    benzoApyrene = int(theText);
+    cp5.getController("sliderTwo").setValue(benzoApyrene);
+    meshDistortion = (demoData * 0.01);
+  }
+  
+  public void inputThree(String theText) {
+    println("Testing controller events for something i called blah! what i entered: " + theText);
+    demoData += random(1);
+    if (demoData > 200) demoData = 0;
+    //benzoApyrene = round(demoData);
+    arsenic = int(theText);
+    cp5Two.getController("sliderThree").setValue(arsenic);
+    meshDistortion = (demoData * 0.01);
+  }
+  
+}
+
+
 
 
 String timestamp() {
