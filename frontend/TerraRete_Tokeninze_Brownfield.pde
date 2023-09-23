@@ -367,7 +367,7 @@ void draw() {
 
       } // end if
 
-      previousMillis = currentMillis;
+      //previousMillis = currentMillis;
   }
 
 
