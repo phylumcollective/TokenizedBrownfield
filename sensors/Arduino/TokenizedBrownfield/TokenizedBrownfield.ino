@@ -159,11 +159,11 @@ double round2(double value) {
 }
 
 void updateText(String msg) {
-  tft.fillScreen(ILI9341_BLACK);
-  tft.setCursor(0, 0);
-  tft.setTextColor(ILI9341_WHITE);  tft.setTextSize(1);
-  tft.println(msg);
-  tft.println();
+   tft.fillScreen(ILI9341_WHITE);
+   tft.setTextColor(0x3186);
+   tft.setTextSize(2);
+   tft.println(msg);
+   tft.println();
 }
 
 /* void establishContact() {
