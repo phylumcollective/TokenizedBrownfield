@@ -44,17 +44,18 @@ void setup() {
 
    // initialize the ILI9341 display
    tft.begin();
+
    // read diagnostics (optional but can help debug problems)
    uint8_t x = tft.readcommand8(ILI9341_RDMODE);
-   Serial.print("Display Power Mode: 0x"); Serial.println(x, HEX);
+   Serial.print(F("Display Power Mode: 0x")); Serial.println(x, HEX);
    x = tft.readcommand8(ILI9341_RDMADCTL);
-   Serial.print("MADCTL Mode: 0x"); Serial.println(x, HEX);
+   Serial.print(F("MADCTL Mode: 0x")); Serial.println(x, HEX);
    x = tft.readcommand8(ILI9341_RDPIXFMT);
-   Serial.print("Pixel Format: 0x"); Serial.println(x, HEX);
+   Serial.print(F("Pixel Format: 0x")); Serial.println(x, HEX);
    x = tft.readcommand8(ILI9341_RDIMGFMT);
-   Serial.print("Image Format: 0x"); Serial.println(x, HEX);
+   Serial.print(F("Image Format: 0x")); Serial.println(x, HEX);
    x = tft.readcommand8(ILI9341_RDSELFDIAG);
-   Serial.print("Self Diagnostic: 0x"); Serial.println(x, HEX);
+   Serial.print(F("Self Diagnostic: 0x")); Serial.println(x, HEX);
 
    tft.setRotation(2); // flip
 }
@@ -78,17 +79,10 @@ void loop() {
    if(serialStrReady) {
       processSerial();
    }
-   
-   String msg;
 
    if(erc20Minted) {
-      // ---- DRAW SOMETHING HERE!!! ---- //
-
-
       // now reset the minted flag to false
-      msg = "ERC-20 minted";
-      updateText(msg);
-      Serial.println(F("ERC-20 minted. Updating mini-display."));
+      Serial.println(F("ERC-20 minted."));
       erc20Minted = false;
    }
 
@@ -97,8 +91,7 @@ void loop() {
 
 
       // now reset the minted flag to false
-      msg = "ERC-721 minted";
-      updateText(msg);
+      updateDisplay();
       Serial.println(F("ERC-721 minted. Updating mini-display."));
       erc721Minted = false;
    }
@@ -158,13 +151,16 @@ double round2(double value) {
    return (int)(value * 100 + 0.5) / 100.0;
 }
 
-void updateText(String msg) {
+void updateDisplay() {
    tft.fillScreen(ILI9341_WHITE);
    tft.setCursor(0, 0);
    tft.setTextColor(0x3186);
    tft.setTextSize(2);
-   tft.println(msg);
-   tft.println();
+   tft.print(F("Brownfield Certificate "));
+   char buf[4]; // 4 characters + NUL for leading zeros
+   sprintf(buf, "%03d", ERC721Count);
+   tft.setTextSize(1);
+   tft.println(buf);
 }
 
 /* void establishContact() {
