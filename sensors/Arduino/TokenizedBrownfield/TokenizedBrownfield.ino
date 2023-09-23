@@ -13,11 +13,17 @@
 //const long INTERVAL = 60000;  // interval at which to check power levels
 //RunningMedian runningMedian = RunningMedian(5);
 
-// keep track of the number of tokens minted
+// keep track of the number of tokens minted (and the time)
 int ERC20Count = 0;
 int ERC721Count = 0;
 bool erc20Minted = false;
 bool erc721Minted = false;
+String timestamp = "";
+
+// pollution levels
+String benzoApyrene = "";
+String arsenic = "";
+String pH = "";
 
 /*******************
 SERIAL COMMUNICATION
@@ -120,11 +126,14 @@ void processSerial() {
    int secondCommaIdx = serialStr.indexOf(',', firstCommaIdx+1);
    int thirdCommaIdx = serialStr.indexOf(',', secondCommaIdx+1);
    int fourthCommaIdx = serialStr.indexOf(',', thirdCommaIdx+1);
-   int benzoApyrene = serialStr.substring(0, firstCommaIdx).toInt();
-   int arsenic = serialStr.substring(firstCommaIdx+1, secondCommaIdx).toInt();
-   float pH = serialStr.substring(secondCommaIdx+1, thirdCommaIdx).toInt() / 100.0; // convert pH value to float (with proper decimal place)
+   int fifthCommaIdx = serialStr.indexOf(',', fourthCommaIdx+1);
+   benzoApyrene = serialStr.substring(0, firstCommaIdx);
+   arsenic = serialStr.substring(firstCommaIdx+1, secondCommaIdx);
+   float phF = serialStr.substring(secondCommaIdx+1, thirdCommaIdx).toInt() / 100.0; // convert pH value to float (with proper decimal place)
+   pH = String(phF);
    int numERC20TokensMinted = serialStr.substring(thirdCommaIdx+1, fourthCommaIdx).toInt();
-   int numERC721TokensMinted = serialStr.substring(fourthCommaIdx+1).toInt();
+   int numERC721TokensMinted = serialStr.substring(fourthCommaIdx+1, fifthCommaIdx).toInt();
+   timestamp = serialStr.substring(fifthCommaIdx+1);
 
    // check if tokens were actually minted
    if(numERC20TokensMinted > ERC20Count) {
@@ -161,6 +170,11 @@ void updateDisplay() {
    sprintf(buf, "%03d", ERC721Count);
    tft.setTextSize(1);
    tft.println(buf);
+   tft.println();
+   tft.println("Time: " + timestamp);
+   tft.println("Benzo(a)pyrene: " + benzoApyrene + " PPM (top)");
+   tft.println("Arsenic: " + arsenic + " PPM (middle)");
+   tft.println("pH: " + pH + " (bottom)");
 }
 
 /* void establishContact() {
