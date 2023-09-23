@@ -1,4 +1,6 @@
 #include <SPI.h>
+#include "Adafruit_GFX.h"
+#include "Adafruit_ILI9341.h"
 //#include <RunningMedian.h>
 //#include <math.h>
 
@@ -24,13 +26,37 @@ SERIAL COMMUNICATION
 String serialStr = "";
 boolean serialStrReady = false;
 
+//========= IlI9341 display ===========//
+#define TFT_RST 8
+#define TFT_DC 9
+#define TFT_CS 10
+// Use hardware SPI (on Uno & Nano (including 33iot), #13, #12, #11) and the above for CS, DC & Reset
+Adafruit_ILI9341 tft = Adafruit_ILI9341(TFT_CS, TFT_DC, TFT_RST);
+
 void setup() {
    // initialize serial communication at 9600 bits per second:
    Serial.begin(9600);
    while(!Serial) {
       ; // wait for the serial port to connect
    }
+
    //establishContact();
+
+   // initialize the ILI9341 display
+   tft.begin();
+   // read diagnostics (optional but can help debug problems)
+   uint8_t x = tft.readcommand8(ILI9341_RDMODE);
+   Serial.print("Display Power Mode: 0x"); Serial.println(x, HEX);
+   x = tft.readcommand8(ILI9341_RDMADCTL);
+   Serial.print("MADCTL Mode: 0x"); Serial.println(x, HEX);
+   x = tft.readcommand8(ILI9341_RDPIXFMT);
+   Serial.print("Pixel Format: 0x"); Serial.println(x, HEX);
+   x = tft.readcommand8(ILI9341_RDIMGFMT);
+   Serial.print("Image Format: 0x"); Serial.println(x, HEX);
+   x = tft.readcommand8(ILI9341_RDSELFDIAG);
+   Serial.print("Self Diagnostic: 0x"); Serial.println(x, HEX);
+
+   tft.setRotation(2); // flip
 }
 
 void loop() {
@@ -53,11 +79,15 @@ void loop() {
       processSerial();
    }
    
+   String msg;
+
    if(erc20Minted) {
       // ---- DRAW SOMETHING HERE!!! ---- //
 
 
       // now reset the minted flag to false
+      msg = "ERC-20 minted";
+      updateText(msg);
       Serial.println(F("ERC-20 minted. Updating mini-display."));
       erc20Minted = false;
    }
@@ -67,6 +97,8 @@ void loop() {
 
 
       // now reset the minted flag to false
+      msg = "ERC-721 minted";
+      updateText(msg);
       Serial.println(F("ERC-721 minted. Updating mini-display."));
       erc721Minted = false;
    }
@@ -124,6 +156,14 @@ void processSerial() {
 // example: round(3.14159) -> 3.14
 double round2(double value) {
    return (int)(value * 100 + 0.5) / 100.0;
+}
+
+void updateText(String msg) {
+  tft.fillScreen(ILI9341_BLACK);
+  tft.setCursor(0, 0);
+  tft.setTextColor(ILI9341_WHITE);  tft.setTextSize(1);
+  tft.println(msg);
+  tft.println();
 }
 
 /* void establishContact() {
