@@ -152,9 +152,9 @@ double round2(double value) {
 }
 
 void updateDisplay() {
-   tft.fillScreen(ILI9341_WHITE);
+   tft.fillScreen(0x6B6D);
    tft.setCursor(0, 0);
-   tft.setTextColor(0x3186);
+   tft.setTextColor(0xF7BE);
    tft.setTextSize(2);
    tft.print(F("Brownfield Certificate "));
    char buf[4]; // 4 characters + NUL for leading zeros
