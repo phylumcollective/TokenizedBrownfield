@@ -186,6 +186,9 @@ app.get("/mintERC721", async (req, res) => {
     console.log(error.toString());
   }
 
+  // get the current date/time
+  const d = new Date();
+
   //const powerLevel = parseInt(data.toString(), 10);
   //sendPowerLevel(powerLevel);
 
@@ -201,6 +204,7 @@ app.get("/mintERC721", async (req, res) => {
     pH.toString(),
     numERC20TokensMinted.toString(),
     numERC721TokensMinted.toString(),
+    d.toUTCString();
   ];
   // update Arduino
   serialMint(response);
