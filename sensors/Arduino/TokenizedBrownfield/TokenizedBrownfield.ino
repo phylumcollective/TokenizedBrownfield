@@ -166,7 +166,7 @@ void updateDisplay() {
    tft.setTextColor(0xF7BE);
    tft.setTextSize(2);
    tft.print(F("Brownfield Certificate "));
-   char buf[4]; // 4 characters + NUL for leading zeros
+   char buf[4]; // 3 characters + NUL for leading zeros
    sprintf(buf, "%03d", ERC721Count);
    tft.setTextSize(1);
    tft.println(buf);
@@ -175,6 +175,11 @@ void updateDisplay() {
    tft.println("Benzo(a)pyrene: " + benzoApyrene + " PPM (top)");
    tft.println("Arsenic: " + arsenic + " PPM (middle)");
    tft.println("pH: " + pH + " (bottom)");
+   tft.println();
+   tft.println();
+   tft.println();
+   tft.println("Soil Source:");
+   tft.println("43.13788, -77.62065 (Vacuum Oil Refinery");
 }
 
 /* void establishContact() {
