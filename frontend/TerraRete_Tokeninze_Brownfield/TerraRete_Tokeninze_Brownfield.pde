@@ -31,9 +31,9 @@ float pH = 0.0;
 //int power = 0; //in millwatt hours
 
 // to send (HTTP "POST") new sensors data to the server
-String postBenzoApyrene = ""; //in ppm
-String postArsenic = ""; //in  ppm
-String postPH = "";
+String postBenzoApyrene = "100"; //in ppm
+String postArsenic = "100"; //in  ppm
+String postPH = "700";
 //String postPower = ""; //in millwatt hours
 
 // keep track of the number of tokens minted
@@ -372,11 +372,11 @@ void draw() {
   
   //---------- Viz / Mesh Draw ---------------
   float newPh = random(-1, 1);
-  pH += newPh;
+  //pH += newPh;
   //cp5.getController("slider").setValue(pH);
   
   
-  arsenic = 33;
+  //arsenic = 33;
   //cp5Two.getController("sliderThree").setValue(arsenic);
   
   drawCircleViz();
@@ -576,7 +576,7 @@ void displayTime(int timeInSeconds) {
     fill(34,34,34);
   }
   textFont(countFont);
-  text(timeString, 930, 980);
+  text(timeString, 930, 1010);
 }
 
 // rounds a number to 2 decimal places
@@ -652,7 +652,7 @@ void drawText() {
   text(remediation, 50, 940);
   text(creditsCount, 550, 940);
   text(certCount, 1050, 940);
-  text(countDownTxt, 500, 980);
+  text(countDownTxt, 500, 1010);
 }
 
 
@@ -735,6 +735,13 @@ void keyPressed() {
   
   if (key == 'm' || key == 'M') {
     cFrame.openFrame();
+  }
+
+  if (key == 'u') {
+    updateSensors();
+  }
+  if (key == 'g') {
+    getSensors();
   }
 }
 
@@ -845,6 +852,7 @@ class ControlFrame extends PApplet {
     pH = float(theText);
     cp5.getController("slider").setValue(pH);
     meshDistortion = (demoData * 0.01);
+    postPH = Integer.toString(int(pH * 100)); // update the benzo(a)pyrene pH repsentation to send to server
   }
   
   public void inputTwo(String theText) {
@@ -855,6 +863,7 @@ class ControlFrame extends PApplet {
     benzoApyrene = int(theText);
     cp5.getController("sliderTwo").setValue(benzoApyrene);
     meshDistortion = (demoData * 0.01);
+    postBenzoApyrene = theText; // update the benzo(a)pyrene String repsentation to send to server
   }
   
   public void inputThree(String theText) {
@@ -865,6 +874,7 @@ class ControlFrame extends PApplet {
     arsenic = int(theText);
     cp5Two.getController("sliderThree").setValue(arsenic);
     meshDistortion = (demoData * 0.01);
+    postArsenic = theText; // update the arsenic String repsentation to send to server
   }
   
 }
