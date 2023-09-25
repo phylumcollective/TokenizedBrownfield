@@ -127,9 +127,11 @@ void processSerial() {
    int thirdCommaIdx = serialStr.indexOf(',', secondCommaIdx+1);
    int fourthCommaIdx = serialStr.indexOf(',', thirdCommaIdx+1);
    int fifthCommaIdx = serialStr.indexOf(',', fourthCommaIdx+1);
-   benzoApyrene = serialStr.substring(0, firstCommaIdx);
-   arsenic = serialStr.substring(firstCommaIdx+1, secondCommaIdx);
-   float phF = serialStr.substring(secondCommaIdx+1, thirdCommaIdx).toInt() / 100.0; // convert pH value to float (with proper decimal place)
+   float benzoApyreneF = serialStr.substring(0, firstCommaIdx).toInt() / 100.0; // convert value to float (with proper decimal place)
+   benzoApyrene = String(benzoApyreneF);
+   float arsenicF = serialStr.substring(firstCommaIdx+1, secondCommaIdx).toInt() / 100.0; // convert value to float (with proper decimal place)
+   arsenic = String(arsenicF);
+   float phF = serialStr.substring(secondCommaIdx+1, thirdCommaIdx).toInt() / 100.0; // convert value to float (with proper decimal place)
    pH = String(phF);
    int numERC20TokensMinted = serialStr.substring(thirdCommaIdx+1, fourthCommaIdx).toInt();
    int numERC721TokensMinted = serialStr.substring(fourthCommaIdx+1, fifthCommaIdx).toInt();

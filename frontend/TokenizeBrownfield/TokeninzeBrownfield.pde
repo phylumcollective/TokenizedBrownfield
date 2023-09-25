@@ -21,8 +21,8 @@ int startTime; // Variable to store the starting time
 static final int countdownDuration = 3600; // 3600 seconds = 1 hour
 
 // sensor data from the server
-int benzoApyrene = 0; //in ppm
-int arsenic = 0; //in  ppm
+float benzoApyrene = 0.0; //in ppm
+float arsenic = 0.0; //in  ppm
 float pH = 0.0;
 //int power = 0; //in millwatt hours
 
@@ -144,9 +144,9 @@ void draw() {
 boolean getSensors() {
     try {
         JSONObject sensors = loadJSONObject(serverURL + getSensorsEndpoint);
-        benzoApyrene = sensors.getInt("benzoApyrene");
-        arsenic = sensors.getInt("arsenic");
-        pH = sensors.getInt("pH") / 100.0; // convert pH value to float (with proper decimal place)
+        benzoApyrene = sensors.getInt("benzoApyrene") / 100.0; // 100.0; convert value to float (with proper decimal place)
+        arsenic = sensors.getInt("arsenic") / 100.0; // 100.0; convert value to float (with proper decimal place)
+        pH = sensors.getInt("pH") / 100.0; // convert value to float (with proper decimal place)
         //power = sensors.getInt("power");
         println("getSensors():");
         println(sensors.toString());

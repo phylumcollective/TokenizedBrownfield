@@ -25,8 +25,8 @@ int startTime; // Variable to store the starting time
 static final int countdownDuration = 3600; // 3600 seconds = 1 hour
 
 // sensor data from the server
-int benzoApyrene = 0; //in ppm
-int arsenic = 0; //in  ppm
+float benzoApyrene = 0.0; //in ppm
+float arsenic = 0.0; //in  ppm
 float pH = 0.0;
 //int power = 0; //in millwatt hours
 
@@ -478,9 +478,9 @@ void draw() {
 boolean getSensors() {
     try {
         JSONObject sensors = loadJSONObject(serverURL + getSensorsEndpoint);
-        benzoApyrene = sensors.getInt("benzoApyrene");
-        arsenic = sensors.getInt("arsenic");
-        pH = sensors.getInt("pH") / 100.0; // convert pH value to float (with proper decimal place)
+        benzoApyrene = sensors.getInt("benzoApyrene") / 100.0; // 100.0; convert value to float (with proper decimal place)
+        arsenic = sensors.getInt("arsenic") / 100.0; // 100.0; convert value to float (with proper decimal place)
+        pH = sensors.getInt("pH") / 100.0; // convert value to float (with proper decimal place)
         //power = sensors.getInt("power");
         println("getSensors():");
         println(sensors.toString());
@@ -852,7 +852,7 @@ class ControlFrame extends PApplet {
     pH = float(theText);
     cp5.getController("slider").setValue(pH);
     meshDistortion = (demoData * 0.01);
-    postPH = Integer.toString(int(pH * 100)); // update the benzo(a)pyrene pH repsentation to send to server
+    postPH = Integer.toString(int(pH * 100)); // update the pH String repsentation to send to server
   }
   
   public void inputTwo(String theText) {
@@ -860,10 +860,10 @@ class ControlFrame extends PApplet {
     demoData += random(1);
     if (demoData > 200) demoData = 0;
     //benzoApyrene = round(demoData);
-    benzoApyrene = int(theText);
+    benzoApyrene = float(theText);
     cp5.getController("sliderTwo").setValue(benzoApyrene);
     meshDistortion = (demoData * 0.01);
-    postBenzoApyrene = theText; // update the benzo(a)pyrene String repsentation to send to server
+    postBenzoApyrene = Integer.toString(int(benzoApyrene * 100)); // update the benzo(a)pyrene String repsentation to send to server
   }
   
   public void inputThree(String theText) {
@@ -871,15 +871,13 @@ class ControlFrame extends PApplet {
     demoData += random(1);
     if (demoData > 200) demoData = 0;
     //benzoApyrene = round(demoData);
-    arsenic = int(theText);
+    arsenic = float(theText);
     cp5Two.getController("sliderThree").setValue(arsenic);
     meshDistortion = (demoData * 0.01);
-    postArsenic = theText; // update the arsenic String repsentation to send to server
+    postArsenic = Integer.toString(int(arsenic * 100)); // update the arsenic String repsentation to send to server
   }
   
 }
-
-
 
 
 String timestamp() {
