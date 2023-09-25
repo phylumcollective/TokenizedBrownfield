@@ -705,8 +705,6 @@ void drawCirclesThree(float x3, float y3, float radiusThree) {
 }
 
 
-
-
 void keyPressed() {
   //demoData++;
   //cp5.getController("sliderTwo").setValue(demoData);
