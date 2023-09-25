@@ -141,13 +141,13 @@ float slider = 0;
 PImage theLogo;
 
 
-String erc20 = "ERC-20 Contact Address";
-String erc20Address = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512";
+static final String erc20 = "ERC-20 Contact Address";
+static final String erc20Address = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512";
 
-String erc721 = "ERC-721 Contact Address";
-String erc721Address = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512";
+static final String erc721 = "ERC-721 Contact Address";
+static final String erc721Address = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512";
 
-String certificateTtl = "Brownfield Certificate";
+static final String certificateTtl = "Brownfield Certificate";
 String certificateNum = "008";
 
 String[] certificateTxt = new String[6];
@@ -156,11 +156,11 @@ String remediation = "Contamination averages: 23%";
 String creditsCount = "TerraRete credits minted: 24";
 String certCount = "Brownfield certificates minted: 9/164";
 
-String countDownTxt = "Time until next transaction: ";
-String minTxt = "";
-String secTxt = "";
-int minutes = 55;
-int seconds = 23;
+static final String countDownTxt = "Time until next transaction: ";
+//String minTxt = "";
+//String secTxt = "";
+//int minutes = 55;
+//int seconds = 23;
 
 PFont certFont; 
 PFont certFontTwo;
@@ -173,8 +173,6 @@ float randomnessTwo = 0;
 float randomnessThree = 0;
 
 float rFactor3 = 0;
-
-
 
 
 void setup() {
@@ -198,13 +196,13 @@ void setup() {
   certificateTxt[4] = "Soil Source:";
   certificateTxt[5] = "43.13788, -77.62065 (Vacuum Oil Refinery)";
   
-  minTxt = str(minutes);
-  secTxt = str(seconds);
+  //minTxt = str(minutes);
+  //secTxt = str(seconds);
   
   
-  countDownTxt += minTxt;
-  countDownTxt += ":";
-  countDownTxt += secTxt;
+  //countDownTxt += minTxt;
+  //countDownTxt += ":";
+  //countDownTxt += secTxt;
   
   certFont = createFont("SourceCodePro-Regular.ttf", 28);
   certFontTwo = createFont("SourceCodePro-Regular.ttf", 23);
@@ -240,11 +238,6 @@ void setup() {
   cp5Two.setColorCaptionLabel(color(180, 0, 120));
   
   cFrame = new ControlFrame(this, 400, 400, "Controls");
-  
-  
-  
-  
-  
   
   //printArray(PFont.list());
   
@@ -368,6 +361,7 @@ void draw() {
       } // end if
 
       //previousMillis = currentMillis;
+      startTime = millis(); // reset the timer
   }
 
 
@@ -376,13 +370,7 @@ void draw() {
 
   //getSensors
   
-  // Display the soil moisture value and token balance
-  textSize(20);
-  textAlign(CENTER);
-  text("benzoApyrene: " + benzoApyrene, width/2, height/4);
-  text("arsenic: " + arsenic, width/2, height/3);
-  text("pH: " + pH, width/2, height/2);
-  //text("powerH: " + power, width/2, height/2 + 100);
+ 
   
   //---------- Viz / Mesh Draw ---------------
   float newPh = random(-1, 1);
@@ -584,14 +572,13 @@ void displayTime(int timeInSeconds) {
   
   String timeString = nf(minutes, 2) + ":" + nf(seconds, 2); // Format the time string
 
-  textAlign(CENTER, CENTER);
-  textSize(48);
   if(timeInSeconds < 60) {
     fill(208, 0, 27);
   } else {
-    fill(0);
+    fill(34,34,34);
   }
-  text(timeString, width/2, height/2);
+  textFont(countFont);
+  text(timeString, 750, 980);
 }
 
 // rounds a number to 2 decimal places
@@ -650,11 +637,11 @@ void drawText() {
   }
   
   theTxt.toUpperCase();
-  fill(0);
+  fill(34, 34, 34);
   textFont(theFont);
   text(theTxt, 50, 450);
   
-  fill(0);
+  fill(34, 34, 34);
   textFont(addressFont);
   text(erc20, 470, 80);
   text(erc20Address, 900, 80);
@@ -662,7 +649,7 @@ void drawText() {
   text(erc721Address, 920, 120);
   
   
-  fill(0);
+  fill(34,34,34);
   textFont(countFont);
   text(remediation, 50, 940);
   text(creditsCount, 550, 940);
