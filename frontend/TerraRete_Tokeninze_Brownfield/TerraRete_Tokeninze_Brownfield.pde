@@ -141,10 +141,10 @@ float slider = 0;
 PImage theLogo;
 
 
-static final String erc20 = "ERC-20 Contact Address";
+static final String erc20 = "ERC-20 Contract Address: ";
 static final String erc20Address = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512";
 
-static final String erc721 = "ERC-721 Contact Address";
+static final String erc721 = "ERC-721 Contract Address: ";
 static final String erc721Address = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512";
 
 static final String certificateTtl = "Brownfield Certificate";
@@ -215,27 +215,25 @@ void setup() {
   
   rFactor3 = random(1, 3);
   
-  
-  
   cp5 = new ControlP5(this);
   cp5.addSlider("slider").setPosition(50,205).setSize(600,50).setRange(0,14).setValue(7.73);
-  cp5.getController("slider").setLabel("ph");
+  cp5.getController("slider").setLabel("pH");
   cp5.setColorActive(activeColor);
   cp5.setColorBackground(backColor);
   cp5.setColorForeground(frontColor);
-  cp5.setColorCaptionLabel(color(255, 0, 0));
+  cp5.setColorCaptionLabel(color(34,34,34));
   //CHANGE Label SIZE?? 
   //cp5.setSizeCaptionLabel(24);
   
   //cp5 = new ControlP5(this);
   cp5.addSlider("sliderTwo").setPosition(50,275).setSize(600,50).setRange(0,200).setValue(110);
-  cp5.getController("sliderTwo").setLabel("Benzo(a)pyrene Levels");
-  cp5.setColorCaptionLabel(color(255, 0, 0));
+  cp5.getController("sliderTwo").setLabel("Benzo(a)pyrene");
+  cp5.setColorCaptionLabel(color(34,34,34));
   
   cp5Two = new ControlP5(this);
   cp5Two.addSlider("sliderThree").setPosition(50, 345).setSize(600, 50).setRange(0, 200).setValue(131);
-  cp5Two.getController("sliderThree").setLabel("Arsenic Levels");
-  cp5Two.setColorCaptionLabel(color(180, 0, 120));
+  cp5Two.getController("sliderThree").setLabel("Arsenic");
+  cp5Two.setColorCaptionLabel(color(34,34,34));
   
   cFrame = new ControlFrame(this, 400, 400, "Controls");
   
@@ -578,7 +576,7 @@ void displayTime(int timeInSeconds) {
     fill(34,34,34);
   }
   textFont(countFont);
-  text(timeString, 750, 980);
+  text(timeString, 930, 980);
 }
 
 // rounds a number to 2 decimal places
@@ -636,7 +634,7 @@ void drawText() {
     
   }
   
-  theTxt.toUpperCase();
+  //theTxt.toUpperCase();
   fill(34, 34, 34);
   textFont(theFont);
   text(theTxt, 50, 450);
