@@ -641,10 +641,10 @@ void drawText() {
   
   fill(34, 34, 34);
   textFont(addressFont);
-  text(erc20, 470, 80);
-  text(erc20Address, 900, 80);
-  text(erc721, 470, 120);
-  text(erc721Address, 920, 120);
+  text(erc20, 640, 80);
+  text(erc20Address, 1025, 80);
+  text(erc721, 640, 120);
+  text(erc721Address, 1025, 120);
   
   
   fill(34,34,34);
