@@ -206,7 +206,7 @@ void setup() {
   
   certFont = createFont("SourceCodePro-Regular.ttf", 28);
   certFontTwo = createFont("SourceCodePro-Regular.ttf", 23);
-  addressFont = createFont("SourceCodePro-Light.ttf", 32);
+  addressFont = createFont("SourceCodePro-Light.ttf", 24);
   countFont = createFont("SourceCodePro-Light.ttf", 24);
   certTtlFont = createFont("SourceCodePro-Regular.ttf", 40);
   theFont = createFont("SourceCodePro-ExtraLight.ttf", 42);
