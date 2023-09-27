@@ -751,11 +751,11 @@ void mousePressed() {
 }
 
 void mouseEntered(MouseEvent e) {
-  loop();
+  //loop();
 }
 
 void mouseExited(MouseEvent e) {
-  noLoop();
+  //noLoop();
 }
 
 void slider(float theValue) {
