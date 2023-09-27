@@ -130,7 +130,7 @@ int dataPoint = 0;
 boolean changeData = false;
 
 PFont theFont;
-static final String = "Terra Rete: Sensors";
+static final String theTxt = "Soil Analysis";
 
 color aColor = color(0, 90, 255);
 
