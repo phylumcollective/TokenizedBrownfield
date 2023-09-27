@@ -205,7 +205,8 @@ void setup() {
   //countDownTxt += ":";
   //countDownTxt += secTxt;
   
-  certFont = createFont("SourceCodePro-Regular.ttf", 24);
+  // load fonts and set font sizes
+  certFont = createFont("SourceCodePro-Regular.ttf", 24);sx
   certFontTwo = createFont("SourceCodePro-Regular.ttf", 20);
   addressFont = createFont("SourceCodePro-Light.ttf", 24);
   countFont = createFont("SourceCodePro-Light.ttf", 24);
@@ -651,7 +652,7 @@ void drawText() {
   //theTxt.toUpperCase();
   fill(34, 34, 34);
   textFont(theFont);
-  text(theTxt, 50, 450);
+  text(theTxt, 50, 445);
   
   fill(34, 34, 34);
   textFont(addressFont);
