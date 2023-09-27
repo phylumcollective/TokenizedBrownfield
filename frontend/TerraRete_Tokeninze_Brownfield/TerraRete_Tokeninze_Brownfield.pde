@@ -211,7 +211,7 @@ void setup() {
   countFont = createFont("SourceCodePro-Light.ttf", 24);
   certTtlFont = createFont("SourceCodePro-Regular.ttf", 36);
   erc721CountFont = createFont("SourceCodePro-Regular.ttf", 24);
-  theFont = createFont("SourceCodePro-ExtraLight.ttf", 40);
+  theFont = createFont("SourceCodePro-ExtraLight.ttf", 36);
   
   theLogo = loadImage("phylum_logo_dark.png");
   
