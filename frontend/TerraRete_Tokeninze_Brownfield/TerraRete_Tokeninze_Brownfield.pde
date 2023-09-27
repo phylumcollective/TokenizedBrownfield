@@ -218,7 +218,7 @@ void setup() {
   rFactor3 = random(1, 3);
   
   cp5 = new ControlP5(this);
-  cp5.addSlider("slider").setPosition(50,205).setSize(600,50).setRange(0,14).setValue(7.73);
+  cp5.addSlider("slider").setPosition(50,205).setSize(600,50).setRange(0.0,14.0).setValue(0.00);
   cp5.getController("slider").setLabel("pH");
   cp5.setColorActive(activeColor);
   cp5.setColorBackground(backColor);
@@ -228,12 +228,12 @@ void setup() {
   //cp5.setSizeCaptionLabel(24);
   
   //cp5 = new ControlP5(this);
-  cp5.addSlider("sliderTwo").setPosition(50,275).setSize(600,50).setRange(0.0,20.0).setValue(1.0);
+  cp5.addSlider("sliderTwo").setPosition(50,275).setSize(600,50).setRange(0.0,20.0).setValue(0.00);
   cp5.getController("sliderTwo").setLabel("Benzo(a)pyrene");
   cp5.setColorCaptionLabel(color(34,34,34));
   
   cp5Two = new ControlP5(this);
-  cp5Two.addSlider("sliderThree").setPosition(50, 345).setSize(600, 50).setRange(0.0, 50.0).setValue(1.0);
+  cp5Two.addSlider("sliderThree").setPosition(50, 345).setSize(600, 50).setRange(0.0, 50.00).setValue(0.00);
   cp5Two.getController("sliderThree").setLabel("Arsenic");
   cp5Two.setColorCaptionLabel(color(34,34,34));
   
