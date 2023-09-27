@@ -2,6 +2,7 @@ import http.requests.*;
 import java.util.Calendar;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 import java.text.ParseException;
 import processing.opengl.*;
 import processing.dxf.*;
@@ -324,6 +325,10 @@ void draw() {
                       if(currTime.after(time1) && currTime.before(time2)) {
                           if(mintERC721Token(tokenURI)) {
                               //update the amount minted, show that a token was minted...
+                              certificateTxt[0] = timestamp();
+                              certificateTxt[1] = "pH: " + str(pH) + " (top)";
+                              certificateTxt[2] = "Benzo(a)pyrene: " + str(benzoApyrene) + " PPM (middle)";
+                              certificateTxt[3] = "Arsenic: " + str(arsenic) + " PPM (bottom)";
                               println("show that an ERC-721 token was minted");
                               println();
                           }
@@ -879,5 +884,12 @@ class ControlFrame extends PApplet {
 
 
 String timestamp() {
-  return String.format("%1$ty%1$tm%1$td_%1$tH%1$tM%1$tS", Calendar.getInstance());
+  // create an instance of the SimpleDateFormat class  
+  SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss");
+  // set UTC time zone by using SimpleDateFormat class  
+  sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+  
+  return sdf.format(new Date()) + " GMT";
+  
+  //return String.format("%1$ty%1$tm%1$td_%1$tH%1$tM%1$tS", Calendar.getInstance());
 }
