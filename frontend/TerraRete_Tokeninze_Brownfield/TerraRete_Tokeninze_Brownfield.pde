@@ -153,8 +153,8 @@ static final String certificateTtl = "Brownfield Certificate";
 String[] certificateTxt = new String[6];
 
 String remediation = "Contamination averages: 23%";
-String creditsCount = "TerraRete credits minted: 24";
-String certCount = "Brownfield certificates minted: 9/164";
+static final String creditsCount = "TerraRete credits minted: ";
+static final String certCount = "Brownfield certificates minted: ";
 
 static final String countDownTxt = "Time until next transaction: ";
 //String minTxt = "";
@@ -261,6 +261,8 @@ void setup() {
 
   cal = Calendar.getInstance(); // calendar to get day of week
   startTime = millis(); // get the current time in milliseconds
+
+  println(timestamp());
 }
 
 void draw() {
@@ -665,8 +667,8 @@ void drawText() {
   fill(34,34,34);
   textFont(countFont);
   text(remediation, 50, 940);
-  text(creditsCount, 550, 940);
-  text(certCount, 1050, 940);
+  text(creditsCount + ERC20Count, 550, 940);
+  text(certCount + ERC721Count + "/164", 1050, 940);
   text(countDownTxt, 500, 1010);
 }
 
