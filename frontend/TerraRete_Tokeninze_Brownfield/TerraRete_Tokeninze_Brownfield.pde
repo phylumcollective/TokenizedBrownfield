@@ -130,7 +130,7 @@ int dataPoint = 0;
 boolean changeData = false;
 
 PFont theFont;
-String theTxt = "Terra Rete: Sensors";
+static final String = "Terra Rete: Sensors";
 
 color aColor = color(0, 90, 255);
 
@@ -149,7 +149,6 @@ static final String erc721 = "ERC-721 Contract Address: ";
 static final String erc721Address = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512";
 
 static final String certificateTtl = "Brownfield Certificate";
-String certificateNum = "008";
 
 String[] certificateTxt = new String[6];
 
@@ -166,6 +165,7 @@ static final String countDownTxt = "Time until next transaction: ";
 PFont certFont; 
 PFont certFontTwo;
 PFont certTtlFont;
+PFont erc721CountFont;
 PFont addressFont;
 PFont countFont;
 
@@ -190,10 +190,10 @@ void setup() {
   //"pH: 7.73 (bottom)"
   //"Benzo(a)pyrene: 110 PPM (top)"
   //"Arsenic: 131 PPM (middle)"
-  certificateTxt[0] = "Time: Mon, Sep 11 2023 11:44:23 UTC";
-  certificateTxt[1] = "pH: 7.73 (top)";
-  certificateTxt[2] = "Benzo(a)pyrene: 110 PPM (middle)";
-  certificateTxt[3] = "Arsenic: 131 PPM (bottom)";
+  certificateTxt[0] = "Time: Fri, 06 Oct 2023 11:44:23 UTC";
+  certificateTxt[1] = "pH: 0.00 (top)";
+  certificateTxt[2] = "Benzo(a)pyrene: 0.00 PPM (middle)";
+  certificateTxt[3] = "Arsenic: 0.00 PPM (bottom)";
   certificateTxt[4] = "Soil Source:";
   certificateTxt[5] = "43.13788, -77.62065 (Vacuum Oil Refinery)";
   
@@ -205,12 +205,13 @@ void setup() {
   //countDownTxt += ":";
   //countDownTxt += secTxt;
   
-  certFont = createFont("SourceCodePro-Regular.ttf", 28);
-  certFontTwo = createFont("SourceCodePro-Regular.ttf", 23);
+  certFont = createFont("SourceCodePro-Regular.ttf", 24);
+  certFontTwo = createFont("SourceCodePro-Regular.ttf", 20);
   addressFont = createFont("SourceCodePro-Light.ttf", 24);
   countFont = createFont("SourceCodePro-Light.ttf", 24);
-  certTtlFont = createFont("SourceCodePro-Regular.ttf", 40);
-  theFont = createFont("SourceCodePro-ExtraLight.ttf", 42);
+  certTtlFont = createFont("SourceCodePro-Regular.ttf", 36);
+  erc721CountFont = createFont("SourceCodePro-Regular.ttf", 24);
+  theFont = createFont("SourceCodePro-ExtraLight.ttf", 40);
   
   theLogo = loadImage("phylum_logo_dark.png");
   
@@ -346,6 +347,10 @@ void draw() {
                       if(currTime.after(time1) && currTime.before(time2)) {
                           if(mintERC721Token(tokenURI)) {
                               //update the amount minted, show that a token was minted...
+                              certificateTxt[0] = timestamp();
+                              certificateTxt[1] = "pH: " + str(pH) + " (top)";
+                              certificateTxt[2] = "Benzo(a)pyrene: " + str(benzoApyrene) + " PPM (middle)";
+                              certificateTxt[3] = "Arsenic: " + str(arsenic) + " PPM (bottom)";
                               println("show that an ERC-721 token was minted");
                               println();
                           }
@@ -627,6 +632,10 @@ void drawText() {
   fill(255);
   textFont(certTtlFont);
   text(certificateTtl, 1030, 240);
+  textFont(erc721CountFont);
+  fill(204);
+  text(nf(ERC721Count, 3), 1540, 240);
+  fill(255);
   for (int i = 0; i < certificateTxt.length; i++) {
     if (i < 4) {
       textFont(certFont);
