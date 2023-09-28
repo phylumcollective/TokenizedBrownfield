@@ -191,7 +191,7 @@ void setup() {
   //"pH: 7.73 (bottom)"
   //"Benzo(a)pyrene: 110 PPM (top)"
   //"Arsenic: 131 PPM (middle)"
-  certificateTxt[0] = "Time: Fri, 06 Oct 2023 11:44:23 UTC";
+  certificateTxt[0] = "Time: Fri, 06 Oct 2023 11:44:23 GMT";
   certificateTxt[1] = "pH: 0.00 (top)";
   certificateTxt[2] = "Benzo(a)pyrene: 0.00 PPM (middle)";
   certificateTxt[3] = "Arsenic: 0.00 PPM (bottom)";
