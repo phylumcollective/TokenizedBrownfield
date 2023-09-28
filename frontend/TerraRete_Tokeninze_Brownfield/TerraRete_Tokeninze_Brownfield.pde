@@ -168,6 +168,7 @@ PFont certTtlFont;
 PFont erc721CountFont;
 PFont addressFont;
 PFont countFont;
+PFont labelFont;
 
 float randomness = 0;
 float randomnessTwo = 0;
@@ -206,20 +207,22 @@ void setup() {
   //countDownTxt += secTxt;
   
   // load fonts and set font sizes
-  certFont = createFont("SourceCodePro-Regular.ttf", 24);sx
+  certFont = createFont("SourceCodePro-Regular.ttf", 24);
   certFontTwo = createFont("SourceCodePro-Regular.ttf", 20);
   addressFont = createFont("SourceCodePro-Light.ttf", 24);
   countFont = createFont("SourceCodePro-Light.ttf", 24);
   certTtlFont = createFont("SourceCodePro-Regular.ttf", 34);
   erc721CountFont = createFont("SourceCodePro-Regular.ttf", 24);
   theFont = createFont("SourceCodePro-ExtraLight.ttf", 34);
+
+  labelFont = createFont("SourceCodePro-Regular.ttf", 14); // turn anti-aliasing off
   
   theLogo = loadImage("phylum_logo_dark.png");
   
   rFactor3 = random(1, 3);
   
   cp5 = new ControlP5(this);
-  cp5.addSlider("slider").setPosition(70,205).setSize(600,50).setRange(0.0,14.0).setValue(0.00);
+  cp5.addSlider("slider").setPosition(70,205).setSize(600,50).setRange(0.0,14.0).setValue(0.0).setFont(labelFont);
   cp5.getController("slider").setLabel("pH");
   cp5.setColorActive(activeColor);
   cp5.setColorBackground(backColor);
@@ -229,12 +232,12 @@ void setup() {
   //cp5.setSizeCaptionLabel(24);
   
   //cp5 = new ControlP5(this);
-  cp5.addSlider("sliderTwo").setPosition(70,275).setSize(600,50).setRange(0.0,20.0).setValue(0.00);
+  cp5.addSlider("sliderTwo").setPosition(70,275).setSize(600,50).setRange(0.0,20.0).setValue(0.00).setFont(labelFont);
   cp5.getController("sliderTwo").setLabel("Benzo(a)pyrene");
   cp5.setColorCaptionLabel(color(34,34,34));
   
   cp5Two = new ControlP5(this);
-  cp5Two.addSlider("sliderThree").setPosition(70, 345).setSize(600, 50).setRange(0.0, 50.00).setValue(0.00);
+  cp5Two.addSlider("sliderThree").setPosition(70, 345).setSize(600, 50).setRange(0.0, 50.0).setValue(0.00).setFont(labelFont);
   cp5Two.getController("sliderThree").setLabel("Arsenic");
   cp5Two.setColorCaptionLabel(color(34,34,34));
   
@@ -667,7 +670,7 @@ void drawText() {
   fill(34,34,34);
   textFont(countFont);
   text(remediation, 70, 940);
-  text(creditsCount + ERC20Count, 550, 940);
+  text(creditsCount + ERC20Count, 70, 900);
   text(certCount + ERC721Count + "/164", 1280, 940);
   text(countDownTxt, 700, 1020);
 }
