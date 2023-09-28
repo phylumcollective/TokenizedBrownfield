@@ -669,8 +669,9 @@ void drawText() {
   
   fill(34,34,34);
   textFont(countFont);
-  text(remediation, 70, 940);
-  text(creditsCount + ERC20Count, 70, 900);
+  //text(remediation, 70, 940);
+  //text(creditsCount + ERC20Count, 70, 900);
+  text(creditsCount + ERC20Count, 70, 940);
   text(certCount + ERC721Count + "/164", 1280, 940);
   text(countDownTxt, 700, 1020);
 }
