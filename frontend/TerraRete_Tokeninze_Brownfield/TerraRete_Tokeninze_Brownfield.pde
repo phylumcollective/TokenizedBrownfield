@@ -496,6 +496,9 @@ boolean getSensors() {
         arsenic = sensors.getInt("arsenic") / 100.0; // 100.0; convert value to float (with proper decimal place)
         pH = sensors.getInt("pH") / 100.0; // convert value to float (with proper decimal place)
         //power = sensors.getInt("power");
+        cFrame.input(str(pH));
+        cFrame.inputTwo(str(benzoApyrene));
+        cFrame.inputThree(str(arsenic));
         println("getSensors():");
         println(sensors.toString());
         return true;
