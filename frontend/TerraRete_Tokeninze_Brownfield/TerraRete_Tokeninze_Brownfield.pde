@@ -180,7 +180,7 @@ void setup() {
   
   //size(720, 1280);
   
-  size(1728,1117,P3D);
+  size(1920,1080,P3D);
   
   //--------- HTTP / Comm Setup --------------
 
@@ -210,9 +210,9 @@ void setup() {
   certFontTwo = createFont("SourceCodePro-Regular.ttf", 20);
   addressFont = createFont("SourceCodePro-Light.ttf", 24);
   countFont = createFont("SourceCodePro-Light.ttf", 24);
-  certTtlFont = createFont("SourceCodePro-Regular.ttf", 36);
+  certTtlFont = createFont("SourceCodePro-Regular.ttf", 34);
   erc721CountFont = createFont("SourceCodePro-Regular.ttf", 24);
-  theFont = createFont("SourceCodePro-ExtraLight.ttf", 36);
+  theFont = createFont("SourceCodePro-ExtraLight.ttf", 34);
   
   theLogo = loadImage("phylum_logo_dark.png");
   
@@ -603,50 +603,50 @@ float round2(float value) {
 //----------Viz functions---------
 
 void drawCircleViz() {
-  fill(90);
-  rect(1000, 175, 650, 700);
+  fill(110);
+  rect(1280, 175, 550, 700);
   
   pushMatrix();
   float rFactor = random(0, 3);
   float rFactor2 = random(0, 5);
   
   fill(190, 205, 255, 70);
-  drawCircles(1200, 460, 100, rFactor);
+  drawCircles(1430, 460, 100, rFactor);
   fill(150, 180, 255, 70);
-  drawCircles(1450, 460, 100, rFactor2);
+  drawCircles(1680, 460, 100, rFactor2);
   popMatrix();
   
   pushMatrix();
   fill(180, 255, 215, 70);
-  drawCirclesTwo(1200, 590, 100);
+  drawCirclesTwo(1430, 590, 100);
   fill(150, 255, 205, 70);
-  drawCirclesTwo(1450, 590, 100);
+  drawCirclesTwo(1680, 590, 100);
   popMatrix();
   
   pushMatrix();
   fill(200, 180, 215, 70);
-  drawCirclesThree(1200, 720, 100);
+  drawCirclesThree(1430, 720, 100);
   fill(225, 150, 255, 70);
-  drawCirclesThree(1450, 720, 100);
+  drawCirclesThree(1680, 720, 100);
   popMatrix();
 }
 
 void drawText() {
   fill(255);
   textFont(certTtlFont);
-  text(certificateTtl, 1030, 240);
+  text(certificateTtl, 1287, 220);
   textFont(erc721CountFont);
   fill(204);
-  text(nf(ERC721Count, 3), 1540, 240);
+  text(nf(ERC721Count, 3), 1776, 220);
   fill(255);
   for (int i = 0; i < certificateTxt.length; i++) {
     if (i < 4) {
       textFont(certFont);
-      text(certificateTxt[i], 1030, (i*30)+280);
+      text(certificateTxt[i], 1287, (i*30)+280);
     }
     else {
       textFont(certFontTwo);
-      text(certificateTxt[i], 1030, (i*30)+690);
+      text(certificateTxt[i], 1287, (i*30)+698);
     }
     
   }
@@ -658,10 +658,10 @@ void drawText() {
   
   fill(34, 34, 34);
   textFont(addressFont);
-  text(erc20, 640, 80);
-  text(erc20Address, 1025, 80);
-  text(erc721, 640, 120);
-  text(erc721Address, 1025, 120);
+  text(erc20, 816, 80);
+  text(erc20Address, 1201, 80);
+  text(erc721, 816, 120);
+  text(erc721Address, 1201, 120);
   
   
   fill(34,34,34);
