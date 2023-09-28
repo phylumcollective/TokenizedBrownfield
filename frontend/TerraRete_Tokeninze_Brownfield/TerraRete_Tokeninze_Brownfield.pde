@@ -852,8 +852,7 @@ class ControlFrame extends PApplet {
     text("Arsenic:", 250, 300);
     text(controlP5.get(Textfield.class, "inputThree").getText(), 250, 320);
   }
-  
-  
+
   void controlEvent(ControlEvent theEvent) {
     //println("Control Event occured: " + theControlEvent);
     if (theEvent.isAssignableFrom(Textfield.class)) {
