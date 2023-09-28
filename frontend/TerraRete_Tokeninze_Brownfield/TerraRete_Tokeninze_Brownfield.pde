@@ -178,10 +178,8 @@ float rFactor3 = 0;
 
 
 void setup() {
-  
-  //size(720, 1280);
-  
   size(1920,1080,P3D);
+  //fullScreen(P3D);
   
   //--------- HTTP / Comm Setup --------------
 
