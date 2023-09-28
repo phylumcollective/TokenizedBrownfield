@@ -167,21 +167,25 @@ void updateDisplay() {
    tft.setCursor(0, 0);
    tft.setTextColor(0xF7BE);
    tft.setTextSize(2);
-   tft.print(F("Brownfield Certificate "));
+   tft.println(F("Brownfield "));
+   tft.print(F("Certificate "));
    char buf[4]; // 3 characters + NUL for leading zeros
    sprintf(buf, "%03d", ERC721Count);
    tft.setTextSize(1);
    tft.println(buf);
    tft.println();
+   tft.println();
    tft.println("Time: " + timestamp);
-   tft.println("Benzo(a)pyrene: " + benzoApyrene + " PPM (top)");
-   tft.println("Arsenic: " + arsenic + " PPM (middle)");
-   tft.println("pH: " + pH + " (bottom)");
+   tft.println("Benzo(a)pyrene: " + benzoApyrene + " PPM");
+   tft.println("Arsenic: " + arsenic + " PPM");
+   tft.println("pH: " + pH);
    tft.println();
    tft.println();
    tft.println();
    tft.println("Soil Source:");
-   tft.println("43.13788, -77.62065 (Vacuum Oil Refinery");
+   tft.println("43.13788, -77.62065");
+   tft.println("(Vacuum Oil Refinery)");
+   tft.println("Rochester, NY");
 }
 
 /* void establishContact() {
