@@ -219,7 +219,7 @@ void setup() {
   rFactor3 = random(1, 3);
   
   cp5 = new ControlP5(this);
-  cp5.addSlider("slider").setPosition(50,205).setSize(600,50).setRange(0.0,14.0).setValue(0.00);
+  cp5.addSlider("slider").setPosition(70,205).setSize(600,50).setRange(0.0,14.0).setValue(0.00);
   cp5.getController("slider").setLabel("pH");
   cp5.setColorActive(activeColor);
   cp5.setColorBackground(backColor);
@@ -229,12 +229,12 @@ void setup() {
   //cp5.setSizeCaptionLabel(24);
   
   //cp5 = new ControlP5(this);
-  cp5.addSlider("sliderTwo").setPosition(50,275).setSize(600,50).setRange(0.0,20.0).setValue(0.00);
+  cp5.addSlider("sliderTwo").setPosition(70,275).setSize(600,50).setRange(0.0,20.0).setValue(0.00);
   cp5.getController("sliderTwo").setLabel("Benzo(a)pyrene");
   cp5.setColorCaptionLabel(color(34,34,34));
   
   cp5Two = new ControlP5(this);
-  cp5Two.addSlider("sliderThree").setPosition(50, 345).setSize(600, 50).setRange(0.0, 50.00).setValue(0.00);
+  cp5Two.addSlider("sliderThree").setPosition(70, 345).setSize(600, 50).setRange(0.0, 50.00).setValue(0.00);
   cp5Two.getController("sliderThree").setLabel("Arsenic");
   cp5Two.setColorCaptionLabel(color(34,34,34));
   
@@ -394,7 +394,7 @@ void draw() {
   
   drawCircleViz();
   drawText();
-  image(theLogo, 50, 50, 288, 103);
+  image(theLogo, 70, 50, 288, 103);
 
   // Set lights
   lightSpecular(255, 255, 255);
@@ -589,7 +589,7 @@ void displayTime(int timeInSeconds) {
     fill(34,34,34);
   }
   textFont(countFont);
-  text(timeString, 930, 1010);
+  text(timeString, 1130, 1020);
 }
 
 // rounds a number to 2 decimal places
@@ -654,7 +654,7 @@ void drawText() {
   //theTxt.toUpperCase();
   fill(34, 34, 34);
   textFont(theFont);
-  text(theTxt, 50, 445);
+  text(theTxt, 70, 445);
   
   fill(34, 34, 34);
   textFont(addressFont);
@@ -666,10 +666,10 @@ void drawText() {
   
   fill(34,34,34);
   textFont(countFont);
-  text(remediation, 50, 940);
+  text(remediation, 70, 940);
   text(creditsCount + ERC20Count, 550, 940);
-  text(certCount + ERC721Count + "/164", 1050, 940);
-  text(countDownTxt, 500, 1010);
+  text(certCount + ERC721Count + "/164", 1280, 940);
+  text(countDownTxt, 700, 1020);
 }
 
 
