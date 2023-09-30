@@ -46,6 +46,7 @@ Calendar cal;
 
 //-------Viz / Mesh Globals------
 
+float cFactor = 2;
 
 Mesh theMesh;
 
@@ -65,13 +66,25 @@ boolean useBlendBlack = false;
 
 //DEBUG: the uCount and vCount aren't able to change DYNAMICALLY, 
 //because the videoData update does NOT Change with it..
-int uCount = 40;
-float uCenter = 0;
-float uRange = TWO_PI;
+//int uCount = 40;
+//float uCenter = 0;
+//float uRange = TWO_PI;
 
-int vCount = 2;
+//int vCount = 2;
+//float vCenter = 0;
+//float vRange = PI/2;
+
+
+//TWO_PI = 6.283185307179586
+//TWO_PI / 10: 0.62831853
+int uCount = 4;
+float uCenter = 0;
+float uRange = TWO_PI/10;
+
+int vCount = 1;
 float vCenter = 0;
-float vRange = PI/2;
+float vRange = PI/6;
+
 
 float paramExtra = 1;
 
@@ -89,7 +102,7 @@ float maxBrightness = 65;
 // ------ mouse interaction ------
 
 int offsetX = 0, offsetY = 0, clickX = 0, clickY = 0;
-float rotationX = 0.85, rotationY = -0.4, targetRotationX = 0.85, targetRotationY = 0.0, clickRotationX, clickRotationY; 
+float rotationX = 0.85, rotationY = -0.4, targetRotationX = 0.0, targetRotationY = 0.0, clickRotationX, clickRotationY; 
 
 
 
@@ -385,12 +398,7 @@ void draw() {
  
   
   //---------- Viz / Mesh Draw ---------------
-  float newPh = random(-1, 1);
-  //pH += newPh;
-  //cp5.getController("slider").setValue(pH);
   
-  
-  //arsenic = 33;
   //cp5Two.getController("sliderThree").setValue(arsenic);
   
   drawCircleViz();
@@ -472,6 +480,7 @@ void draw() {
   colorMode(RGB, 255, 255, 255, 100);
   
   popMatrix();
+  targetRotationY += 0.01;
   
   // ------ image output and gui ------
 
@@ -609,27 +618,30 @@ void drawCircleViz() {
   rect(1280, 175, 550, 700);
   
   pushMatrix();
-  float rFactor = random(0, 3);
-  float rFactor2 = random(0, 5);
-  
   fill(190, 205, 255, 70);
-  drawCircles(1430, 460, 100, rFactor);
+  //drawCircles(1430, 460, 100, rFactor);
+  drawNFTp(1430, 460, 100);
   fill(150, 180, 255, 70);
-  drawCircles(1680, 460, 100, rFactor2);
+  drawNFTp(1680, 460, 100);
+  //drawCircles(1680, 460, 100, rFactor2);
   popMatrix();
   
   pushMatrix();
   fill(180, 255, 215, 70);
-  drawCirclesTwo(1430, 590, 100);
+  //drawCirclesTwo(1430, 590, 100);
+  drawNFTb(1430, 590, 100);
   fill(150, 255, 205, 70);
-  drawCirclesTwo(1680, 590, 100);
+  //drawCirclesTwo(1680, 590, 100);
+  drawNFTb(1680, 590, 100);
   popMatrix();
   
   pushMatrix();
   fill(200, 180, 215, 70);
-  drawCirclesThree(1430, 720, 100);
+  //drawCirclesThree(1430, 720, 100);
+  drawNFTa(1430, 720, 100);
   fill(225, 150, 255, 70);
-  drawCirclesThree(1680, 720, 100);
+  //drawCirclesThree(1680, 720, 100);
+  drawNFTa(1680, 720, 100);
   popMatrix();
 }
 
@@ -673,6 +685,32 @@ void drawText() {
   text(creditsCount + ERC20Count, 70, 940);
   text(certCount + ERC721Count + "/164", 1280, 940);
   text(countDownTxt, 700, 1020);
+}
+
+void drawNFTp(float x, float y, float radius) {
+  ellipse(x, y, radius, radius);
+  if (radius > 5) {
+    drawNFTp(x + radius/2, y, radius/cFactor);
+    drawNFTp(x - radius/2, y, radius/cFactor);
+  }
+}
+
+void drawNFTb(float x2, float y2, float radiusTwo) {
+  ellipse(x2, y2, radiusTwo, radiusTwo);
+  if (radiusTwo > 5) {
+    drawNFTb(x2 + radiusTwo/1.5, y2, radiusTwo/2);
+    drawNFTb(x2 - radiusTwo/1.5, y2, radiusTwo/2);
+  }
+}
+
+void drawNFTa(float x3, float y3, float radiusThree) {
+  ellipse(x3, y3, radiusThree, radiusThree);
+  //randomnessThree = random(3);
+  //rFactor3 *= randomnessThree;
+  if (radiusThree > 5) {
+    drawNFTa(x3 + radiusThree/rFactor3, y3, radiusThree/2.5);
+    drawNFTa(x3 - radiusThree/rFactor3, y3, radiusThree/2.5);
+  }
 }
 
 
@@ -868,6 +906,14 @@ class ControlFrame extends PApplet {
     //benzoApyrene = round(demoData);
     pH = float(theText);
     cp5.getController("slider").setValue(pH);
+    uCount += 1;
+    uRange += 0.15707963267949;
+    if (uCount >= 40) {
+      uCount = 4;
+      uRange = 0.62831853;
+      vCount += 1;
+      vRange += PI/6;
+    }
     meshDistortion = (demoData * 0.01);
     postPH = Integer.toString(int(pH * 100)); // update the pH String repsentation to send to server
   }
@@ -879,6 +925,14 @@ class ControlFrame extends PApplet {
     //benzoApyrene = round(demoData);
     benzoApyrene = float(theText);
     cp5.getController("sliderTwo").setValue(benzoApyrene);
+    uCount += 1;
+    uRange += 0.15707963267949;
+    if (uCount >= 40) {
+      uCount = 4;
+      uRange = 0.62831853;
+      vCount += 1;
+      vRange += PI/6;
+    }
     meshDistortion = (demoData * 0.01);
     postBenzoApyrene = Integer.toString(int(benzoApyrene * 100)); // update the benzo(a)pyrene String repsentation to send to server
   }
@@ -890,6 +944,14 @@ class ControlFrame extends PApplet {
     //benzoApyrene = round(demoData);
     arsenic = float(theText);
     cp5Two.getController("sliderThree").setValue(arsenic);
+    uCount += 1;
+    uRange += 0.15707963267949;
+    if (uCount >= 40) {
+      uCount = 4;
+      uRange = 0.62831853;
+      vCount += 1;
+      vRange += PI/6;
+    }
     meshDistortion = (demoData * 0.01);
     postArsenic = Integer.toString(int(arsenic * 100)); // update the arsenic String repsentation to send to server
   }
