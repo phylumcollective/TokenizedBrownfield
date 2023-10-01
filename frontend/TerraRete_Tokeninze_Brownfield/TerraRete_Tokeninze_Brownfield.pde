@@ -46,7 +46,10 @@ Calendar cal;
 
 //-------Viz / Mesh Globals------
 
-float cFactor = 2;
+float pFactor = 1.95;
+float bFactor = 1.75;
+float aFactor = 2.125;
+
 
 Mesh theMesh;
 
@@ -548,6 +551,15 @@ boolean mintERC20Token() {
         // check if token was actually minted
         int numERC20TokensMinted = Integer.parseInt(numMintedStr);
         println("number of ERC-20 tokens minted so far: " + numERC20TokensMinted);
+        //Updates Mesh when Tokens are minted:
+        uCount += 1;
+        uRange += 0.15707963267949;
+        if (uCount >= 40) {
+          uCount = 4;
+          uRange = 0.62831853;
+          vCount += 1;
+          vRange += PI/6;
+        }
         if(numERC20TokensMinted > ERC20Count) {
             ERC20Count = numERC20TokensMinted;
             return true;
@@ -690,16 +702,16 @@ void drawText() {
 void drawNFTp(float x, float y, float radius) {
   ellipse(x, y, radius, radius);
   if (radius > 5) {
-    drawNFTp(x + radius/2, y, radius/cFactor);
-    drawNFTp(x - radius/2, y, radius/cFactor);
+    drawNFTp(x + radius/pFactor, y, radius/pFactor);
+    drawNFTp(x - radius/pFactor, y, radius/pFactor);
   }
 }
 
 void drawNFTb(float x2, float y2, float radiusTwo) {
   ellipse(x2, y2, radiusTwo, radiusTwo);
   if (radiusTwo > 5) {
-    drawNFTb(x2 + radiusTwo/1.5, y2, radiusTwo/2);
-    drawNFTb(x2 - radiusTwo/1.5, y2, radiusTwo/2);
+    drawNFTb(x2 + radiusTwo/bFactor, y2, radiusTwo/bFactor);
+    drawNFTb(x2 - radiusTwo/bFactor, y2, radiusTwo/bFactor);
   }
 }
 
@@ -708,8 +720,8 @@ void drawNFTa(float x3, float y3, float radiusThree) {
   //randomnessThree = random(3);
   //rFactor3 *= randomnessThree;
   if (radiusThree > 5) {
-    drawNFTa(x3 + radiusThree/rFactor3, y3, radiusThree/2.5);
-    drawNFTa(x3 - radiusThree/rFactor3, y3, radiusThree/2.5);
+    drawNFTa(x3 + radiusThree/aFactor, y3, radiusThree/aFactor);
+    drawNFTa(x3 - radiusThree/aFactor, y3, radiusThree/aFactor);
   }
 }
 
@@ -906,14 +918,14 @@ class ControlFrame extends PApplet {
     //benzoApyrene = round(demoData);
     pH = float(theText);
     cp5.getController("slider").setValue(pH);
-    uCount += 1;
-    uRange += 0.15707963267949;
-    if (uCount >= 40) {
-      uCount = 4;
-      uRange = 0.62831853;
-      vCount += 1;
-      vRange += PI/6;
-    }
+    //uCount += 1;
+    //uRange += 0.15707963267949;
+    //if (uCount >= 40) {
+    //  uCount = 4;
+    //  uRange = 0.62831853;
+    //  vCount += 1;
+    //  vRange += PI/6;
+    //}
     meshDistortion = (demoData * 0.01);
     postPH = Integer.toString(int(pH * 100)); // update the pH String repsentation to send to server
   }
@@ -925,14 +937,14 @@ class ControlFrame extends PApplet {
     //benzoApyrene = round(demoData);
     benzoApyrene = float(theText);
     cp5.getController("sliderTwo").setValue(benzoApyrene);
-    uCount += 1;
-    uRange += 0.15707963267949;
-    if (uCount >= 40) {
-      uCount = 4;
-      uRange = 0.62831853;
-      vCount += 1;
-      vRange += PI/6;
-    }
+    //uCount += 1;
+    //uRange += 0.15707963267949;
+    //if (uCount >= 40) {
+    //  uCount = 4;
+    //  uRange = 0.62831853;
+    //  vCount += 1;
+    //  vRange += PI/6;
+    //}
     meshDistortion = (demoData * 0.01);
     postBenzoApyrene = Integer.toString(int(benzoApyrene * 100)); // update the benzo(a)pyrene String repsentation to send to server
   }
