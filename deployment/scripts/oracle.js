@@ -220,6 +220,34 @@ app.get("/mintERC721", async (req, res) => {
   }
 });
 
+app.get("/numERC20", async (req, res) => {
+  console.log(
+    "==========================\nHTTP GET request received (/numERC20)"
+  );
+
+  const numERC20TokensMinted = await erc20Contract.getNumMinted();
+
+  try {
+    res.send(numERC20TokensMinted.toString()); // send back the number of tokens minted
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+app.get("/numERC721", async (req, res) => {
+  console.log(
+    "==========================\nHTTP GET request received (/numERC721)"
+  );
+
+  const numERC721TokensMinted = await erc721Contract.getNumMinted();
+
+  try {
+    res.send(numERC721TokensMinted.toString()); // send back the number of tokens minted
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
 const PORT_NUM = 8001;
 app.listen(PORT_NUM, () => {
   console.log(`Express HTTP server running on port ${PORT_NUM}`);

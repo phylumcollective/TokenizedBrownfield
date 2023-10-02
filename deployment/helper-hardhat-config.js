@@ -9,8 +9,8 @@ const networkConfig = {
 
 const INITIAL_SUPPLY_ERC20 = "1000000000000000000000000";
 const INITIAL_SUPPLY_ERC721 = "164";
-const INITIAL_BENZOAPYRENE = "100"; //ppm - real value * 100 (restrict to two decimal points)
-const INITIAL_ARSENIC = "100"; //ppm - real value * 100 (restrict to two decimal points)
+const INITIAL_BENZOAPYRENE = "1000"; //ppm - real value * 100 (restrict to two decimal points)
+const INITIAL_ARSENIC = "1000"; //ppm - real value * 100 (restrict to two decimal points)
 const INITIAL_PH = "700"; // real value * 100 (restrict to two decimal points)
 //const INITIAL_POWER = "0";
 const MIN_PH = "550";
