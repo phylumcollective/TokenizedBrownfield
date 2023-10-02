@@ -916,8 +916,8 @@ class ControlFrame extends PApplet {
     demoData += random(1);
     if (demoData > 200) demoData = 0;
     //benzoApyrene = round(demoData);
-    pH = float(theText);
-    cp5.getController("slider").setValue(round2(pH));
+    pH = round2(float(theText));
+    cp5.getController("slider").setValue(pH);
     //uCount += 1;
     //uRange += 0.15707963267949;
     //if (uCount >= 40) {
@@ -935,8 +935,8 @@ class ControlFrame extends PApplet {
     demoData += random(1);
     if (demoData > 200) demoData = 0;
     //benzoApyrene = round(demoData);
-    benzoApyrene = float(theText);
-    cp5.getController("sliderTwo").setValue(round2(benzoApyrene));
+    benzoApyrene = round2(float(theText));
+    cp5.getController("sliderTwo").setValue(benzoApyrene);
     //uCount += 1;
     //uRange += 0.15707963267949;
     //if (uCount >= 40) {
@@ -954,8 +954,8 @@ class ControlFrame extends PApplet {
     demoData += random(1);
     if (demoData > 200) demoData = 0;
     //benzoApyrene = round(demoData);
-    arsenic = float(theText);
-    cp5Two.getController("sliderThree").setValue(round2(arsenic));
+    arsenic = round2(float(theText));
+    cp5Two.getController("sliderThree").setValue(arsenic);
     uCount += 1;
     uRange += 0.15707963267949;
     if (uCount >= 40) {
