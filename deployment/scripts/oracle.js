@@ -103,12 +103,13 @@ app.use(express.json());
 
 // get all the sensor levels from the SoilSensors contract and send them back
 app.get("/getSensors", async (req, res) => {
+  console.log(
+    "==========================\nHTTP GET request received (/getSensors)"
+  );
   // get the sensors data and format as JSON/dictionary
   const benzoApyrene = await sensorsContract.readBenzoApyrene();
   const arsenic = await sensorsContract.readArsenic();
   const pH = await sensorsContract.readPH();
-
-  console.log("HTTP GET request received (/getSensors)");
 
   // need to convert to String to get a decimal repesentaion (as ethers defaults to hex)
   const allSensors = {
@@ -125,12 +126,13 @@ app.get("/getSensors", async (req, res) => {
 
 // get all the sensor levels from the SoilSensors contract and send them back
 app.post("/updateSensors", async (req, res) => {
+  console.log(
+    "==========================\nHTTP GET request received (/updateSensors)"
+  );
   await sensorsContract.setBenzoApyrene(Number(req.body.benzoApyrene));
   await sensorsContract.setArsenic(Number(req.body.arsenic));
   await sensorsContract.setPH(Number(req.body.pH));
   //await sensorsContract.setPower(Number(req.body.power));
-
-  console.log("HTTP PUT request received (/updateSensors)");
 
   res.end();
 });
