@@ -506,7 +506,7 @@ boolean getSensors() {
         JSONObject sensors = loadJSONObject(serverURL + getSensorsEndpoint);
         benzoApyrene = round2(sensors.getInt("benzoApyrene") / 100.0); // 100.0; convert value to float (with proper decimal place)
         arsenic = round2(sensors.getInt("arsenic") / 100.0); // 100.0; convert value to float (with proper decimal place)
-        pH = round(sensors.getInt("pH") / 100.0); // convert value to float (with proper decimal place)
+        pH = round2(sensors.getInt("pH") / 100.0); // convert value to float (with proper decimal place)
         //power = sensors.getInt("power");
         cFrame.input(str(pH));
         cFrame.inputTwo(str(benzoApyrene));
