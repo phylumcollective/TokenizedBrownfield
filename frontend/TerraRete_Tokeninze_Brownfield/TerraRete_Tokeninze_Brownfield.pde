@@ -32,8 +32,8 @@ float pH = 0.0;
 //int power = 0; //in millwatt hours
 
 // to send (HTTP "POST") new sensors data to the server
-String postBenzoApyrene = "100"; //in ppm
-String postArsenic = "100"; //in  ppm
+String postBenzoApyrene = "1000"; //in ppm
+String postArsenic = "1000"; //in  ppm
 String postPH = "700";
 //String postPower = ""; //in millwatt hours
 
@@ -502,9 +502,9 @@ void draw() {
 boolean getSensors() {
     try {
         JSONObject sensors = loadJSONObject(serverURL + getSensorsEndpoint);
-        benzoApyrene = sensors.getInt("benzoApyrene") / 100.0; // 100.0; convert value to float (with proper decimal place)
-        arsenic = sensors.getInt("arsenic") / 100.0; // 100.0; convert value to float (with proper decimal place)
-        pH = sensors.getInt("pH") / 100.0; // convert value to float (with proper decimal place)
+        benzoApyrene = round2(sensors.getInt("benzoApyrene") / 100.0); // 100.0; convert value to float (with proper decimal place)
+        arsenic = round2(sensors.getInt("arsenic") / 100.0); // 100.0; convert value to float (with proper decimal place)
+        pH = round2(sensors.getInt("pH") / 100.0); // convert value to float (with proper decimal place)
         //power = sensors.getInt("power");
         cFrame.input(str(pH));
         cFrame.inputTwo(str(benzoApyrene));
@@ -860,10 +860,10 @@ class ControlFrame extends PApplet {
     demoData += random(1);
     if (demoData > 200) demoData = 0;
     //benzoApyrene = round(demoData);
-    pH = float(theText);
+    pH = round2(float(theText));
     cp5.getController("slider").setValue(pH);
     meshDistortion = (demoData * 0.01);
-    postPH = Integer.toString(int(pH * 100)); // update the pH String repsentation to send to server
+    postPH = Integer.toString(int(round2(pH) * 100)); // update the pH String repsentation to send to server
     pFactor *= 1.0575;
   }
   
@@ -872,10 +872,10 @@ class ControlFrame extends PApplet {
     demoData += random(1);
     if (demoData > 200) demoData = 0;
     //benzoApyrene = round(demoData);
-    benzoApyrene = float(theText);
+    benzoApyrene = round2(float(theText));
     cp5.getController("sliderTwo").setValue(benzoApyrene);
     meshDistortion = (demoData * 0.01);
-    postBenzoApyrene = Integer.toString(int(benzoApyrene * 100)); // update the benzo(a)pyrene String repsentation to send to server
+    postBenzoApyrene = Integer.toString(int(round2(benzoApyrene) * 100)); // update the benzo(a)pyrene String repsentation to send to server
     bFactor *= 1.0325;
   }
   
@@ -884,7 +884,7 @@ class ControlFrame extends PApplet {
     demoData += random(1);
     if (demoData > 200) demoData = 0;
     //benzoApyrene = round(demoData);
-    arsenic = float(theText);
+    arsenic = round2(float(theText));
     cp5Two.getController("sliderThree").setValue(arsenic);
     uCount += 1;
     uRange += 0.15707963267949;
@@ -895,7 +895,7 @@ class ControlFrame extends PApplet {
       vRange += PI/6;
     }
     meshDistortion = (demoData * 0.01);
-    postArsenic = Integer.toString(int(arsenic * 100)); // update the arsenic String repsentation to send to server
+    postArsenic = Integer.toString(int(round2(arsenic) * 100)); // update the arsenic String repsentation to send to server
     aFactor *= 0.975;
   }
   
