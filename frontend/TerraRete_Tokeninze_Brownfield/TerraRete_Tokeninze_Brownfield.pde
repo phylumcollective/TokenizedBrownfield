@@ -551,17 +551,17 @@ boolean mintERC20Token() {
         // check if token was actually minted
         int numERC20TokensMinted = Integer.parseInt(numMintedStr);
         println("number of ERC-20 tokens minted so far: " + numERC20TokensMinted);
-        //Updates Mesh when Tokens are minted:
-        uCount += 1;
-        uRange += 0.15707963267949;
-        if (uCount >= 40) {
-          uCount = 4;
-          uRange = 0.62831853;
-          vCount += 1;
-          vRange += PI/6;
-        }
         if(numERC20TokensMinted > ERC20Count) {
             ERC20Count = numERC20TokensMinted;
+            //Updates Mesh when Tokens are minted:
+            uCount += 1;
+            uRange += 0.15707963267949;
+            if (uCount >= 40) {
+              uCount = 4;
+              uRange = 0.62831853;
+              vCount += 1;
+              vRange += PI/6;
+            }
             return true;
         } else {
             return false;
