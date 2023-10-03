@@ -79,10 +79,11 @@ boolean useBlendBlack = false;
 
 
 //TWO_PI = 6.283185307179586
+//EACH uCount Increment amount of Range (TWO_PI/40): 0.15707963267949
 //TWO_PI / 10: 0.62831853
-int uCount = 4;
+int uCount = 1;
 float uCenter = 0;
-float uRange = TWO_PI/10;
+float uRange = TWO_PI/40;
 
 int vCount = 1;
 float vCenter = 0;
@@ -552,14 +553,23 @@ boolean mintERC20Token() {
         if(numERC20TokensMinted > ERC20Count) {
             ERC20Count = numERC20TokensMinted;
             //Updates Mesh when Tokens are minted:
-            uCount += 1;
-            uRange += 0.15707963267949;
-            if (uCount >= 40) {
-              uCount = 4;
-              uRange = 0.62831853;
-              vCount += 1;
-              vRange += PI/6;
+            if (ERC20Count % 40 == 0) {
+              uCount = 1;
+              vCount = (ERC20Count/40)+1;
+              vRange = ((ERC20Count/40)+1)*(PI/6);
             }
+            else {
+              uCount = ERC20Count % 40;
+              uRange = (ERC20Count % 40) * (TWO_PI/40);
+            }
+            //uCount += 1;
+            //uRange += 0.15707963267949;
+            //if (uCount >= 40) {
+            //  uCount = 4;
+            //  uRange = 0.62831853;
+            //  vCount += 1;
+            //  vRange += PI/6;
+            //}
             return true;
         } else {
             return false;
@@ -586,6 +596,10 @@ boolean mintERC721Token(String filepath) {
         println("number of ERC-721 tokens minted so far: " + numERC721TokensMinted);
         if(numERC721TokensMinted > ERC721Count) {
             ERC721Count = numERC721TokensMinted;
+            float nftMap = map(ERC721Count, 0,164, 0.855, 2.325);
+            pFactor *= (1.0575*nftMap);
+            bFactor *= (1.0325*nftMap);
+            aFactor *= (0.975*nftMap);
             return true;
         } else {
             return false;
@@ -896,7 +910,7 @@ class ControlFrame extends PApplet {
     }
     meshDistortion = (demoData * 0.01);
     postArsenic = Integer.toString(int(round2(arsenic) * 100)); // update the arsenic String repsentation to send to server
-    aFactor *= 0.975;
+    //aFactor *= 0.975;
   }
   
 }
