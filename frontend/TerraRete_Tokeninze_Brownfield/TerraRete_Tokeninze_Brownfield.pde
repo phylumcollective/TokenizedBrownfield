@@ -32,8 +32,8 @@ float pH = 0.0;
 //int power = 0; //in millwatt hours
 
 // to send (HTTP "POST") new sensors data to the server
-String postBenzoApyrene = "1000"; //in ppm
-String postArsenic = "1000"; //in  ppm
+String postBenzoApyrene = "100"; //in ppm
+String postArsenic = "100"; //in  ppm
 String postPH = "700";
 //String postPower = ""; //in millwatt hours
 
@@ -190,7 +190,7 @@ float randomness = 0;
 float randomnessTwo = 0;
 float randomnessThree = 0;
 
-float rFactor3 = 0;
+
 
 
 void setup() {
@@ -232,8 +232,6 @@ void setup() {
   labelFont = createFont("SourceCodePro-Regular.ttf", 14); // turn anti-aliasing off
   
   theLogo = loadImage("phylum_logo_dark.png");
-  
-  rFactor3 = random(1, 3);
   
   cp5 = new ControlP5(this);
   cp5.addSlider("slider").setPosition(70,205).setSize(600,50).setRange(0.0,14.0).setValue(0.0).setFont(labelFont);
@@ -504,9 +502,9 @@ void draw() {
 boolean getSensors() {
     try {
         JSONObject sensors = loadJSONObject(serverURL + getSensorsEndpoint);
-        benzoApyrene = round2(sensors.getInt("benzoApyrene") / 100.0); // 100.0; convert value to float (with proper decimal place)
-        arsenic = round2(sensors.getInt("arsenic") / 100.0); // 100.0; convert value to float (with proper decimal place)
-        pH = round2(sensors.getInt("pH") / 100.0); // convert value to float (with proper decimal place)
+        benzoApyrene = sensors.getInt("benzoApyrene") / 100.0; // 100.0; convert value to float (with proper decimal place)
+        arsenic = sensors.getInt("arsenic") / 100.0; // 100.0; convert value to float (with proper decimal place)
+        pH = sensors.getInt("pH") / 100.0; // convert value to float (with proper decimal place)
         //power = sensors.getInt("power");
         cFrame.input(str(pH));
         cFrame.inputTwo(str(benzoApyrene));
@@ -631,28 +629,22 @@ void drawCircleViz() {
   
   pushMatrix();
   fill(190, 205, 255, 70);
-  //drawCircles(1430, 460, 100, rFactor);
   drawNFTp(1430, 460, 100);
   fill(150, 180, 255, 70);
   drawNFTp(1680, 460, 100);
-  //drawCircles(1680, 460, 100, rFactor2);
   popMatrix();
   
   pushMatrix();
   fill(180, 255, 215, 70);
-  //drawCirclesTwo(1430, 590, 100);
   drawNFTb(1430, 590, 100);
   fill(150, 255, 205, 70);
-  //drawCirclesTwo(1680, 590, 100);
   drawNFTb(1680, 590, 100);
   popMatrix();
   
   pushMatrix();
   fill(200, 180, 215, 70);
-  //drawCirclesThree(1430, 720, 100);
   drawNFTa(1430, 720, 100);
   fill(225, 150, 255, 70);
-  //drawCirclesThree(1680, 720, 100);
   drawNFTa(1680, 720, 100);
   popMatrix();
 }
@@ -725,54 +717,6 @@ void drawNFTa(float x3, float y3, float radiusThree) {
   }
 }
 
-
-void drawCircles(float x, float y, float radius) {
-  ellipse(x, y, radius, radius);
-  if (radius > 5) {
-    drawCircles(x + radius/2, y, radius/2);
-    drawCircles(x - radius/2, y, radius/2);
-  }
-}
-
-void drawCircles(float x, float y, float radius, float factor) {
-  ellipse(x, y, radius, radius);
-  randomness = random(0, 1);
-  //println(randomness);
-  factor *= randomness;
-  if (radius > 5) {
-    drawCircles(x + radius/2, y, radius/factor);
-    drawCircles(x - radius/2, y, radius/factor);
-  }
-}
-
-void drawCirclesTwo(float x2, float y2, float radiusTwo) {
-  ellipse(x2, y2, radiusTwo, radiusTwo);
-  if (radiusTwo > 5) {
-    drawCirclesTwo(x2 + radiusTwo/1.5, y2, radiusTwo/2);
-    drawCirclesTwo(x2 - radiusTwo/1.5, y2, radiusTwo/2);
-  }
-}
-
-void drawCirclesTwo(float x, float y, float radius, float factor) {
-  ellipse(x, y, radius, radius);
-  randomnessTwo = random(0, 1);
-  //println(randomness);
-  factor *= randomnessTwo;
-  if (radius > 5) {
-    drawCirclesTwo(x + radius/2, y, radius/factor);
-    drawCirclesTwo(x - radius/2, y, radius/factor);
-  }
-}
-
-void drawCirclesThree(float x3, float y3, float radiusThree) {
-  ellipse(x3, y3, radiusThree, radiusThree);
-  //randomnessThree = random(3);
-  //rFactor3 *= randomnessThree;
-  if (radiusThree > 5) {
-    drawCirclesThree(x3 + radiusThree/rFactor3, y3, radiusThree/2.5);
-    drawCirclesThree(x3 - radiusThree/rFactor3, y3, radiusThree/2.5);
-  }
-}
 
 
 void keyPressed() {
@@ -916,18 +860,11 @@ class ControlFrame extends PApplet {
     demoData += random(1);
     if (demoData > 200) demoData = 0;
     //benzoApyrene = round(demoData);
-    pH = round2(float(theText));
+    pH = float(theText);
     cp5.getController("slider").setValue(pH);
-    //uCount += 1;
-    //uRange += 0.15707963267949;
-    //if (uCount >= 40) {
-    //  uCount = 4;
-    //  uRange = 0.62831853;
-    //  vCount += 1;
-    //  vRange += PI/6;
-    //}
     meshDistortion = (demoData * 0.01);
-    postPH = Integer.toString(int(round2(pH) * 100)); // update the pH String repsentation to send to server
+    postPH = Integer.toString(int(pH * 100)); // update the pH String repsentation to send to server
+    pFactor *= 1.0575;
   }
   
   public void inputTwo(String theText) {
@@ -935,18 +872,11 @@ class ControlFrame extends PApplet {
     demoData += random(1);
     if (demoData > 200) demoData = 0;
     //benzoApyrene = round(demoData);
-    benzoApyrene = round2(float(theText));
+    benzoApyrene = float(theText);
     cp5.getController("sliderTwo").setValue(benzoApyrene);
-    //uCount += 1;
-    //uRange += 0.15707963267949;
-    //if (uCount >= 40) {
-    //  uCount = 4;
-    //  uRange = 0.62831853;
-    //  vCount += 1;
-    //  vRange += PI/6;
-    //}
     meshDistortion = (demoData * 0.01);
-    postBenzoApyrene = Integer.toString(int(round2(benzoApyrene) * 100)); // update the benzo(a)pyrene String repsentation to send to server
+    postBenzoApyrene = Integer.toString(int(benzoApyrene * 100)); // update the benzo(a)pyrene String repsentation to send to server
+    bFactor *= 1.0325;
   }
   
   public void inputThree(String theText) {
@@ -954,7 +884,7 @@ class ControlFrame extends PApplet {
     demoData += random(1);
     if (demoData > 200) demoData = 0;
     //benzoApyrene = round(demoData);
-    arsenic = round2(float(theText));
+    arsenic = float(theText);
     cp5Two.getController("sliderThree").setValue(arsenic);
     uCount += 1;
     uRange += 0.15707963267949;
@@ -965,7 +895,8 @@ class ControlFrame extends PApplet {
       vRange += PI/6;
     }
     meshDistortion = (demoData * 0.01);
-    postArsenic = Integer.toString(int(round2(arsenic) * 100)); // update the arsenic String repsentation to send to server
+    postArsenic = Integer.toString(int(arsenic * 100)); // update the arsenic String repsentation to send to server
+    aFactor *= 0.975;
   }
   
 }
