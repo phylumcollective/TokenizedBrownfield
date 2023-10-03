@@ -33,6 +33,8 @@ contract BrownfieldERC721Token is ERC721URIStorage {
         minPH = _minPH;
         maxPH = _maxPH;
         soilSensors = ISoilSensors(sensors);
+        benzoApyrene = soilSensors.readBenzoApyrene();
+        arsenic = soilSensors.readArsenic();
         lastMinted = block.timestamp; // in seconds
         owner = msg.sender;
         //_mint(owner, _supply);
