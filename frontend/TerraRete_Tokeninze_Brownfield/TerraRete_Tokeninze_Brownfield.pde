@@ -639,7 +639,7 @@ float round2(float value) {
 
 void drawCircleViz() {
   fill(110);
-  rect(1280, 175, 550, 700);
+  rect(1278, 175, 554, 700);
   
   pushMatrix();
   fill(190, 205, 255, 70);
