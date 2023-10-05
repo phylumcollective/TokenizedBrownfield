@@ -50,6 +50,12 @@ float pFactor = 1.95;
 float bFactor = 1.75;
 float aFactor = 2.125;
 
+float pMinR = 75;
+float bMinR = 75;
+float aMinR = 75;
+
+float nftMap = 1.055;
+
 
 Mesh theMesh;
 
@@ -186,11 +192,6 @@ PFont erc721CountFont;
 PFont addressFont;
 PFont countFont;
 PFont labelFont;
-
-float randomness = 0;
-float randomnessTwo = 0;
-float randomnessThree = 0;
-
 
 
 
@@ -562,14 +563,6 @@ boolean mintERC20Token() {
               uCount = ERC20Count % 40;
               uRange = (ERC20Count % 40) * (TWO_PI/40);
             }
-            //uCount += 1;
-            //uRange += 0.15707963267949;
-            //if (uCount >= 40) {
-            //  uCount = 4;
-            //  uRange = 0.62831853;
-            //  vCount += 1;
-            //  vRange += PI/6;
-            //}
             return true;
         } else {
             return false;
@@ -596,10 +589,20 @@ boolean mintERC721Token(String filepath) {
         println("number of ERC-721 tokens minted so far: " + numERC721TokensMinted);
         if(numERC721TokensMinted > ERC721Count) {
             ERC721Count = numERC721TokensMinted;
-            float nftMap = map(ERC721Count, 0,164, 0.855, 2.325);
-            pFactor *= (1.0575*nftMap);
-            bFactor *= (1.0325*nftMap);
-            aFactor *= (0.975*nftMap);
+            nftMap = map(ERC721Count, 0,164, 0.925, 1.1175);
+            pMinR -= 10;
+            if (pMinR < 5) pMinR = 50;
+            float pNftMap = map(pH, 0,14, 0.8325, 1.1825);
+            pFactor *= pNftMap;
+            bMinR -= 10;
+            if (bMinR < 5) bMinR = 50;
+            float bNftMap = map(benzoApyrene, 0,1, 0.9125,1.125);
+            bFactor *= (bNftMap*nftMap);
+            float aNftMap = map(arsenic, 0,1, 0.975,1.0625);
+            aFactor *= aNftMap;
+            aMinR -= 10;
+            if (aMinR < 5) aMinR = 50;
+            saveFrame(timestamp() + "_viz.png");
             return true;
         } else {
             return false;
@@ -707,7 +710,7 @@ void drawText() {
 
 void drawNFTp(float x, float y, float radius) {
   ellipse(x, y, radius, radius);
-  if (radius > 5) {
+  if (radius > pMinR) {
     drawNFTp(x + radius/pFactor, y, radius/pFactor);
     drawNFTp(x - radius/pFactor, y, radius/pFactor);
   }
@@ -715,7 +718,7 @@ void drawNFTp(float x, float y, float radius) {
 
 void drawNFTb(float x2, float y2, float radiusTwo) {
   ellipse(x2, y2, radiusTwo, radiusTwo);
-  if (radiusTwo > 5) {
+  if (radiusTwo > bMinR) {
     drawNFTb(x2 + radiusTwo/bFactor, y2, radiusTwo/bFactor);
     drawNFTb(x2 - radiusTwo/bFactor, y2, radiusTwo/bFactor);
   }
@@ -725,7 +728,7 @@ void drawNFTa(float x3, float y3, float radiusThree) {
   ellipse(x3, y3, radiusThree, radiusThree);
   //randomnessThree = random(3);
   //rFactor3 *= randomnessThree;
-  if (radiusThree > 5) {
+  if (radiusThree > aMinR) {
     drawNFTa(x3 + radiusThree/aFactor, y3, radiusThree/aFactor);
     drawNFTa(x3 - radiusThree/aFactor, y3, radiusThree/aFactor);
   }
@@ -878,7 +881,10 @@ class ControlFrame extends PApplet {
     cp5.getController("slider").setValue(pH);
     meshDistortion = (demoData * 0.01);
     postPH = Integer.toString(int(round2(pH) * 100)); // update the pH String repsentation to send to server
-    pFactor *= 1.0575;
+    pMinR -= 10;
+    if (pMinR < 5) pMinR = 50;
+    float pNftMap = map(pH, 0,14, 0.8325, 1.1825);
+    pFactor *= pNftMap;
   }
   
   public void inputTwo(String theText) {
@@ -890,7 +896,10 @@ class ControlFrame extends PApplet {
     cp5.getController("sliderTwo").setValue(benzoApyrene);
     meshDistortion = (demoData * 0.01);
     postBenzoApyrene = Integer.toString(int(round2(benzoApyrene) * 100)); // update the benzo(a)pyrene String repsentation to send to server
-    bFactor *= 1.0325;
+    bMinR -= 10;
+    if (bMinR < 5) bMinR = 50;
+    float bNftMap = map(benzoApyrene, 0,1, 0.9125,1.01255);
+    bFactor *= (bNftMap*nftMap);
   }
   
   public void inputThree(String theText) {
@@ -900,17 +909,12 @@ class ControlFrame extends PApplet {
     //benzoApyrene = round(demoData);
     arsenic = round2(float(theText));
     cp5Two.getController("sliderThree").setValue(arsenic);
-    uCount += 1;
-    uRange += 0.15707963267949;
-    if (uCount >= 40) {
-      uCount = 4;
-      uRange = 0.62831853;
-      vCount += 1;
-      vRange += PI/6;
-    }
     meshDistortion = (demoData * 0.01);
     postArsenic = Integer.toString(int(round2(arsenic) * 100)); // update the arsenic String repsentation to send to server
-    //aFactor *= 0.975;
+    float aNftMap = map(arsenic, 0,20, 0.975,1.0625);
+    aFactor *= aNftMap;
+    aMinR -= 10;
+    if (aMinR < 5) aMinR = 50;
   }
   
 }
