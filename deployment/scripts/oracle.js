@@ -51,7 +51,7 @@ const erc721Contract = new ethers.Contract(
 // ======= SERIAL PORT/ARDUINO STUFF ======= //
 // get the port name from the command line
 //console.log(SerialPort.list());
-const portName = "/dev/tty.usbmodem14701";
+const portName = "/dev/tty.usbmodem147301";
 //let portName = process.argv[2];
 // Set up serial port connection to the Arduino
 const serialPort = new SerialPort({ path: portName, baudRate: 9600 });
