@@ -129,6 +129,7 @@ app.post("/updateSensors", async (req, res) => {
   console.log(
     "==========================\nHTTP GET request received (/updateSensors)"
   );
+
   await sensorsContract.setBenzoApyrene(Number(req.body.benzoApyrene));
   await sensorsContract.setArsenic(Number(req.body.arsenic));
   await sensorsContract.setPH(Number(req.body.pH));

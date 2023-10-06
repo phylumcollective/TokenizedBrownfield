@@ -196,8 +196,8 @@ PFont labelFont;
 
 
 void setup() {
-  size(1920,1080,P3D);
-  //fullScreen(P3D);
+  //size(1920,1080,P3D);
+  fullScreen(P3D, 2);
   
   //--------- HTTP / Comm Setup --------------
 
