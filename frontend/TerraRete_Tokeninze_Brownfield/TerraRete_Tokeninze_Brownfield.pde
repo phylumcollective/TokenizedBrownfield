@@ -589,7 +589,7 @@ boolean mintERC721Token(String filepath) {
         println("number of ERC-721 tokens minted so far: " + numERC721TokensMinted);
         if(numERC721TokensMinted > ERC721Count) {
             ERC721Count = numERC721TokensMinted;
-            nftMap = map(ERC721Count, 0,164, 0.925, 1.1175);
+            /* nftMap = map(ERC721Count, 0,164, 0.925, 1.1175);
             pMinR -= 10;
             if (pMinR < 5) pMinR = 50;
             float pNftMap = map(pH, 0,14, 0.8325, 1.1825);
@@ -601,7 +601,7 @@ boolean mintERC721Token(String filepath) {
             float aNftMap = map(arsenic, 0,1, 0.975,1.0625);
             aFactor *= aNftMap;
             aMinR -= 10;
-            if (aMinR < 5) aMinR = 50;
+            if (aMinR < 5) aMinR = 50; */
             saveFrame(timestamp() + "_viz.png");
             return true;
         } else {
@@ -643,8 +643,22 @@ float round2(float value) {
 void drawCircleViz() {
   fill(110);
   rect(1278, 175, 554, 700);
+
+  float center = 1278 + (554 / 2);
+
+  fill(190, 205, 255, 70);
+  float phRadius = map(pH, 0.0, 14.0, 20.0, 120.0);
+  ellipse(center, 460, phRadius, phRadius); // ph circle
+
+  fill(180, 255, 215, 70);
+  float benzoRadius = map(benzoApyrene, 0.0, 20.0, 20.0, 150.0);
+  ellipse(center, 590, benzoRadius, benzoRadius); // benzo circle
+
+  fill(225, 150, 100, 70);
+  float arsenicRadius = map(arsenic, 0.0, 50.0, 20.0, 150.0);
+  ellipse(center, 720, arsenicRadius, arsenicRadius); // arsenic circle
   
-  pushMatrix();
+/*   pushMatrix();
   fill(190, 205, 255, 70);
   drawNFTp(1430, 460, 100);
   fill(150, 180, 255, 70);
@@ -663,7 +677,7 @@ void drawCircleViz() {
   drawNFTa(1430, 720, 100);
   fill(225, 150, 255, 70);
   drawNFTa(1680, 720, 100);
-  popMatrix();
+  popMatrix(); */
 }
 
 void drawText() {
@@ -710,28 +724,28 @@ void drawText() {
 
 void drawNFTp(float x, float y, float radius) {
   ellipse(x, y, radius, radius);
-  if (radius > pMinR) {
+  /* if (radius > pMinR) {
     drawNFTp(x + radius/pFactor, y, radius/pFactor);
     drawNFTp(x - radius/pFactor, y, radius/pFactor);
-  }
+  } */
 }
 
 void drawNFTb(float x2, float y2, float radiusTwo) {
   ellipse(x2, y2, radiusTwo, radiusTwo);
-  if (radiusTwo > bMinR) {
+  /* if (radiusTwo > bMinR) {
     drawNFTb(x2 + radiusTwo/bFactor, y2, radiusTwo/bFactor);
     drawNFTb(x2 - radiusTwo/bFactor, y2, radiusTwo/bFactor);
-  }
+  } */
 }
 
 void drawNFTa(float x3, float y3, float radiusThree) {
   ellipse(x3, y3, radiusThree, radiusThree);
   //randomnessThree = random(3);
   //rFactor3 *= randomnessThree;
-  if (radiusThree > aMinR) {
+  /* if (radiusThree > aMinR) {
     drawNFTa(x3 + radiusThree/aFactor, y3, radiusThree/aFactor);
     drawNFTa(x3 - radiusThree/aFactor, y3, radiusThree/aFactor);
-  }
+  } */
 }
 
 
