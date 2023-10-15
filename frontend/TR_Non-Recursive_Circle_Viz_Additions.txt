@@ -1,0 +1,77 @@
+
+1. In Globals, around line 48, add these variables: 
+
+float nftPx = 1320;
+float nftBx = 1320;
+float nftAx = 1320;
+
+float nftPy = 390;
+float nftBy = 530;
+float nftAy = 670;
+
+int nftCount = 168;
+
+
+2. In DRAW Loop, Line 407, comment out 'drawCircleViz();', and add new circle drawing function call:
+
+drawNFTViz(nftCount);
+
+3. In mintERC721Token(), remove or comment out lines 592-604
+
+ADD (before line 604):
+
+nftCount = ERC721Count;
+
+
+
+4. ADD Two Functions around line 642:
+
+void drawNFTViz(int theCount) {
+  float pMap = map(pH, 0,14, 18,24);
+  float bMap = map(benzoApyrene, 0,20, 16,22);
+  float aMap = map(arsenic, 0,50, 18,24);
+  for (int i = 0; i < theCount; i++) {
+    fill(150, 180, 255, 80);
+    drawNFTData(nftPx+(i*22), nftPy, pMap, 2);
+    fill(180, 255, 215, 80);
+    drawNFTData(nftBx+(i*22), nftBy, bMap, 2);
+    fill(200, 180, 215, 80);
+    drawNFTData(nftAx+(i*22), nftAy, aMap, 2);
+  }
+}
+
+
+void drawNFTData(float theX, float theY, float theRadius, float theFactor) {
+  float x = theX;
+  float y = theY;
+  if (x > 1800 && x < 2280) {
+    x = x - 485;
+    y += 20;
+  }
+  else if (x >= 2280 && x < 2760) {
+    x = x - 970;
+    y += 40;
+  }
+  else if (x >= 2760 && x < 3240) {
+    x = x - 1455;
+    y += 60;
+  }
+  else if (x >= 3240 && x < 3720) {
+    x = x - 1940;
+    y += 80;
+  }
+  else if (x >= 3720 && x < 4220) {
+    x = x - 2425;
+    y += 100;
+  }
+  else if (x >= 4220 && x < 4730) {
+    x = x - 2910;
+    y += 120;
+  }
+  ellipse(x, y, theRadius, theRadius);
+  float x2 = x+theRadius/2;
+  ellipse(x+theRadius/2, y, theRadius/theFactor, theRadius/theFactor);
+  float x3 = x2+(theRadius/theFactor)/2;
+  ellipse(x3, y, (theRadius/theFactor)/2, (theRadius/theFactor)/2);
+}
+
