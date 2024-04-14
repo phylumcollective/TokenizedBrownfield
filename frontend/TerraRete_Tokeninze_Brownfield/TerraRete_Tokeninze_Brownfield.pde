@@ -591,17 +591,21 @@ boolean mintERC721Token(String filepath) {
             ERC721Count = numERC721TokensMinted;
             /* nftMap = map(ERC721Count, 0,164, 0.925, 1.1175);
             pMinR -= 10;
-            if (pMinR < 5) pMinR = 50;
+            if (pMinR < 5) pMinR = 75;
             float pNftMap = map(pH, 0,14, 0.8325, 1.1825);
             pFactor *= pNftMap;
             bMinR -= 10;
-            if (bMinR < 5) bMinR = 50;
-            float bNftMap = map(benzoApyrene, 0,1, 0.9125,1.125);
-            bFactor *= (bNftMap*nftMap);
-            float aNftMap = map(arsenic, 0,1, 0.975,1.0625);
+            if (bMinR < 5) bMinR = 75;
+            float bNftMap = map(benzoApyrene, 0,20, 0.9325,1.1055);
+            bFactor *= bNftMap;
+            float aNftMap = map(arsenic, 0,50, 0.975,1.0625);
             aFactor *= aNftMap;
             aMinR -= 10;
+<<<<<<< Updated upstream
             if (aMinR < 5) aMinR = 50; */
+=======
+            if (aMinR < 5) aMinR = 75;
+>>>>>>> Stashed changes
             saveFrame(timestamp() + "_viz.png");
             return true;
         } else {
