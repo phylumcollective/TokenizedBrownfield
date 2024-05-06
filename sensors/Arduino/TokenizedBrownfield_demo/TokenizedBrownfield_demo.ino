@@ -150,7 +150,7 @@ void updateDisplay() {
   tft.println();
   tft.println();
   tft.println();
-  tft.println("Brownfield Toeknization Prototype");
+  tft.println("Brownfield Tokenization Prototype");
   tft.println("Part of the TerraRete platform");
   tft.println("https://is.gd/TerraRete");
 
