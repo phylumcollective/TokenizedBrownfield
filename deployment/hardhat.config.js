@@ -12,7 +12,7 @@ require("hardhat-contract-sizer");
 
 const SEPOLIA_RPC_URL =
   process.env.SEPOLIA_RPC_URL ||
-  "https://eth-sepolia.g.alchemy.com/v2/iFZYLoadJqOIjpHY4D0s7f9hIYGRWztF";
+  "https://eth-sepolia.g.alchemy.com/v2/AMZXngQ_clTrmcFCg1b9mstpk9if3Vzg";
 const PRIVATE_KEY = process.env.PRIVATE_KEY;
 const ETHERSCAN_API_KEY = process.env.ETHERSCAN_API_KEY || "";
 const COINMARKETCAP_API_KEY = process.env.COINMARKETCAP_API_KEY || "";

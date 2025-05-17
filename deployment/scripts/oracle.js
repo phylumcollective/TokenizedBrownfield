@@ -1,8 +1,9 @@
 require("dotenv").config();
-const { SerialPort } = require("serialport");
-const { ReadlineParser } = require("@serialport/parser-readline");
+//const { SerialPort } = require("serialport");
+//const { ReadlineParser } = require("@serialport/parser-readline");
 const { ethers } = require("hardhat");
 const express = require("express");
+
 
 // ======= BLOCKCHAIN STUFF ======= //
 // Set up connection to EVM-based network
@@ -48,6 +49,7 @@ const erc721Contract = new ethers.Contract(
 //   console.log(`Transaction hash: ${tx.hash}`);
 // }
 
+/*
 // ======= SERIAL PORT/ARDUINO STUFF ======= //
 // get the port name from the command line
 //console.log(SerialPort.list());
@@ -81,6 +83,7 @@ serialPort.on("error", (err) => {
 serialPort.on("data", async (data) => {
   //console.log(data.toString());
 });
+*/
 
 function giveInstructions() {
   //console.log('you did not give a port name');
@@ -171,7 +174,7 @@ app.get("/mintERC20", async (req, res) => {
     d.toUTCString(),
   ];
   // update Arduino
-  serialMint(response);
+  //serialMint(response);
 
   try {
     res.send(numERC20TokensMinted.toString()); // send back the number of tokens minted
@@ -214,7 +217,7 @@ app.get("/mintERC721", async (req, res) => {
     d.toUTCString(),
   ];
   // update Arduino
-  serialMint(response);
+  //serialMint(response);
 
   try {
     res.send(numERC721TokensMinted.toString()); // send back the number of tokens minted
@@ -256,8 +259,10 @@ app.listen(PORT_NUM, () => {
   console.log(`Express HTTP server running on port ${PORT_NUM}`);
 });
 
+/*
 function serialMint(response) {
   // Send the response over serial
   serialPort.write(response.join(",") + "\n");
   console.log("serialMint(): " + response.join(","));
 }
+*/
