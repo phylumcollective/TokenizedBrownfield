@@ -198,7 +198,7 @@ void setup() {
   // --- Data Viz ---
   fullScreen(P3D, 1);
   
-  theMovie = new Movie(this, "TR_Soil_Dig_02.mp4");
+  theMovie = new Movie(this, "TR_Soil_Dig_02_opt.mp4");
   theMovie.loop();
   
   meshTagX = width*0.85;
@@ -275,7 +275,7 @@ void setup() {
   bacteria = loadImage("bacteria_graphic.png");
   
   displayTwo = new MultiDisplay(this, 2, "ERC721 Cert Window");
-  //displayTwo.openFrame();
+  displayTwo.openFrame();
 
 }
 
