@@ -24,7 +24,8 @@ String tokenURI = "/"; // URI/path of the NFT image
 //static final long hoursInMilli = minutesInMilli * 60;
 //long previousMillis = 0;
 int startTime; // Variable to store the starting time
-static final int countdownDuration = 3600; // 3600 seconds = 1 hour
+//static final int countdownDuration = 3600;
+static final int countdownDuration = 60;// 3600 seconds = 1 hour
 
 // sensor data from the server
 float benzoApyrene = 0.0; //in ppm
@@ -130,6 +131,7 @@ color mainTxtCol = color(125, 179, 167);
 boolean saveOneFrame = false;
 int qualityFactor = 3;
 TileSaver tiler;
+TileSaver tilerTwo;
 
 
 // ------ NEW: DATA Inputs -----
@@ -600,6 +602,8 @@ boolean mintERC721Token(String filepath) {
             ERC721Count = numERC721TokensMinted;
             saveFrame(timestamp() + "_viz.png");
             tiler.init(timestamp()+".png", qualityFactor);
+            //saveFrame(timestamp() + "_viz.png");
+            //tilerTwo.init(timestamp()+".png", qualityFactor);
             return true;
         } else {
             return false;
@@ -808,6 +812,7 @@ class MultiDisplay extends PApplet {
   
   public void setup() {
     background(0);
+    tilerTwo = new TileSaver(this);
     println("The width of the second display is: " + this.width);
     println("The height of the second display is: " + this.height);
   }
@@ -819,6 +824,9 @@ class MultiDisplay extends PApplet {
   void draw() {
     background(0);
     randomSeed(1982);
+    // for high quality output
+    if (tilerTwo==null) return; 
+    tilerTwo.pre();
     //image(bacteria, 700, 300, 400, 429);
     
     drawCircleViz();
@@ -828,6 +836,9 @@ class MultiDisplay extends PApplet {
     translate(-1000, 75);
     drawNFTViz(nftCount);
     popMatrix();
+    
+    // draw next tile for high quality output
+    tilerTwo.post();
   }
   
   
