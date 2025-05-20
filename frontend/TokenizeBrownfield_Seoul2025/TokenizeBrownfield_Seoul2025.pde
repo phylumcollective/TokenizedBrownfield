@@ -25,7 +25,7 @@ String tokenURI = "/"; // URI/path of the NFT image
 //long previousMillis = 0;
 int startTime; // Variable to store the starting time
 //static final int countdownDuration = 3600;
-static final int countdownDuration = 60;// 3600 seconds = 1 hour
+static final int countdownDuration = 360;// 3600 seconds = 1 hour
 
 // sensor data from the server
 float benzoApyrene = 0.0; //in ppm
@@ -173,6 +173,9 @@ static final String certCount = "Brownfield certificates minted: ";
 
 static final String countDownTxt = "Time until next transaction: ";
 
+color phTxtColor = color(150, 180, 255);
+color benzoTxtColor = color(180, 255, 215);
+color arTxtColor = color(200, 180, 215);
 PFont certFont; 
 PFont certFontTwo;
 PFont certTtlFont;
@@ -214,22 +217,22 @@ void setup() {
   theMovie = new Movie(this, "TR_Soil_Dig_02_opt.mp4");
   theMovie.loop();
   
-  meshTagX = width*0.85;
+  meshTagX = width*0.7;
   meshTagY = height*0.5;
   artistTag = new TargetGraphic(meshTagX-meshOffsetX, meshTagY-meshOffsetY, meshTagW, meshTagH);
   newTargetX = artistTag.tx;
   newTargetY = artistTag.ty;
   
   certificateTxt[0] = "Time: Fri, 06 Oct 2023 11:44:23 GMT";
-  certificateTxt[1] = "pH: 0.00 (top)";
-  certificateTxt[2] = "Benzo(a)pyrene: 0.00 PPM (middle)";
-  certificateTxt[3] = "Arsenic: 0.00 PPM (bottom)";
+  certificateTxt[1] = "pH: 8.20";
+  certificateTxt[2] = "Benzo(a)pyrene: 0.05 PPM";
+  certificateTxt[3] = "Arsenic: 13.83 PPM";
   certificateTxt[4] = "Soil Source:";
   certificateTxt[5] = "37.183877, 126.860259 (Hwaseong-si Industrial Zone)";
   
   
   // load fonts and set font sizes
-  certFont = createFont("SourceCodePro-Regular.ttf", 24);
+  certFont = createFont("SourceCodePro-Light.ttf", 24);
   certFontTwo = createFont("SourceCodePro-Regular.ttf", 20);
   addressFont = createFont("SourceCodePro-Light.ttf", 24);
   countFont = createFont("SourceCodePro-Light.ttf", 24);
@@ -351,9 +354,9 @@ void draw() {
           if(currTime.after(time1) && currTime.before(time2)) {
               if(mintERC721Token(tokenURI)) {
                 certificateTxt[0] = timestamp();
-                certificateTxt[1] = "pH: " + str(pH) + " (top)";
-                certificateTxt[2] = "Benzo(a)pyrene: " + str(benzoApyrene) + " PPM (middle)";
-                certificateTxt[3] = "Arsenic: " + str(arsenic) + " PPM (bottom)";
+                certificateTxt[1] = "pH: " + str(pH);
+                certificateTxt[2] = "Benzo(a)pyrene: " + str(benzoApyrene) + " PPM";
+                certificateTxt[3] = "Arsenic: " + str(arsenic) + " PPM";
                 //update the amount minted, show that a token was minted...
                 println("show that an ERC-721 token was minted");
                 println();
@@ -378,12 +381,14 @@ void draw() {
   //getSensors
   
   // Display the soil moisture value and token balance
+  /*
   textSize(20);
   textAlign(CENTER);
   text("benzoApyrene: " + benzoApyrene, width/2, height/4);
   text("arsenic: " + arsenic, width/2, height/3);
   text("pH: " + pH, width/2, height/2);
   //text("powerH: " + power, width/2, height/2 + 100);
+  */
   
   // --- Data Viz Code Additions ---
   image(theLogo, 70, 50, 288, 103);
@@ -400,7 +405,7 @@ void draw() {
   // ------ set view ------
   pushMatrix();
   //translate(width*0.5, height*0.5);
-  translate(width*0.85, height*0.5);
+  translate(width*0.7, height*0.5);
 
   if (mousePressed && mouseButton==RIGHT) {
     offsetX = mouseX-clickX;
@@ -603,7 +608,7 @@ boolean mintERC721Token(String filepath) {
             saveFrame(timestamp() + "_viz.png");
             tiler.init(timestamp()+".png", qualityFactor);
             //saveFrame(timestamp() + "_viz.png");
-            //tilerTwo.init(timestamp()+".png", qualityFactor);
+            tilerTwo.init(timestamp()+".png", qualityFactor);
             return true;
         } else {
             return false;
@@ -833,12 +838,12 @@ class MultiDisplay extends PApplet {
     
     drawText();
     pushMatrix();
-    translate(-1000, 75);
+    translate(-850, 50);
     drawNFTViz(nftCount);
     popMatrix();
     
     pushMatrix();
-    translate(-500, 75);
+    translate(-350, 50);
     drawNFTViz(nftCount);
     popMatrix();
     
@@ -856,7 +861,7 @@ class MultiDisplay extends PApplet {
     rect(150, 150, 1620, 817);
     noStroke();
     fill(255, 255, 0);
-    text("ERC 721 Certificate of Authenticity", 500, 200);
+    text("ERC 721 Certificate of Authenticity", 475, 200);
   
     
     float phRadius = map(pH, 0.0, 14.0, 20.0, 120.0);
@@ -962,17 +967,21 @@ class MultiDisplay extends PApplet {
   public void drawText() {
     fill(255, 255, 0);
     textFont(certTtlFont);
-    text(certificateTtl, 250, 280);
+    text(certificateTtl, 475, 280);
     
     fill(255);
     for (int i = 0; i < certificateTxt.length; i++) {
       if (i < 4) {
+        if (i == 1) fill(phTxtColor);
+        else if (i == 2) fill(benzoTxtColor);
+        else if (i == 3) fill(arTxtColor);
+        else fill(255, 255, 0);
         textFont(certFont);
-        text(certificateTxt[i], 250, (i*30)+340);
+        text(certificateTxt[i], 475, (i*30)+320);
       }
       else {
         textFont(certFontTwo);
-        text(certificateTxt[i], 250, (i*30)+758);
+        text(certificateTxt[i], 475, (i*30)+758);
       } 
     }
   }
