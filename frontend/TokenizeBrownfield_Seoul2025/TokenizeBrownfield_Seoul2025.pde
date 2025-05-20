@@ -45,7 +45,17 @@ int ERC721Count = 0;
 Calendar cal;
 
 
-// --- Data Viz Addons ---
+// --- Data Viz Addons - for certificate ---
+
+float nftPx = 1320;
+float nftBx = 1320;
+float nftAx = 1320;
+
+float nftPy = 390;
+float nftBy = 530;
+float nftAy = 670;
+
+int nftCount = 168;
 
 // ------ ControlP5 ------
 
@@ -59,6 +69,7 @@ ControlFrame cFrame;
 float bMinR, bFactor, pMinR, pFactor, aMinR, aFactor, nftMap;
 
 float benzoData = benzoApyrene;
+float arsenicData = arsenic;
 
 Mesh theMesh;
 Mesh theBMesh;
@@ -212,7 +223,7 @@ void setup() {
   certificateTxt[2] = "Benzo(a)pyrene: 0.00 PPM (middle)";
   certificateTxt[3] = "Arsenic: 0.00 PPM (bottom)";
   certificateTxt[4] = "Soil Source:";
-  certificateTxt[5] = "43.13788, -77.62065 (Vacuum Oil Refinery)";
+  certificateTxt[5] = "37.183877, 126.860259 (Hwaseong-si Industrial Zone)";
   
   
   // load fonts and set font sizes
@@ -237,12 +248,12 @@ void setup() {
   cp5.setColorForeground(frontColor);
   cp5.setColorCaptionLabel(color(194,194,194));
   
-  cp5.addSlider("sliderTwo").setPosition(70,275).setSize(600,50).setRange(0.0,20.0).setValue(0.00).setFont(labelFont);
+  cp5.addSlider("sliderTwo").setPosition(70,275).setSize(600,50).setRange(0.0,1.0).setValue(0.00).setFont(labelFont);
   cp5.getController("sliderTwo").setLabel("Benzo(a)pyrene");
   cp5.setColorCaptionLabel(color(194,194,194));
   
   cp5Two = new ControlP5(this);
-  cp5Two.addSlider("sliderThree").setPosition(70, 345).setSize(600, 50).setRange(0.0, 50.0).setValue(0.00).setFont(labelFont);
+  cp5Two.addSlider("sliderThree").setPosition(70, 345).setSize(600, 50).setRange(0.0, 20.0).setValue(0.00).setFont(labelFont);
   cp5Two.getController("sliderThree").setLabel("Arsenic");
   cp5Two.setColorCaptionLabel(color(194,194,194));
   
@@ -438,9 +449,9 @@ void draw() {
     ii = 0;
     for (int iu = 0; iu <= uCount; iu++) {
       for (int iv = 0; iv <= vCount; iv++) {
-        meshDistortion = benzoData;
+        meshDistortion = arsenicData;
         meshDistortion += 0.01;
-        theData[ii] = benzoData + random(0.051);
+        theData[ii] = arsenicData + random(0.051);
         ii++;
       }
     }
@@ -661,6 +672,7 @@ void sliderTwo(float theValue) {
 
 
 void sliderThree(float theValue) {
+  arsenicData = map(arsenic, 0,20, 0.05,0.9);
   println("Slider value incoming event. the value: " + theValue);
   //meshDistortion = (theValue * 0.001);
   //theMesh.setMeshDistortion(meshDistortion);
@@ -806,10 +818,16 @@ class MultiDisplay extends PApplet {
   
   void draw() {
     background(0);
+    randomSeed(1982);
     //image(bacteria, 700, 300, 400, 429);
     
     drawCircleViz();
+    
     drawText();
+    pushMatrix();
+    translate(-1000, 75);
+    drawNFTViz(nftCount);
+    popMatrix();
   }
   
   
@@ -819,7 +837,7 @@ class MultiDisplay extends PApplet {
     strokeWeight(0.75);
     noFill();
     stroke(255, 255, 0);
-    rect(150, 150, 1428, 817);
+    rect(150, 150, 1620, 817);
     noStroke();
     fill(255, 255, 0);
     text("ERC 721 Certificate of Authenticity", 500, 200);
@@ -851,6 +869,61 @@ class MultiDisplay extends PApplet {
     drawNFTa(330, 780, 100);
     popMatrix();
   }
+  
+  public void drawNFTViz(int theCount) {
+    float pMap = map(pH, 0,14, 18,24);
+    float bMap = map(benzoApyrene, 0,1, 16,22);
+    float aMap = map(arsenic, 0,20, 18,24);
+    float pCol = map(pH, 0,9, 150,255);
+    for (int i = 0; i < theCount; i++) {
+      float colDiff = random(1);
+      //colDiff /= theCount;
+      pCol *= colDiff;
+      fill(150, 180, 255, 80);
+      //fill(150, 180, pCol, 80);
+      drawNFTData(nftPx+(i*22), nftPy, pMap, 2);
+      fill(180, 255, 215, 80);
+      drawNFTData(nftBx+(i*22), nftBy, bMap, 2);
+      fill(200, 180, 215, 80);
+      drawNFTData(nftAx+(i*22), nftAy, aMap, 2);
+    }
+  }
+
+
+  public void drawNFTData(float theX, float theY, float theRadius, float theFactor) {
+    float x = theX;
+    float y = theY;
+    if (x > 1800 && x < 2280) {
+      x = x - 485;
+      y += 20;
+    }
+    else if (x >= 2280 && x < 2760) {
+      x = x - 970;
+      y += 40;
+    }
+    else if (x >= 2760 && x < 3240) {
+      x = x - 1455;
+      y += 60;
+    }
+    else if (x >= 3240 && x < 3720) {
+      x = x - 1940;
+      y += 80;
+    }
+    else if (x >= 3720 && x < 4220) {
+      x = x - 2425;
+      y += 100;
+    }
+    else if (x >= 4220 && x < 4730) {
+      x = x - 2910;
+      y += 120;
+    }
+    ellipse(x, y, theRadius, theRadius);
+    float x2 = x+theRadius/2;
+    ellipse(x+theRadius/2, y, theRadius/theFactor, theRadius/theFactor);
+    float x3 = x2+(theRadius/theFactor)/2;
+    ellipse(x3, y, (theRadius/theFactor)/2, (theRadius/theFactor)/2);
+  }
+
 
   public void drawText() {
     fill(255, 255, 0);
