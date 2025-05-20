@@ -837,6 +837,11 @@ class MultiDisplay extends PApplet {
     drawNFTViz(nftCount);
     popMatrix();
     
+    pushMatrix();
+    translate(-500, 75);
+    drawNFTViz(nftCount);
+    popMatrix();
+    
     // draw next tile for high quality output
     tilerTwo.post();
   }
@@ -858,7 +863,7 @@ class MultiDisplay extends PApplet {
     float benzoRadius = map(benzoApyrene, 0.0, 20.0, 20.0, 150.0);
     float arsenicRadius = map(arsenic, 0.0, 50.0, 20.0, 150.0);
     
-    
+    /*
     pushMatrix();
     fill(190, 205, 255, 70);
     drawNFTp(300, 520, 100);
@@ -879,6 +884,7 @@ class MultiDisplay extends PApplet {
     fill(225, 150, 255, 70);
     drawNFTa(330, 780, 100);
     popMatrix();
+    */
   }
   
   public void drawNFTViz(int theCount) {
@@ -904,27 +910,44 @@ class MultiDisplay extends PApplet {
   public void drawNFTData(float theX, float theY, float theRadius, float theFactor) {
     float x = theX;
     float y = theY;
-    if (x > 1800 && x < 2280) {
+    float distribution = 0;
+    if (x <= 1800) {
+      distribution = randomGaussian() * 12;
+      x += distribution;
+    }
+    else if (x > 1800 && x < 2280) {
+      distribution = randomGaussian() * 12;
+      x += distribution;
       x = x - 485;
       y += 20;
     }
     else if (x >= 2280 && x < 2760) {
+      distribution = randomGaussian() * 12;
+      x += distribution;
       x = x - 970;
       y += 40;
     }
     else if (x >= 2760 && x < 3240) {
+      distribution = randomGaussian() * 12;
+      x += distribution;
       x = x - 1455;
       y += 60;
     }
     else if (x >= 3240 && x < 3720) {
+      distribution = randomGaussian() * 12;
+      x += distribution;
       x = x - 1940;
       y += 80;
     }
     else if (x >= 3720 && x < 4220) {
+      distribution = randomGaussian() * 12;
+      x += distribution;
       x = x - 2425;
       y += 100;
     }
     else if (x >= 4220 && x < 4730) {
+      distribution = randomGaussian() * 12;
+      x += distribution;
       x = x - 2910;
       y += 120;
     }
