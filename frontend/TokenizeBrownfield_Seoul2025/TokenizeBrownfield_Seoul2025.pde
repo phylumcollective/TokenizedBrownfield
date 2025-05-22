@@ -24,8 +24,8 @@ String tokenURI = "/"; // URI/path of the NFT image
 //static final long hoursInMilli = minutesInMilli * 60;
 //long previousMillis = 0;
 int startTime; // Variable to store the starting time
-//static final int countdownDuration = 3600;
-static final int countdownDuration = 360;// 3600 seconds = 1 hour
+static final int countdownDuration = 3600;
+//static final int countdownDuration = 60;// 3600 seconds = 1 hour
 
 // sensor data from the server
 float benzoApyrene = 0.0; //in ppm
@@ -44,6 +44,8 @@ int ERC20Count = 0;
 int ERC721Count = 0;
 
 Calendar cal;
+
+boolean cursorOn=true;
 
 
 // --- Data Viz Addons - for certificate ---
@@ -324,14 +326,14 @@ void draw() {
   if(remainingTime <= 0) {
       // --- mint ERC-20 (currency) ---
       if(mintERC20Token()) {
-        if (ERC20Count % 30 == 0) {
+        if (ERC20Count % 24 == 0) {
           uCount = 1;
-          vCount = (ERC20Count/30)+1;
-          vRange = ((ERC20Count/30)+1)*(PI/6);
+          vCount = (ERC20Count/24)+1;
+          vRange = ((ERC20Count/24)+1)*(PI/6);
         }
         else {
-          uCount = ERC20Count % 30;
-          uRange = (ERC20Count % 30) * (TWO_PI/30);
+          uCount = ERC20Count % 24;
+          uRange = (ERC20Count % 24) * (TWO_PI/24);
         }
           //update the amount minted, show that a token was minted...
           println("show that an ERC-20 token was minted");
@@ -661,6 +663,17 @@ void keyPressed() {
     saveFrame(timestamp() + "_viz.png");
     tiler.init(timestamp()+".png", qualityFactor);
   }
+  
+  if (key == 'c') {
+    if(cursorOn) {
+      noCursor();
+      cursorOn=false;
+    } else {
+      cursor();
+      cursorOn=true;
+    }
+    
+  }
 }
 
 // --- New Viz Functions ---
@@ -699,7 +712,7 @@ void controlEvent(ControlEvent theEvent) {
 void drawMainText() {
   textFont(erc721CountFont);
   fill(mainTxtCol, 100);
-  text(nf(ERC721Count, 3), 1776, 220);
+  //text(nf(ERC721Count, 3), 1776, 220);
   
   //theTxt.toUpperCase();
   fill(activeColor, 100);
@@ -719,7 +732,7 @@ void drawMainText() {
   //text(remediation, 70, 940);
   //text(creditsCount + ERC20Count, 70, 900);
   text(creditsCount + ERC20Count, 70, 940);
-  text(certCount + ERC721Count + "/164", 1280, 940);
+  text(certCount + ERC721Count + "/56", 1280, 940);
   text(countDownTxt, 700, 1020);
 }
 
