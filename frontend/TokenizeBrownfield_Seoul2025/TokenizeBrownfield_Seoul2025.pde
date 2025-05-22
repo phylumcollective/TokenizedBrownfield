@@ -24,7 +24,7 @@ String tokenURI = "/"; // URI/path of the NFT image
 //static final long hoursInMilli = minutesInMilli * 60;
 //long previousMillis = 0;
 int startTime; // Variable to store the starting time
-static final int countdownDuration = 3600;
+static final int countdownDuration = 3;
 //static final int countdownDuration = 60;// 3600 seconds = 1 hour
 
 // sensor data from the server
@@ -841,7 +841,7 @@ class MultiDisplay extends PApplet {
   
   void draw() {
     background(0);
-    randomSeed(1982);
+    //randomSeed(1982);
     // for high quality output
     if (tilerTwo==null) return; 
     tilerTwo.pre();
@@ -916,11 +916,16 @@ class MultiDisplay extends PApplet {
       pCol *= colDiff;
       fill(150, 180, 255, 80);
       //fill(150, 180, pCol, 80);
-      drawNFTData(nftPx+(i*22), nftPy, pMap, 2);
+      //drawNFTData(nftPx+(i*22), nftPy, pMap, 2);
+      //fill(180, 255, 215, 80);
+      //drawNFTData(nftBx+(i*22), nftBy, bMap, 2);
+      //fill(200, 180, 215, 80);
+      //drawNFTData(nftAx+(i*22), nftAy, aMap, 2);
+      drawNFTData(nftPx+(i*random(-11,11)), nftPy*random(-1,1), pMap, 2);
       fill(180, 255, 215, 80);
-      drawNFTData(nftBx+(i*22), nftBy, bMap, 2);
+      drawNFTData(nftBx+(i*random(-11,11)), nftBy*random(-1,1), bMap, 2);
       fill(200, 180, 215, 80);
-      drawNFTData(nftAx+(i*22), nftAy, aMap, 2);
+      drawNFTData(nftAx+(i*random(-11,11)), nftAy*random(-1,1), aMap, 2);
     }
   }
 
