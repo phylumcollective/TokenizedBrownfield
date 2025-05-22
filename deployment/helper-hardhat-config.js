@@ -14,7 +14,7 @@ const INITIAL_ARSENIC = "5000"; //ppm - real value * 100 (restrict to two decima
 const INITIAL_PH = "700"; // real value * 100 (restrict to two decimal points)
 //const INITIAL_POWER = "0";
 const MIN_PH = "550";
-const MAX_PH = "750"; // real value * 100 (restrict to two decimal points)
+const MAX_PH = "850"; // real value * 100 (restrict to two decimal points)
 const MINT_INTERVAL_ERC20 = "35"; // 3600 seconds (1 hour)
 const MINT_INTERVAL_ERC721 = "35"; // 3600 seconds (1 hour)
 
