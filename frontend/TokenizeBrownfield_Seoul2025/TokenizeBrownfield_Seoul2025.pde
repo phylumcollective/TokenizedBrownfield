@@ -24,8 +24,8 @@ String tokenURI = "/"; // URI/path of the NFT image
 //static final long hoursInMilli = minutesInMilli * 60;
 //long previousMillis = 0;
 int startTime; // Variable to store the starting time
-static final int countdownDuration = 3;
-//static final int countdownDuration = 60;// 3600 seconds = 1 hour
+//static final int countdownDuration = 60;
+static final int countdownDuration = 3600;// 3600 seconds = 1 hour
 
 // sensor data from the server
 float benzoApyrene = 0.0; //in ppm
@@ -46,6 +46,8 @@ int ERC721Count = 0;
 Calendar cal;
 
 boolean cursorOn=true;
+
+int theSeed = 1983;
 
 
 // --- Data Viz Addons - for certificate ---
@@ -324,6 +326,7 @@ void draw() {
 
   // attempt to mint an ERC20 and ERC721 token every hour
   if(remainingTime <= 0) {
+      randomSeed(theSeed++);
       // --- mint ERC-20 (currency) ---
       if(mintERC20Token()) {
         if (ERC20Count % 24 == 0) {
@@ -841,7 +844,7 @@ class MultiDisplay extends PApplet {
   
   void draw() {
     background(0);
-    //randomSeed(1982);
+    randomSeed(theSeed);
     // for high quality output
     if (tilerTwo==null) return; 
     tilerTwo.pre();
@@ -921,11 +924,11 @@ class MultiDisplay extends PApplet {
       //drawNFTData(nftBx+(i*22), nftBy, bMap, 2);
       //fill(200, 180, 215, 80);
       //drawNFTData(nftAx+(i*22), nftAy, aMap, 2);
-      drawNFTData(nftPx+(i*random(-11,11)), nftPy+random(-1,1), pMap, 2);
+      drawNFTData(nftPx+(i*random(-1,21)), nftPy+random(-1,1), pMap, 2);
       fill(180, 255, 215, 80);
-      drawNFTData(nftBx+(i*random(-11,11)), nftBy+random(-1,1), bMap, 2);
+      drawNFTData(nftBx+(i*random(-1,21)), nftBy+random(-1,1), bMap, 2);
       fill(200, 180, 215, 80);
-      drawNFTData(nftAx+(i*random(-11,11)), nftAy+random(-1,1), aMap, 2);
+      drawNFTData(nftAx+(i*random(-1,21)), nftAy+random(-1,1), aMap, 2);
     }
   }
 
