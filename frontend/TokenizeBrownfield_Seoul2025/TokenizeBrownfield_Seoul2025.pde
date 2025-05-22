@@ -921,11 +921,11 @@ class MultiDisplay extends PApplet {
       //drawNFTData(nftBx+(i*22), nftBy, bMap, 2);
       //fill(200, 180, 215, 80);
       //drawNFTData(nftAx+(i*22), nftAy, aMap, 2);
-      drawNFTData(nftPx+(i*random(-11,11)), nftPy*random(-1,1), pMap, 2);
+      drawNFTData(nftPx+(i*random(-11,11)), nftPy+random(-1,1), pMap, 2);
       fill(180, 255, 215, 80);
-      drawNFTData(nftBx+(i*random(-11,11)), nftBy*random(-1,1), bMap, 2);
+      drawNFTData(nftBx+(i*random(-11,11)), nftBy+random(-1,1), bMap, 2);
       fill(200, 180, 215, 80);
-      drawNFTData(nftAx+(i*random(-11,11)), nftAy*random(-1,1), aMap, 2);
+      drawNFTData(nftAx+(i*random(-11,11)), nftAy+random(-1,1), aMap, 2);
     }
   }
 
