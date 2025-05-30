@@ -24,7 +24,7 @@ String tokenURI = "/"; // URI/path of the NFT image
 //static final long hoursInMilli = minutesInMilli * 60;
 //long previousMillis = 0;
 int startTime; // Variable to store the starting time
-//static final int countdownDuration = 60;
+//static final int countdownDuration = 40;
 static final int countdownDuration = 3600;// 3600 seconds = 1 hour
 
 // sensor data from the server
@@ -289,8 +289,8 @@ void setup() {
   theMesh.updateData(theData);
   
 
-  cal = Calendar.getInstance(); // calendar to get day of week
-  startTime = millis(); // get the current time in milliseconds
+  //cal = Calendar.getInstance(); // calendar to get day of week
+  //startTime = millis(); // get the current time in milliseconds
   
   bacteria = loadImage("bacteria_graphic.png");
   
